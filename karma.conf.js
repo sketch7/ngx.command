@@ -3,58 +3,49 @@ const conf = require("./build/config");
 module.exports = function (config) {
 	config.set({
 		basePath: "./",
-		frameworks: ["systemjs", "jasmine"],
+		frameworks: ["jasmine"],
 
-		systemjs: {
-			config: {
-				paths: {
-					"*": "*",
-					"src/*": "src/*",
-					"typescript": "node_modules/typescript/lib/typescript.js",
-					"systemjs": "node_modules/systemjs/dist/system.js",
-					"system-polyfills": "node_modules/systemjs/dist/system-polyfills.js",
-					"es6-module-loader": "node_modules/es6-module-loader/dist/es6-module-loader.js",
-					"n:*": "node_modules/*"
-				},
-				map: {
-					"@angular": "n:@angular",
-					"rxjs": "n:rxjs"
-				},
-				packages: {
-					"src": {
-						defaultExtension: "ts"
-					},
-					"rxjs": {
-						defaultExtension: "js"
-					},
-					"@angular/core": {
-						main: "index.js",
-						defaultExtension: "js"
-					}
-				},
-				transpiler: "typescript"
-			},
-			serveFiles: [
-				conf.src.ts,
-				"node_modules/**/*.js"
-			]
-		},
 		files: [
-			// Polyfills.
 			"node_modules/es6-shim/es6-shim.js",
-			"node_modules/reflect-metadata/Reflect.js",
-
-			// Zone.js dependencies
 			"node_modules/zone.js/dist/zone.js",
-			"node_modules/zone.js/dist/jasmine-patch.js",
 			"node_modules/zone.js/dist/async-test.js",
 			"node_modules/zone.js/dist/fake-async-test.js",
+			"node_modules/zone.js/dist/long-stack-trace-zone.js",
+			"node_modules/zone.js/dist/jasmine-patch.js",
+			"node_modules/systemjs/dist/system.src.js",
+			// "node_modules/jquery/dist/jquery.min.js",
+			// "node_modules/jasmine-jquery/lib/jasmine-jquery.js",
+			"node_modules/reflect-metadata/Reflect.js",
+			"src/**/*.html",
 
-			conf.src.testTs,
-			"src/*.spec.ts"
+			{ pattern: "node_modules/reflect-metadata/**/*.js.map", included: false, watched: false, served: true },
+			{ pattern: "node_modules/systemjs/dist/system-polyfills.js", included: false, watched: false, served: true }, // PhantomJS2 (and possibly others) might require it
+			{ pattern: "node_modules/@angular/**/*.js", included: false, watched: false, served: true },
+			{ pattern: "node_modules/@angular/**/*.js.map", included: false, watched: false, served: true },
+			{ pattern: "node_modules/rxjs/**/*.js", included: false, watched: false, served: true },
+			{ pattern: "node_modules/rxjs/**/*.js.map", included: false, watched: false, served: true },
+			{ pattern: "node_modules/@ssv/*/dist/**/*.js", included: false, watched: false, served: true },
+			{ pattern: "node_modules/@ssv/*/dist/**/*.js.map", included: false, watched: false, served: true },
+
+			{ pattern: conf.src.ts, included: false, watched: true }, // source files
+			"karma-test-shim.js"
 		],
-		exclude: [],
-		preprocessors: {},
+		exclude: [
+			"node_modules/**/*_spec.js",
+			"node_modules/**/*.spec.js",
+		],
+		preprocessors: {
+			// "src/**/*.html": ["ng-html2js"],
+			[conf.src.ts]: ["typescript"],
+		},
+		typescriptPreprocessor: {
+			options: {
+				inlineSourceMap: true,
+				inlineSources: true,
+				emitDecoratorMetadata: true,
+				experimentalDecorators: true
+			}
+		},
 		reporters: ["mocha"], // note: gulp using config from config.js instead
 		port: 9876,
 		colors: true,
