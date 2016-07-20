@@ -1,0 +1,36 @@
+environment:
+  JSPM_GITHUB_AUTH_TOKEN:
+    secure: q2JNqq1JlQ7ferxb6TSYgW1S/pUFEhYgGEDgl8iRAy25jM/y3NpoKXyKlACscd2zjbVGUCWlbnyjfMAfgl/0nKEi+KNDaNG5ZR8C3EvYaG8=
+  # Test against this version of Node.js
+  nodejs_version: "5"
+
+# Install scripts. (runs after repo cloning)
+install:
+  # Get the latest stable version of Node.js or io.js
+  - ps: Install-Product node $env:nodejs_version
+  - npm install -g gulp
+  # install modules
+  - npm install
+  
+# Post-install test scripts.
+test_script:
+  # Output useful info for debugging.
+  - node --version
+  - npm --version
+  # run tests
+  - gulp lint
+  - gulp test --reporters mocha,appveyor
+
+# Don't actually build.
+build: off
+
+notifications:
+  - provider: Slack
+    incoming_webhook:
+      secure: vEkNTGdxrec+HtMuHg87gPDSbcATux8FurC+ntE6+y9HzsbAkhizj5UIEA9ccKj0RC2SBkJECVo3dX9K5OQunXHRNFxBbvZrS08gMGRIx2I=
+
+cache:
+ - node_modules
+ - '%APPDATA%\npm-cache'
+ 
+version: "{build}-{branch}"

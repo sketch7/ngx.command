@@ -1,0 +1,9 @@
+
+[*.{js,ts}]
+charset = utf-8
+indent_style = tab
+trim_trailing_whitespace = true
+
+[package.json]
+indent_style = spaces
+indent_size = 2
