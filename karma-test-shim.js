@@ -18,7 +18,9 @@ System.config({
 	map: {
 		"@angular": "n:@angular",
 		"@ssv": "n:@ssv",
-		"rxjs": "n:rxjs"
+		"rxjs": "n:rxjs",
+		"jquery": "n:jquery/dist",
+		"jasmine-jquery": "n:jasmine-jquery/lib",
 	},
 	packages: {
 		"@angular/common": { main: "index.js", defaultExtension: "js" },
@@ -28,6 +30,9 @@ System.config({
 		"@angular/platform-browser-dynamic": { main: "index.js", defaultExtension: "js" },
 
 		"@ssv/ng2-command": { main: "dist/amd/index.js", defaultExtension: "js" },
+
+		"jquery": { main: "jquery.min.js", defaultExtension: "js" },
+		"jasmine-jquery": { main: "jasmine-jquery.js", defaultExtension: "js" },
 	}
 });
 
@@ -47,7 +52,8 @@ System.import("@angular/platform-browser/src/browser/browser_adapter")
 
 			testing.setBaseTestProviders(
 				testingBrowser.TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS,
-				[testingBrowser.TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS, browserProviders.CACHED_TEMPLATE_PROVIDER]
+				// [testingBrowser.TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS, browserProviders.CACHED_TEMPLATE_PROVIDER]
+				testingBrowser.TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS
 			);
 		});
 	})

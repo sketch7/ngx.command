@@ -13,10 +13,12 @@ module.exports = function (config) {
 			"node_modules/zone.js/dist/long-stack-trace-zone.js",
 			"node_modules/zone.js/dist/jasmine-patch.js",
 			"node_modules/systemjs/dist/system.src.js",
-			// "node_modules/jquery/dist/jquery.min.js",
-			// "node_modules/jasmine-jquery/lib/jasmine-jquery.js",
 			"node_modules/reflect-metadata/Reflect.js",
+
 			"src/**/*.html",
+
+			"node_modules/jquery/dist/jquery.min.js",
+			"node_modules/jasmine-jquery/lib/jasmine-jquery.js",
 
 			{ pattern: "node_modules/reflect-metadata/**/*.js.map", included: false, watched: false, served: true },
 			{ pattern: "node_modules/systemjs/dist/system-polyfills.js", included: false, watched: false, served: true }, // PhantomJS2 (and possibly others) might require it

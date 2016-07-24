@@ -43,6 +43,11 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		console.log("[commandDirective::init]");
+
+		if (!this.command) {
+			throw new Error("[commandDirective] command should be defined!");
+		}
+
 		this.canExecute$$ = this.command.canExecute$
 			.do(x => {
 				console.log("[commandDirective::canExecute$]", x);
