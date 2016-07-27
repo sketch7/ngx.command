@@ -48,6 +48,9 @@ module.exports = function (config) {
 				experimentalDecorators: true
 			}
 		},
+		client: {
+			captureConsole: false // disables console logs
+		},
 		reporters: ["mocha"], // note: gulp using config from config.js instead
 		port: 9876,
 		colors: true,
