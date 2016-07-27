@@ -1,70 +1,117 @@
-import "rxjs/Rx";
+import {BehaviorSubject} from "rxjs/Rx";
 
-import { Command, ICommand } from "./index";
+import {Command, ICommand} from "./index";
 
 describe("CommandSpecs", () => {
 	let SUT: Command;
+	let executeSpyFn: jasmine.Spy;
 
-	xdescribe("given a non async execute function", () => {
-		xdescribe("and execute is invoked", () => {
-			xit("should have isExecuting set to true", () => {
+	beforeEach(() => {
+		executeSpyFn = jasmine.createSpy("execute").and.callThrough();
+	});
 
+	describe("given a non async execute function", () => {
+		beforeEach(() => {
+			SUT = new Command(executeSpyFn);
+		});
+
+		describe("when execute is invoked", () => {
+			beforeEach(() => {
+				SUT.execute();
 			});
 
-			xdescribe("when execute has finished", () => {
-				xit("should have isExecuting set to false", () => {
+			it("should have isExecuting set to false after finish", () => {
+				expect(SUT.isExecuting).toBe(false);
+			});
 
+			it("should have canExecute set to true after finish", () => {
+				expect(SUT.canExecute).toBe(true);
+			});
+
+			it("should invoke execute function", () => {
+				expect(executeSpyFn).toHaveBeenCalledTimes(1);
+			});
+		});
+	});
+
+	describe("given execute is invoked", () => {
+		describe("when canExecute is true", () => {
+			beforeEach(() => {
+				const isInitialValid = true;
+				SUT = new Command(executeSpyFn, new BehaviorSubject<boolean>(isInitialValid));
+			});
+
+			it("should invoke execute function passed", () => {
+				SUT.execute();
+				expect(executeSpyFn).toHaveBeenCalledTimes(1);
+			});
+		});
+
+		describe("when canExecute is false", () => {
+			beforeEach(() => {
+				const isInitialValid = false;
+				SUT = new Command(executeSpyFn, new BehaviorSubject<boolean>(isInitialValid));
+			});
+
+			it("should not execute the provided execute function", () => {
+				SUT.execute();
+				expect(executeSpyFn).not.toHaveBeenCalled();
+			});
+		});
+	});
+
+	describe("given canExecute with an initial value of true", () => {
+		let canExecute$: BehaviorSubject<boolean>;
+
+		beforeEach(() => {
+			const isInitialValid = true;
+			canExecute$ = new BehaviorSubject<boolean>(isInitialValid);
+			SUT = new Command(executeSpyFn, canExecute$);
+		});
+
+		it("should have canExecute set to true", () => {
+			expect(SUT.canExecute).toBe(true);
+		});
+
+		it("should have canExecute$ set to true", (done: Function) => {
+			SUT.canExecute$.subscribe(x => {
+				expect(x).toBe(true);
+				done();
+			});
+		});
+
+		describe("when the canExecute observable changes", () => {
+			beforeEach(() => {
+				canExecute$.next(false);
+			});
+
+			it("should update canExecute", () => {
+				expect(SUT.canExecute).toBe(false);
+			});
+
+			it("should update canExecute$", (done: Function) => {
+				SUT.canExecute$.subscribe(x => {
+					expect(x).toBe(false);
+					done();
 				});
 			});
 		});
 	});
 
-	xdescribe("given canExecute observable is provided", () => {
-		xdescribe("when the initial value is false", () => {
-			xit("should have canExecute set to false", () => {
-
-			});
+	describe("given canExecute with an initial value of false", () => {
+		beforeEach(() => {
+			const isInitialValid = false;
+			SUT = new Command(executeSpyFn, new BehaviorSubject<boolean>(isInitialValid));
 		});
 
-		xdescribe("when the initial value is true", () => {
-			xit("should have canExecute set to true", () => {
-
-			});
+		it("should have canExecute set to false", () => {
+			expect(SUT.canExecute).toBe(false);
 		});
 
-		xdescribe("when the value changes", () => {
-			xit("should update canExecute", () => {
-
-			});
-		});
-
-		xdescribe("and the value is false", () => {
-			xdescribe("when execute is invoked", () => {
-				xit("should not execute the provided execute function", () => {
-
-				});
-			});
-		});
-
-		xdescribe("when canExecute is true", () => {
-			xdescribe("and execute is invoked", () => {
-				xit("should have canExecute set to false", () => {
-
-				});
-
-				xit("should have isExecuting set to true", () => {
-
-				});
-			});
-
-			xdescribe("when execute is finished", () => {
-				xit("should have canExecute set to true", () => {
-
-				});
-
-				xit("should have isExecuting set to false", () => {
-
-				});
+		it("should have canExecute$ set to false", (done: Function) => {
+			SUT.canExecute$.subscribe(x => {
+				expect(x).toBe(false);
+				done();
 			});
 		});
 	});
