@@ -10,10 +10,10 @@
 [typings]: https://github.com/typings/typings
 
 # @ssv/ng2-command
-[![Build status](https://ci.appveyor.com/api/projects/status/2e0an5hvxtfs08mf?svg=true)](https://ci.appveyor.com/project/chiko/ssv-ng2-command)
-[![Build status](https://ci.appveyor.com/api/projects/status/2e0an5hvxtfs08mf/branch/master?svg=true)](https://ci.appveyor.com/project/chiko/ssv-ng2-command/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/0yno0mn184bj5tbd?svg=true)](https://ci.appveyor.com/project/chiko/ssv-ng2-command)
+[![Build status](https://ci.appveyor.com/api/projects/status/0yno0mn184bj5tbd/branch/master?svg=true)](https://ci.appveyor.com/project/chiko/ssv-ng2-command/branch/master)
 [![bitHound Overall Score](https://www.bithound.io/github/sketch7/ssv-ng2-command/badges/score.svg)](https://www.bithound.io/github/sketch7/ssv-ng2-command)
-[![npm version](https://badge.fury.io/js/ssv-ng2-command.svg)](https://badge.fury.io/js/@ssv/ng2-core)
+[![npm version](https://badge.fury.io/js/%40ssv%2Fng2-command.svg)](https://badge.fury.io/js/%40ssv%2Fng2-command)
 
 Command pattern implementation for angular 2. Command's are used to encapsulate information which is needed to perform an action.
 
