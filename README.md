@@ -41,6 +41,8 @@ typings install github:sketch7/ssv-ng2-command --save
 
 # Usage
 
+## Command
+In order to start working with Command, you need to create a new instance of it.
 ```ts
 import {CommandDirective, Command, ICommand} from "@ssv/ng2-command";
 
@@ -51,17 +53,36 @@ saveCmd: ICommand = new Command(() => this.save()), this.isValid$);
 saveCmd: ICommand = new Command(() => Observable.timer(2000), this.isValid$, true);
 ```
 
-## Command Attribute
+## Command Attribute (Directive)
 Handles the command `canExecute$`, `isExecuting` and `execute` functions of the `Command`, in order to 
-enable/disable button, put a class while executing in order to show a loader if needed and actually execute
-when its enable and clicked.
+enable/disable, add/remove a cssClass while executing in order alter styling during execution (if desired) 
+and execute when its enabled and clicked.
 
 Generally used on a `<button>` as below.
 
 ### Usage
 
 ```html
+<!-- simple usage -->
 <button [command]="saveCmd">Save</button>
+
+
+<!-- using isExecuting + showing spinner -->
+<button [command]="saveCmd">
+	<i *ngIf="saveCmd.isExecuting" class="ai-circled ai-indicator ai-dark-spin small"></i>
+	Save
+</button>
+
+```
+
+## Usage without Attribute
+It can also be used as below without the command attribute.
+```html
+<button
+	[disabled]="!saveCmd.canExecute"
+	(click)="saveCmd.execute()">
+	Save
+</button>
 ```
 
 ## Configure
