@@ -15,7 +15,10 @@
 [![bitHound Overall Score](https://www.bithound.io/github/sketch7/ssv-ng2-command/badges/score.svg)](https://www.bithound.io/github/sketch7/ssv-ng2-command)
 [![npm version](https://badge.fury.io/js/ssv-ng2-command.svg)](https://badge.fury.io/js/@ssv/ng2-core)
 
-sketch7 command pattern implementation for angular 2. Command used to encapsulate information which is needed to perform an action.
+Command pattern implementation for angular 2. Command's are used to encapsulate information which is needed to perform an action.
+
+Main purpose usually is to disable a button when an action is executing, or not in a valid state (e.g. busy, invalid) and also to show an activity progress while executing.
+
 
 In order to contribute please read the [Contribution guidelines][contribWiki].
 
@@ -36,8 +39,29 @@ typings install github:sketch7/ssv-ng2-command --save
 ```
 
 # Usage
-TODO
 
+```ts
+import {CommandDirective, Command, ICommand} from "@ssv/ng2-command";
+
+isValid$ = new BehaviorSubject<boolean>(false);
+saveCmd: ICommand = new Command(() => this.save()), this.isValid$);
+
+// usage when execute function returns an observable - NOTE: 3rd argument must be true!
+saveCmd: ICommand = new Command(() => Observable.timer(2000), this.isValid$, true);
+```
+
+## Command Attribute
+Handles the command `canExecute$`, `isExecuting` and `execute` functions of the `Command`, in order to 
+enable/disable button, put a class while executing in order to show a loader if needed and actually execute
+when its enable and clicked.
+
+Generally used on a `<button>` as below.
+
+### Usage
+
+```html
+<button [command]="saveCmd">Save</button>
+```
 
 # Getting Started
 
