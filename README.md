@@ -8,6 +8,7 @@
 [npm]: https://www.npmjs.com
 [jspm]: http://jspm.io
 [typings]: https://github.com/typings/typings
+[commandPatternWiki]: https://en.wikipedia.org/wiki/Command_pattern
 
 # @ssv/ng2-command
 [![Build status](https://ci.appveyor.com/api/projects/status/0yno0mn184bj5tbd?svg=true)](https://ci.appveyor.com/project/chiko/ssv-ng2-command)
@@ -15,7 +16,7 @@
 [![bitHound Overall Score](https://www.bithound.io/github/sketch7/ssv-ng2-command/badges/score.svg)](https://www.bithound.io/github/sketch7/ssv-ng2-command)
 [![npm version](https://badge.fury.io/js/%40ssv%2Fng2-command.svg)](https://badge.fury.io/js/%40ssv%2Fng2-command)
 
-Command pattern implementation for angular 2. Command's are used to encapsulate information which is needed to perform an action.
+[Command pattern][commandPatternWiki] implementation for angular 2. Command's are used to encapsulate information which is needed to perform an action.
 
 Main purpose usually is to disable a button when an action is executing, or not in a valid state (e.g. busy, invalid) and also to show an activity progress while executing.
 
@@ -43,7 +44,7 @@ typings install github:sketch7/ssv-ng2-command --save
 ```ts
 import {CommandDirective, Command, ICommand} from "@ssv/ng2-command";
 
-isValid$ = new BehaviorSubject<boolean>(false);
+isValid$ = new BehaviorSubject(false);
 saveCmd: ICommand = new Command(() => this.save()), this.isValid$);
 
 // usage when execute function returns an observable - NOTE: 3rd argument must be true!
