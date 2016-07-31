@@ -1,6 +1,7 @@
 import {BehaviorSubject} from "rxjs/Rx";
 
-import {Command, ICommand} from "./index";
+import {Command} from "./index";
+
 
 describe("CommandSpecs", () => {
 	let SUT: Command;
@@ -10,9 +11,22 @@ describe("CommandSpecs", () => {
 		executeSpyFn = jasmine.createSpy("execute").and.callThrough();
 	});
 
-	describe("given a non async execute function", () => {
+	describe("given a command without canExecute$ param", () => {
 		beforeEach(() => {
 			SUT = new Command(executeSpyFn);
+		});
+
+		describe("when command is initialized", () => {
+			it("should have canExecute set to true", () => {
+				expect(SUT.canExecute).toBe(true);
+			});
+
+			it("should have canExecute$ set to true", (done: Function) => {
+				SUT.canExecute$.subscribe(x => {
+					expect(x).toBe(true);
+					done();
+				});
+			});
 		});
 
 		describe("when execute is invoked", () => {
@@ -20,11 +34,11 @@ describe("CommandSpecs", () => {
 				SUT.execute();
 			});
 
-			it("should have isExecuting set to false after finish", () => {
+			it("should have isExecuting set to false after execute finishes", () => {
 				expect(SUT.isExecuting).toBe(false);
 			});
 
-			it("should have canExecute set to true after finish", () => {
+			it("should have canExecute set to true after execute finishes", () => {
 				expect(SUT.canExecute).toBe(true);
 			});
 
@@ -116,9 +130,14 @@ describe("CommandSpecs", () => {
 		});
 	});
 
-	xdescribe("given destroy is invoked", () => {
-		xit("should destroy successfully", () => {
+	describe("given destroy is invoked", () => {
+		beforeEach(() => {
+			const isInitialValid = false;
+			SUT = new Command(executeSpyFn, new BehaviorSubject<boolean>(isInitialValid));
+		});
 
+		it("should destroy successfully", () => {
+			SUT.destroy();
 		});
 	});
 
