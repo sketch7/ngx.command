@@ -1,6 +1,6 @@
 {
   "name": "@ssv/ng2-command",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Command pattern implementation for angular 2. Command used to encapsulate information which is needed to perform an action.",
   "keywords": [
     "sketch7",
