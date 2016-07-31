@@ -66,7 +66,6 @@ Generally used on a `<button>` as below.
 <!-- simple usage -->
 <button [command]="saveCmd">Save</button>
 
-
 <!-- using isExecuting + showing spinner -->
 <button [command]="saveCmd">
 	<i *ngIf="saveCmd.isExecuting" class="ai-circled ai-indicator ai-dark-spin small"></i>
