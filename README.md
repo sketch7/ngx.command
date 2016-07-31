@@ -63,6 +63,16 @@ Generally used on a `<button>` as below.
 <button [command]="saveCmd">Save</button>
 ```
 
+## Configure
+In order to configure globally, you can do so as following:
+
+```ts
+import {CommandConfig, CommandOptions} from "@ssv/ng2-command";
+
+{ provide: CommandConfig, useValue: { executingCssClass: "is-busy" } as CommandOptions }
+```
+
+
 # Getting Started
 
 ## Setup Machine for Development

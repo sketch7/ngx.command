@@ -61,7 +61,7 @@ export class Command implements ICommand {
 				this.isExecuting$,
 				canExecute$
 				, (isExecuting, canExecuteResult) => {
-					console.log("[command::combineLatest$] update!", { isExecuting, canExecuteResult });
+					// console.log("[command::combineLatest$] update!", { isExecuting, canExecuteResult });
 					this.isExecuting = isExecuting;
 					this.canExecute = !isExecuting && canExecuteResult;
 					return this.canExecute;
@@ -103,7 +103,7 @@ export class Command implements ICommand {
 		let pipe$ = this.executionPipe$
 			.filter(() => this.canExecute)
 			.do(() => {
-				console.log("[command::excutionPipe$] do#1 - set execute");
+				// console.log("[command::excutionPipe$] do#1 - set execute");
 				this.isExecuting$.next(true);
 			});
 
@@ -113,11 +113,11 @@ export class Command implements ICommand {
 
 		pipe$ = pipe$
 			.do(() => {
-				console.log("[command::excutionPipe$] do#2 - set idle");
+				// console.log("[command::excutionPipe$] do#2 - set idle");
 				this.isExecuting$.next(false);
 			},
 			() => {
-				console.log("[command::excutionPipe$] do#2 error - set idle");
+				// console.log("[command::excutionPipe$] do#2 error - set idle");
 				this.isExecuting$.next(false);
 			});
 		this.executionPipe$$ = pipe$.subscribe();
