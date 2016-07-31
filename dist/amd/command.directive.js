@@ -7,8 +7,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 define(["require", "exports", "@angular/core"], function (require, exports, core_1) {
     "use strict";
+    var CommandConfig = (function () {
+        function CommandConfig() {
+            Object.assign(this, {
+                executingCssClass: "executing"
+            });
+        }
+        return CommandConfig;
+    }());
+    exports.CommandConfig = CommandConfig;
+    exports.COMMAND_DEFAULT_CONFIG = new CommandConfig();
     /**
      *
      * ### Example with options
@@ -21,10 +34,11 @@ define(["require", "exports", "@angular/core"], function (require, exports, core
      * @implements {OnDestroy}
      */
     var CommandDirective = (function () {
-        function CommandDirective(renderer, element) {
+        function CommandDirective(config, renderer, element) {
             this.renderer = renderer;
             this.element = element;
-            this.commandOptions = { executingCssClass: "executing" };
+            this.commandOptions = exports.COMMAND_DEFAULT_CONFIG; // = { executingCssClass: "executing" };
+            Object.assign(this.commandOptions, config);
         }
         CommandDirective.prototype.ngOnInit = function () {
             var _this = this;
@@ -62,6 +76,7 @@ define(["require", "exports", "@angular/core"], function (require, exports, core
             __metadata('design:type', Object)
         ], CommandDirective.prototype, "commandOptions", void 0);
         __decorate([
+            // = { executingCssClass: "executing" };
             core_1.HostBinding("disabled"), 
             __metadata('design:type', Boolean)
         ], CommandDirective.prototype, "isDisabled", void 0);
@@ -74,8 +89,9 @@ define(["require", "exports", "@angular/core"], function (require, exports, core
         CommandDirective = __decorate([
             core_1.Directive({
                 selector: "[command]",
-            }), 
-            __metadata('design:paramtypes', [core_1.Renderer, core_1.ElementRef])
+            }),
+            __param(0, core_1.Optional()), 
+            __metadata('design:paramtypes', [CommandConfig, core_1.Renderer, core_1.ElementRef])
         ], CommandDirective);
         return CommandDirective;
     }());
