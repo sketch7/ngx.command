@@ -1,13 +1,6 @@
 import { OnInit, OnDestroy, Renderer, ElementRef } from "@angular/core";
+import { CommandOptions, CommandConfig } from "./config";
 import { ICommand } from "./command";
-export interface CommandOptions {
-    executingCssClass: string;
-}
-export declare class CommandConfig implements CommandOptions {
-    executingCssClass: string;
-    constructor();
-}
-export declare const COMMAND_DEFAULT_CONFIG: CommandConfig;
 /**
  *
  * ### Example with options

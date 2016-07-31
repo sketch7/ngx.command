@@ -10,18 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-define(["require", "exports", "@angular/core"], function (require, exports, core_1) {
+define(["require", "exports", "@angular/core", "./config"], function (require, exports, core_1, config_1) {
     "use strict";
-    var CommandConfig = (function () {
-        function CommandConfig() {
-            Object.assign(this, {
-                executingCssClass: "executing"
-            });
-        }
-        return CommandConfig;
-    }());
-    exports.CommandConfig = CommandConfig;
-    exports.COMMAND_DEFAULT_CONFIG = new CommandConfig();
     /**
      *
      * ### Example with options
@@ -37,32 +27,32 @@ define(["require", "exports", "@angular/core"], function (require, exports, core
         function CommandDirective(config, renderer, element) {
             this.renderer = renderer;
             this.element = element;
-            this.commandOptions = exports.COMMAND_DEFAULT_CONFIG; // = { executingCssClass: "executing" };
+            this.commandOptions = config_1.COMMAND_DEFAULT_CONFIG;
             Object.assign(this.commandOptions, config);
         }
         CommandDirective.prototype.ngOnInit = function () {
+            // console.log("[commandDirective::init]");
             var _this = this;
-            console.log("[commandDirective::init]");
             if (!this.command) {
                 throw new Error("[commandDirective] command should be defined!");
             }
             this.canExecute$$ = this.command.canExecute$
                 .do(function (x) {
-                console.log("[commandDirective::canExecute$]", x);
+                // console.log("[commandDirective::canExecute$]", x);
                 _this.isDisabled = !x;
             }).subscribe();
             this.isExecuting$$ = this.command.isExecuting$
                 .do(function (x) {
-                console.log("[commandDirective::isExecuting$]", x);
+                // console.log("[commandDirective::isExecuting$]", x);
                 _this.renderer.setElementClass(_this.element.nativeElement, _this.commandOptions.executingCssClass, x);
             }).subscribe();
         };
         CommandDirective.prototype.onClick = function () {
-            console.log("[commandDirective::onClick]");
+            // console.log("[commandDirective::onClick]");
             this.command.execute();
         };
         CommandDirective.prototype.ngOnDestroy = function () {
-            console.log("[commandDirective::destroy]");
+            // console.log("[commandDirective::destroy]");
             this.command.destroy();
             this.canExecute$$.unsubscribe();
             this.isExecuting$$.unsubscribe();
@@ -76,7 +66,6 @@ define(["require", "exports", "@angular/core"], function (require, exports, core
             __metadata('design:type', Object)
         ], CommandDirective.prototype, "commandOptions", void 0);
         __decorate([
-            // = { executingCssClass: "executing" };
             core_1.HostBinding("disabled"), 
             __metadata('design:type', Boolean)
         ], CommandDirective.prototype, "isDisabled", void 0);
@@ -91,7 +80,7 @@ define(["require", "exports", "@angular/core"], function (require, exports, core
                 selector: "[command]",
             }),
             __param(0, core_1.Optional()), 
-            __metadata('design:paramtypes', [CommandConfig, core_1.Renderer, core_1.ElementRef])
+            __metadata('design:paramtypes', [config_1.CommandConfig, core_1.Renderer, core_1.ElementRef])
         ], CommandDirective);
         return CommandDirective;
     }());

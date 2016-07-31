@@ -1,5 +1,15 @@
+<a name="0.1.1"></a>
+## [0.1.1](https://github.com/sketch7/ssv-ng2-command/compare/0.1.0...v0.1.1) (2016-07-31)
+
+
+### Features
+
+* **config:** implemented configurable config (optional) in order to change `executingCssClass` executing default cssClass. ([4033a39](https://github.com/sketch7/ssv-ng2-command/commit/4033a39))
+
+
+
 <a name="0.1.0"></a>
-# [0.1.0](https://github.com/sketch7/ssv-ng2-command/compare/0.0.2-rc.0...v0.1.0) (2016-07-31)
+# [0.1.0](https://github.com/sketch7/ssv-ng2-command/compare/0.0.2-rc.0...0.1.0) (2016-07-31)
 
 
 

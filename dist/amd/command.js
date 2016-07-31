@@ -23,7 +23,7 @@ define(["require", "exports", "rxjs/Observable", "rxjs/Subject", "rxjs/BehaviorS
             this.executionPipe$ = new Subject_1.Subject();
             if (canExecute$) {
                 this.canExecute$ = Observable_1.Observable.combineLatest(this.isExecuting$, canExecute$, function (isExecuting, canExecuteResult) {
-                    console.log("[command::combineLatest$] update!", { isExecuting: isExecuting, canExecuteResult: canExecuteResult });
+                    // console.log("[command::combineLatest$] update!", { isExecuting, canExecuteResult });
                     _this.isExecuting = isExecuting;
                     _this.canExecute = !isExecuting && canExecuteResult;
                     return _this.canExecute;
@@ -64,7 +64,7 @@ define(["require", "exports", "rxjs/Observable", "rxjs/Subject", "rxjs/BehaviorS
             var pipe$ = this.executionPipe$
                 .filter(function () { return _this.canExecute; })
                 .do(function () {
-                console.log("[command::excutionPipe$] do#1 - set execute");
+                // console.log("[command::excutionPipe$] do#1 - set execute");
                 _this.isExecuting$.next(true);
             });
             pipe$ = isAsync
@@ -72,10 +72,10 @@ define(["require", "exports", "rxjs/Observable", "rxjs/Subject", "rxjs/BehaviorS
                 : pipe$.do(function () { return execute(); });
             pipe$ = pipe$
                 .do(function () {
-                console.log("[command::excutionPipe$] do#2 - set idle");
+                // console.log("[command::excutionPipe$] do#2 - set idle");
                 _this.isExecuting$.next(false);
             }, function () {
-                console.log("[command::excutionPipe$] do#2 error - set idle");
+                // console.log("[command::excutionPipe$] do#2 error - set idle");
                 _this.isExecuting$.next(false);
             });
             this.executionPipe$$ = pipe$.subscribe();

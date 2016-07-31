@@ -5,3 +5,4 @@ import "rxjs/add/operator/filter";
 import "rxjs/add/observable/combineLatest";
 export * from "./command";
 export * from "./command.directive";
+export * from "./config";
