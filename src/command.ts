@@ -36,7 +36,7 @@ export class Command implements ICommand {
 
 	isExecuting = false;
 	isExecuting$ = new BehaviorSubject<boolean>(false);
-	canExecute: boolean;
+	canExecute = true;
 	canExecute$: Observable<boolean>;
 
 	private executionPipe$ = new Subject<{}>();
