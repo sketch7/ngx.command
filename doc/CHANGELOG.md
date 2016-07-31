@@ -1,5 +1,10 @@
+<a name="0.1.3"></a>
+## [0.1.3](https://github.com/sketch7/ssv-ng2-command/compare/0.1.2...v0.1.3) (2016-07-31)
+
+
+
 <a name="0.1.2"></a>
-## [0.1.2](https://github.com/sketch7/ssv-ng2-command/compare/0.1.1...v0.1.2) (2016-07-31)
+## [0.1.2](https://github.com/sketch7/ssv-ng2-command/compare/0.1.1...0.1.2) (2016-07-31)
 
 
 
