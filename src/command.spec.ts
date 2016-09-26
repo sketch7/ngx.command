@@ -1,6 +1,6 @@
-import {BehaviorSubject} from "rxjs/Rx";
+import { BehaviorSubject } from "rxjs/Rx";
 
-import {Command} from "./index";
+import { Command } from "./index";
 
 
 describe("CommandSpecs", () => {

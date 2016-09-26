@@ -1,5 +1,6 @@
-export interface CommandOptions {
+import { OpaqueToken } from "@angular/core";
 
+export interface CommandOptions {
 	/**
 	 * Css Class which gets added/removed on the Command element's host while Command isExecuting$.
 	 *
@@ -8,27 +9,8 @@ export interface CommandOptions {
 	executingCssClass: string;
 }
 
-/**
- * Command Config used to configure globally the Command.
- *
- * ### Example
- * ```ts
- * import {CommandConfig, CommandOptions} from "@ssv/ng2-command";
- *
- * { provide: CommandConfig, useValue: { executingCssClass: "is-busy" } as CommandOptions }
- * ```
- * @export
- * @class CommandConfig
- * @implements {CommandOptions}
- */
-export class CommandConfig implements CommandOptions {
+export const COMMAND_DEFAULT_CONFIG: CommandOptions = {
+	executingCssClass: "executing",
+};
 
-	executingCssClass: string;
-
-	constructor() {
-		Object.assign(this, {
-			executingCssClass: "executing"
-		} as CommandOptions);
-	}
-}
-export const COMMAND_DEFAULT_CONFIG = new CommandConfig();
+export const COMMAND_CONFIG = new OpaqueToken("Command Config");

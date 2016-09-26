@@ -1,7 +1,7 @@
-import {Observable} from "rxjs/Observable";
-import {Subscription} from "rxjs/Subscription";
-import {Subject} from "rxjs/Subject";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import { Observable } from "rxjs/Observable";
+import { Subscription } from "rxjs/Subscription";
+import { Subject } from "rxjs/Subject";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 export interface ICommand {
 	/**

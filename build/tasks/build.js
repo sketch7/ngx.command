@@ -47,7 +47,7 @@ gulp.task("compile:ts", () => {
 		.pipe(plumber())
 		//.pipe(changed(paths.output.dist, { extension: ".js" }))
 		.pipe(sourcemaps.init())
-		.pipe(tsc(tsProject));
+		.pipe(tsProject());
 
 	return merge([
 		tsResult.js

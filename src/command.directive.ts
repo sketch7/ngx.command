@@ -7,12 +7,12 @@ import {
 	HostListener,
 	Renderer,
 	ElementRef,
-	Optional
+	Inject
 } from "@angular/core";
-import {Subscription} from "rxjs/Subscription";
+import { Subscription } from "rxjs/Subscription";
 
-import {CommandOptions, COMMAND_DEFAULT_CONFIG, CommandConfig} from "./config";
-import {ICommand} from "./command";
+import { CommandOptions, COMMAND_CONFIG } from "./config";
+import { ICommand } from "./command";
 
 /**
  *
@@ -31,22 +31,23 @@ import {ICommand} from "./command";
 export class CommandDirective implements OnInit, OnDestroy {
 
 	@Input() command: ICommand;
-	@Input() commandOptions: CommandOptions = COMMAND_DEFAULT_CONFIG;
+	@Input() commandOptions: CommandOptions;
 	@HostBinding("disabled") isDisabled: boolean;
 
 	private canExecute$$: Subscription;
 	private isExecuting$$: Subscription;
 
 	constructor(
-		@Optional() config: CommandConfig,
+		@Inject(COMMAND_CONFIG) private config: CommandOptions,
 		private renderer: Renderer,
 		private element: ElementRef
 	) {
-		Object.assign(this.commandOptions, config);
+
 	}
 
 	ngOnInit() {
 		// console.log("[commandDirective::init]");
+		this.commandOptions = Object.assign({}, this.config, this.commandOptions);
 
 		if (!this.command) {
 			throw new Error("[commandDirective] command should be defined!");

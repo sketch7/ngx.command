@@ -6,19 +6,18 @@ module.exports = function (config) {
 		frameworks: ["jasmine"],
 
 		files: [
-			"node_modules/es6-shim/es6-shim.js",
+			"node_modules/systemjs/dist/system.src.js",
+
+			"node_modules/core-js/client/shim.js",
+
+			"node_modules/reflect-metadata/Reflect.js",
 			"node_modules/zone.js/dist/zone.js",
+			"node_modules/zone.js/dist/long-stack-trace-zone.js",
+			"node_modules/zone.js/dist/proxy.js",
+			"node_modules/zone.js/dist/sync-test.js",
+			"node_modules/zone.js/dist/jasmine-patch.js",
 			"node_modules/zone.js/dist/async-test.js",
 			"node_modules/zone.js/dist/fake-async-test.js",
-			"node_modules/zone.js/dist/long-stack-trace-zone.js",
-			"node_modules/zone.js/dist/jasmine-patch.js",
-			"node_modules/systemjs/dist/system.src.js",
-			"node_modules/reflect-metadata/Reflect.js",
-
-			"src/**/*.html",
-
-			"node_modules/jquery/dist/jquery.min.js",
-			"node_modules/jasmine-jquery/lib/jasmine-jquery.js",
 
 			{ pattern: "node_modules/reflect-metadata/**/*.js.map", included: false, watched: false, served: true },
 			{ pattern: "node_modules/systemjs/dist/system-polyfills.js", included: false, watched: false, served: true }, // PhantomJS2 (and possibly others) might require it
@@ -30,7 +29,13 @@ module.exports = function (config) {
 			{ pattern: "node_modules/@ssv/*/dist/**/*.js.map", included: false, watched: false, served: true },
 
 			{ pattern: conf.src.ts, included: false, watched: true }, // source files
-			"karma-test-shim.js"
+			{ pattern: conf.test.setup, included: false, watched: true },
+			"src/**/*.html",
+
+			"karma-test-shim.js",
+
+			"node_modules/jquery/dist/jquery.min.js",
+			"node_modules/jasmine-jquery/lib/jasmine-jquery.js",
 		],
 		exclude: [
 			"node_modules/**/*_spec.js",
@@ -39,6 +44,7 @@ module.exports = function (config) {
 		preprocessors: {
 			// "src/**/*.html": ["ng-html2js"],
 			[conf.src.ts]: ["typescript"],
+			[conf.test.setup]: ["typescript"],
 		},
 		typescriptPreprocessor: {
 			options: {

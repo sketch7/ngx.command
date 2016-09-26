@@ -1,0 +1,8 @@
+{
+	"rules": {
+		"no-trailing-spaces": "error",
+		"comma-dangle": "off",
+		"quotes": ["error", "double"],
+		"no-mixed-spaces-and-tabs": ["error", "smart-tabs"]
+	}
+}

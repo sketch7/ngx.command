@@ -41,6 +41,23 @@ typings install github:sketch7/ssv-ng2-command --save
 
 # Usage
 
+## Register module
+
+```ts
+import { CommandModule } from "@ssv/ng2-command";
+
+@NgModule({
+    imports: [
+        CommandModule
+    ],
+    declarations: [
+        AppComponent
+    ]
+}
+export class AppModule {
+}
+```
+
 ## Command
 In order to start working with Command, you need to create a new instance of it.
 ```ts
@@ -88,9 +105,11 @@ It can also be used as below without the command attribute.
 In order to configure globally, you can do so as following:
 
 ```ts
-import {CommandConfig, CommandOptions} from "@ssv/ng2-command";
+import { CommandModule } from "@ssv/ng2-command";
 
-{ provide: CommandConfig, useValue: { executingCssClass: "is-busy" } as CommandOptions }
+    imports: [
+        CommandModule.forRoot({ executingCssClass: "is-busy" })
+    ],
 ```
 
 
@@ -99,9 +118,9 @@ import {CommandConfig, CommandOptions} from "@ssv/ng2-command";
 ## Setup Machine for Development
 Install/setup the following:
 
-- NodeJS v5+
+- NodeJS v6+
 - Visual Studio Code or similar code editor
-- TypeScript 1.8+
+- TypeScript 2.0+
 - Git + SourceTree, SmartGit or similar (optional)
 - Ensure to install **global NPM modules** using the following:
 
