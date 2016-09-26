@@ -1,5 +1,5 @@
 import { OnInit, OnDestroy, Renderer, ElementRef } from "@angular/core";
-import { CommandOptions, CommandConfig } from "./config";
+import { CommandOptions } from "./config";
 import { ICommand } from "./command";
 /**
  *
@@ -13,6 +13,7 @@ import { ICommand } from "./command";
  * @implements {OnDestroy}
  */
 export declare class CommandDirective implements OnInit, OnDestroy {
+    private config;
     private renderer;
     private element;
     command: ICommand;
@@ -20,7 +21,7 @@ export declare class CommandDirective implements OnInit, OnDestroy {
     isDisabled: boolean;
     private canExecute$$;
     private isExecuting$$;
-    constructor(config: CommandConfig, renderer: Renderer, element: ElementRef);
+    constructor(config: CommandOptions, renderer: Renderer, element: ElementRef);
     ngOnInit(): void;
     onClick(): void;
     ngOnDestroy(): void;

@@ -1,28 +1,9 @@
-define(["require", "exports"], function (require, exports) {
+define(["require", "exports", "@angular/core"], function (require, exports, core_1) {
     "use strict";
-    /**
-     * Command Config used to configure globally the Command.
-     *
-     * ### Example
-     * ```ts
-     * import {CommandConfig, CommandOptions} from "@ssv/ng2-command";
-     *
-     * { provide: CommandConfig, useValue: { executingCssClass: "is-busy" } as CommandOptions }
-     * ```
-     * @export
-     * @class CommandConfig
-     * @implements {CommandOptions}
-     */
-    var CommandConfig = (function () {
-        function CommandConfig() {
-            Object.assign(this, {
-                executingCssClass: "executing"
-            });
-        }
-        return CommandConfig;
-    }());
-    exports.CommandConfig = CommandConfig;
-    exports.COMMAND_DEFAULT_CONFIG = new CommandConfig();
+    exports.COMMAND_DEFAULT_CONFIG = {
+        executingCssClass: "executing",
+    };
+    exports.COMMAND_CONFIG = new core_1.OpaqueToken("Command Config");
 });
 
 //# sourceMappingURL=config.js.map

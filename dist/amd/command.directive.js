@@ -25,14 +25,14 @@ define(["require", "exports", "@angular/core", "./config"], function (require, e
      */
     var CommandDirective = (function () {
         function CommandDirective(config, renderer, element) {
+            this.config = config;
             this.renderer = renderer;
             this.element = element;
-            this.commandOptions = config_1.COMMAND_DEFAULT_CONFIG;
-            Object.assign(this.commandOptions, config);
         }
         CommandDirective.prototype.ngOnInit = function () {
-            // console.log("[commandDirective::init]");
             var _this = this;
+            // console.log("[commandDirective::init]");
+            this.commandOptions = Object.assign({}, this.config, this.commandOptions);
             if (!this.command) {
                 throw new Error("[commandDirective] command should be defined!");
             }
@@ -79,8 +79,8 @@ define(["require", "exports", "@angular/core", "./config"], function (require, e
             core_1.Directive({
                 selector: "[command]",
             }),
-            __param(0, core_1.Optional()), 
-            __metadata('design:paramtypes', [config_1.CommandConfig, core_1.Renderer, core_1.ElementRef])
+            __param(0, core_1.Inject(config_1.COMMAND_CONFIG)), 
+            __metadata('design:paramtypes', [Object, core_1.Renderer, core_1.ElementRef])
         ], CommandDirective);
         return CommandDirective;
     }());
