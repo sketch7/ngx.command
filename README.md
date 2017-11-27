@@ -10,15 +10,15 @@
 [typings]: https://github.com/typings/typings
 [commandPatternWiki]: https://en.wikipedia.org/wiki/Command_pattern
 
-# @ssv/ng2-command
+# @ssv/ngx.command
 [![Build status](https://ci.appveyor.com/api/projects/status/0yno0mn184bj5tbd?svg=true)](https://ci.appveyor.com/project/chiko/ssv-ng2-command)
 [![Build status](https://ci.appveyor.com/api/projects/status/0yno0mn184bj5tbd/branch/master?svg=true)](https://ci.appveyor.com/project/chiko/ssv-ng2-command/branch/master)
 [![bitHound Overall Score](https://www.bithound.io/github/sketch7/ssv-ng2-command/badges/score.svg)](https://www.bithound.io/github/sketch7/ssv-ng2-command)
 [![npm version](https://badge.fury.io/js/%40ssv%2Fng2-command.svg)](https://badge.fury.io/js/%40ssv%2Fng2-command)
 
-[Command pattern][commandPatternWiki] implementation for angular 2. Command's are used to encapsulate information which is needed to perform an action.
+[Command pattern][commandPatternWiki] implementation for angular. Command's are used to encapsulate information which is needed to perform an action.
 
-Main purpose usually is to disable a button when an action is executing, or not in a valid state (e.g. busy, invalid) and also to show an activity progress while executing.
+Primary usage is to disable a button when an action is executing, or not in a valid state (e.g. busy, invalid), and also to show an activity progress while executing.
 
 
 In order to contribute please read the [Contribution guidelines][contribWiki].
@@ -31,12 +31,7 @@ In order to contribute please read the [Contribution guidelines][contribWiki].
 
 Get library via [npm]
 ```bash
-npm install @ssv/ng2-command --save
-```
-
-TypeScript Typings via [typings]
-```bash
-typings install github:sketch7/ssv-ng2-command --save
+npm install @ssv/ngx.command --save
 ```
 
 # Usage
@@ -44,7 +39,7 @@ typings install github:sketch7/ssv-ng2-command --save
 ## Register module
 
 ```ts
-import { CommandModule } from "@ssv/ng2-command";
+import { CommandModule } from "@ssv/ngx.command";
 
 @NgModule({
     imports: [
@@ -60,8 +55,9 @@ export class AppModule {
 
 ## Command
 In order to start working with Command, you need to create a new instance of it.
+
 ```ts
-import {CommandDirective, Command, ICommand} from "@ssv/ng2-command";
+import { CommandDirective, Command, ICommand } from "@ssv/ngx.command";
 
 isValid$ = new BehaviorSubject(false);
 saveCmd: ICommand = new Command(() => this.save()), this.isValid$);
@@ -71,8 +67,8 @@ saveCmd: ICommand = new Command(() => Observable.timer(2000), this.isValid$, tru
 ```
 
 ## Command Attribute (Directive)
-Handles the command `canExecute$`, `isExecuting` and `execute` functions of the `Command`, in order to 
-enable/disable, add/remove a cssClass while executing in order alter styling during execution (if desired) 
+Handles the command `canExecute$`, `isExecuting` and `execute` functions of the `Command`, in order to
+enable/disable, add/remove a cssClass while executing in order alter styling during execution (if desired)
 and execute when its enabled and clicked.
 
 Generally used on a `<button>` as below.
@@ -85,8 +81,8 @@ Generally used on a `<button>` as below.
 
 <!-- using isExecuting + showing spinner -->
 <button [command]="saveCmd">
-	<i *ngIf="saveCmd.isExecuting" class="ai-circled ai-indicator ai-dark-spin small"></i>
-	Save
+    <i *ngIf="saveCmd.isExecuting" class="ai-circled ai-indicator ai-dark-spin small"></i>
+    Save
 </button>
 
 ```
@@ -95,9 +91,9 @@ Generally used on a `<button>` as below.
 It can also be used as below without the command attribute.
 ```html
 <button
-	[disabled]="!saveCmd.canExecute"
-	(click)="saveCmd.execute()">
-	Save
+    [disabled]="!saveCmd.canExecute"
+    (click)="saveCmd.execute()">
+    Save
 </button>
 ```
 
@@ -105,7 +101,7 @@ It can also be used as below without the command attribute.
 In order to configure globally, you can do so as following:
 
 ```ts
-import { CommandModule } from "@ssv/ng2-command";
+import { CommandModule } from "@ssv/ngx.command";
 
     imports: [
         CommandModule.forRoot({ executingCssClass: "is-busy" })
@@ -113,30 +109,30 @@ import { CommandModule } from "@ssv/ng2-command";
 ```
 
 
-# Getting Started
+## Getting Started
 
-## Setup Machine for Development
+### Setup Machine for Development
 Install/setup the following:
 
-- NodeJS v6+
+- NodeJS v9+
 - Visual Studio Code or similar code editor
-- TypeScript 2.0+
+- TypeScript 2.6+
 - Git + SourceTree, SmartGit or similar (optional)
 - Ensure to install **global NPM modules** using the following:
 
 
 ```bash
-npm install -g git gulp typings karma-cli
+npm install -g git gulp yarn devtool
 ```
 
 
-### Cloning Repo
+#### Cloning Repo
 
 - Run `git clone https://github.com/sketch7/ssv-ng2-command.git`
 - Switch to `develop` branch
 
 
-## Project Setup
+### Project Setup
 The following process need to be executed in order to get started.
 
 ```bash
@@ -144,39 +140,39 @@ npm install
 ```
 
 
-## Building the code
+### Building the code
 
 ```
-gulp build
-```
-In order to view all other tasks invoke `gulp` or check the gulp tasks directly.
-
-## Running the tests
-
-```
-gulp test
+npm run build
 ```
 
+### Running the tests
 
-## Development utils
-
-### Trigger gulp watch
-Handles compiling of changes.
 ```
-gulp watch
+npm test
 ```
 
 
-### Running Continuous Tests
+### Development utils
+
+#### Watch
+Builds on changes.
+
+```
+npm start
+```
+
+
+#### Running Continuous Tests
 Spawns test runner and keep watching for changes.
 ```
-gulp tdd
+npm run tdd
 ```
 
 
-## Preparation for Release
+### Preparation for Release
 
 ```
-gulp prepare-release --bump major|minor|patch|prerelease (default: patch)
+npm run prepare-release -- --bump major|minor|patch|prerelease (default: patch)
 ```
 Check out the [release workflow guide][releaseWorkflowWiki] in order to guide you creating a release and publishing it.
