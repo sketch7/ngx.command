@@ -1,16 +1,16 @@
 const gulp = require("gulp");
-const tslint = require("gulp-tslint");
-const stylish = require("gulp-tslint-stylish");
+const ssvTools = require("@ssv/tools");
 
-const config = require("../config");
+const args = require("../args");
 
-gulp.task("lint", () => {
-	gulp.src(config.src.ts)
-		.pipe(tslint())
-		.pipe(tslint.report(stylish, {
-			emitError: true,
-			sort: true,
-			bell: false,
-			fullPath: true
-		}));
-});
+gulp.task("lint", ["lint:ts", "compile:test"]);
+
+gulp.task("lint:ts", () => ssvTools.lintTs({
+	fix: args.fix
+}));
+
+gulp.task("compile:test", () => ssvTools.compileTsc({
+	module: "es2015",
+	configPath: "./tsconfig.test.json",
+	continueOnError: args.continueOnError
+}));

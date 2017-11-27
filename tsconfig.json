@@ -1,19 +1,12 @@
 {
+	"extends": "./node_modules/@ssv/tools/tsconfig.base.json",
 	"compilerOptions": {
-		"module": "amd",
-		"target": "es5",
-		"moduleResolution": "node",
-		"emitDecoratorMetadata": true,
-		"experimentalDecorators": true,
-		"declaration": true,
-		"noImplicitReturns": true,
-		"noImplicitAny": true,
-		"noFallthroughCasesInSwitch": true,
-		"noEmitOnError": true
+		"types": [
+			"jest"
+		]
 	},
-	"exclude": [
-		"node_modules",
-		"wwwroot",
-		"dist"
+	"include": [
+		"src/**/*",
+		"test/**/*"
 	]
 }

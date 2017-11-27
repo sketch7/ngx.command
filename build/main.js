@@ -1,6 +1,8 @@
 const gulp = require("gulp");
+const ssvTools = require("@ssv/tools");
 
 const config = require("./config");
+ssvTools.setGulpContext(gulp);
 
 require("require-dir")("./tasks");
 
