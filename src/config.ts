@@ -1,4 +1,4 @@
-import { OpaqueToken } from "@angular/core";
+import { InjectionToken } from "@angular/core";
 
 export interface CommandOptions {
 	/**
@@ -13,4 +13,4 @@ export const COMMAND_DEFAULT_CONFIG: CommandOptions = {
 	executingCssClass: "executing",
 };
 
-export const COMMAND_CONFIG = new OpaqueToken("Command Config");
+export const COMMAND_CONFIG = new InjectionToken<CommandOptions>("Command Config");

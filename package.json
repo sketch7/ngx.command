@@ -1,33 +1,54 @@
 {
   "name": "@ssv/ng2-command",
   "version": "0.2.0",
-  "description": "Command pattern implementation for angular 2. Command used to encapsulate information which is needed to perform an action.",
+  "description": "Command pattern implementation for angular. Command used to encapsulate information which is needed to perform an action.",
   "keywords": [
     "sketch7",
-    "ng2",
+    "ngx",
     "angular2",
+    "angular",
     "ssv",
     "command",
     "pattern",
     "ui"
   ],
+  "scripts": {
+    "start": "gulp watch",
+    "test": "jest",
+    "tdd": "jest --watch",
+    "test-debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --env jest-environment-node-debug",
+    "test-devt": "devtool ./node_modules/jest/bin/jest.js --runInBand --env jest-environment-node-debug",
+    "watch": "gulp watch",
+    "lint": "gulp lint",
+    "build": "gulp build",
+    "bundle": "gulp bundle:ts",
+    "prepare-release": "gulp prepare-release"
+  },
   "author": "Stephen Lautier <stephen.lautier@outlook.com>",
   "license": "MIT",
-  "main": "dist/amd/index.js",
-  "homepage": "https://github.com/sketch7/ssv-ng2-command",
+  "main": "dist/bundles/ssv-core.umd.js",
+  "module": "dist/es2015/index.js",
+  "typings": "dist/es2015/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/sketch7/ssv-ng2-command.git"
   },
+  "dependencies": {},
+  "peerDependencies": {
+    "@angular/core": "^5.0.3",
+    "rxjs": "^5.5.2"
+  },
   "devDependencies": {
-    "@angular/common": "^2.0.1",
-    "@angular/compiler": "^2.0.1",
-    "@angular/core": "^2.0.1",
-    "@angular/platform-browser": "^2.0.1",
-    "@angular/platform-browser-dynamic": "^2.0.1",
+    "@angular/common": "^5.0.3",
+    "@angular/compiler": "^5.0.3",
+    "@angular/core": "^5.0.3",
+    "@angular/platform-browser": "^5.0.3",
+    "@angular/platform-browser-dynamic": "^5.0.3",
+    "@ssv/tools": "^0.6.12",
     "@types/core-js": "^0.9.34",
     "@types/jasmine": "^2.2.34",
     "@types/jasmine-jquery": "^1.5.28",
+    "@types/jest": "^21.1.8",
     "core-js": "^2.4.1",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
@@ -42,6 +63,8 @@
     "gulp-util": "^3.0.7",
     "jasmine-core": "^2.5.2",
     "jasmine-jquery": "^2.1.1",
+    "jest": "^21.2.1",
+    "jest-environment-node-debug": "^2.0.0",
     "jquery": "^3.1.1",
     "karma": "^1.3.0",
     "karma-appveyor-reporter": "^0.3.0",
@@ -50,20 +73,27 @@
     "karma-mocha-reporter": "^2.2.0",
     "karma-typescript-preprocessor": "^0.2.1",
     "merge2": "^1.0.2",
+    "ng-packagr": "^1.6.0",
     "reflect-metadata": "^0.1.3",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.2.2",
-    "rxjs": "5.0.0-beta.12",
+    "rxjs": "^5.5.2",
     "systemjs": "^0.19.39",
-    "tslint": "^3.15.1",
-    "typescript": "^2.0.3",
+    "ts-jest": "^21.2.3",
+    "tslint": "^5.8.0",
+    "typescript": "^2.6.2",
     "yargs": "^5.0.0",
-    "zone.js": "^0.6.25"
+    "zone.js": "^0.8.18"
   },
-  "dependencies": {},
-  "peerDependencies": {
-    "@angular/core": "^2.0.0",
-    "rxjs": "^5.0.0-beta.12"
-  },
-  "typings": "dist/typings/index.d.ts"
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ]
+  }
 }

@@ -17,7 +17,7 @@ import { CommandOptions, COMMAND_DEFAULT_CONFIG, COMMAND_CONFIG } from "./config
 export class CommandModule {
 
 	static forRoot(config: CommandOptions): ModuleWithProviders {
-		const mergedConfig = Object.assign({}, COMMAND_DEFAULT_CONFIG, config);
+		const mergedConfig = { ...COMMAND_DEFAULT_CONFIG, ...config };
 		return {
 			ngModule: CommandModule,
 			providers: [

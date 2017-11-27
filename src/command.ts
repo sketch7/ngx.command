@@ -1,7 +1,9 @@
 import { Observable } from "rxjs/Observable";
+import { combineLatest } from "rxjs/observable/combineLatest";
 import { Subscription } from "rxjs/Subscription";
 import { Subject } from "rxjs/Subject";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { tap, map, filter, switchMap } from "rxjs/operators";
 
 export interface ICommand {
 	/**
@@ -57,7 +59,7 @@ export class Command implements ICommand {
 		isAsync?: boolean
 	) {
 		if (canExecute$) {
-			this.canExecute$ = Observable.combineLatest(
+			this.canExecute$ = combineLatest(
 				this.isExecuting$,
 				canExecute$
 				, (isExecuting, canExecuteResult) => {
@@ -68,14 +70,16 @@ export class Command implements ICommand {
 				});
 			this.canExecute$$ = this.canExecute$.subscribe();
 		} else {
-			this.canExecute$ = this.isExecuting$.map(x => {
-				const canExecute = !x;
-				this.canExecute = canExecute;
-				return canExecute;
-			});
-			this.isExecuting$$ = this.isExecuting$
-				.do(x => this.isExecuting = x)
-				.subscribe();
+			this.canExecute$ = this.isExecuting$.pipe(
+				map(x => {
+					const canExecute = !x;
+					this.canExecute = canExecute;
+					return canExecute;
+				})
+			);
+			this.isExecuting$$ = this.isExecuting$.pipe(
+				tap(x => this.isExecuting = x)
+			).subscribe();
 		}
 		this.buildExecutionPipe(execute, isAsync);
 	}
@@ -100,26 +104,28 @@ export class Command implements ICommand {
 	}
 
 	private buildExecutionPipe(execute: () => any, isAsync?: boolean) {
-		let pipe$ = this.executionPipe$
-			.filter(() => this.canExecute)
-			.do(() => {
+		let pipe$ = this.executionPipe$.pipe(
+			filter(() => this.canExecute),
+			tap(() => {
 				// console.log("[command::excutionPipe$] do#1 - set execute");
 				this.isExecuting$.next(true);
-			});
+			})
+		);
 
-		pipe$ = isAsync
-			? pipe$.switchMap(() => execute())
-			: pipe$.do(() => execute());
+		const execFn = isAsync
+			? switchMap(execute)
+			: tap(execute);
 
-		pipe$ = pipe$
-			.do(() => {
+		pipe$ = pipe$.pipe(
+			execFn,
+			tap(() => {
 				// console.log("[command::excutionPipe$] do#2 - set idle");
 				this.isExecuting$.next(false);
-			},
-			() => {
+			}, () => {
 				// console.log("[command::excutionPipe$] do#2 error - set idle");
 				this.isExecuting$.next(false);
-			});
+			})
+		);
 		this.executionPipe$$ = pipe$.subscribe();
 	}
 

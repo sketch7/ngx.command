@@ -10,6 +10,7 @@ import {
 	Inject
 } from "@angular/core";
 import { Subscription } from "rxjs/Subscription";
+import { tap } from "rxjs/operators";
 
 import { CommandOptions, COMMAND_CONFIG } from "./config";
 import { ICommand } from "./command";
@@ -39,7 +40,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 	constructor(
 		@Inject(COMMAND_CONFIG) private config: CommandOptions,
-		private renderer: Renderer,
+		private renderer: Renderer, // todo: change to Renderer2
 		private element: ElementRef
 	) {
 
@@ -47,22 +48,29 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		// console.log("[commandDirective::init]");
-		this.commandOptions = Object.assign({}, this.config, this.commandOptions);
+		this.commandOptions = { ...this.config, ...this.commandOptions };
 
 		if (!this.command) {
 			throw new Error("[commandDirective] command should be defined!");
 		}
 
-		this.canExecute$$ = this.command.canExecute$
-			.do(x => {
-				// console.log("[commandDirective::canExecute$]", x);
-				this.isDisabled = !x;
-			}).subscribe();
-		this.isExecuting$$ = this.command.isExecuting$
-			.do(x => {
-				// console.log("[commandDirective::isExecuting$]", x);
-				this.renderer.setElementClass(this.element.nativeElement, this.commandOptions.executingCssClass, x);
-			}).subscribe();
+		if (this.command.canExecute$) {
+			this.canExecute$$ = this.command.canExecute$.pipe(
+				tap(x => {
+					// console.log("[commandDirective::canExecute$]", x);
+					this.isDisabled = !x;
+				})
+			).subscribe();
+		}
+
+		if (this.command.isExecuting$) {
+			this.isExecuting$$ = this.command.isExecuting$.pipe(
+				tap(x => {
+					// console.log("[commandDirective::isExecuting$]", x);
+					this.renderer.setElementClass(this.element.nativeElement, this.commandOptions.executingCssClass, x);
+				})
+			).subscribe();
+		}
 	}
 
 	@HostListener("click")
