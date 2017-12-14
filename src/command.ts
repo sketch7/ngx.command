@@ -6,11 +6,13 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { tap, map, filter, switchMap } from "rxjs/operators";
 
 export interface ICommand {
-	/** Determines whether the command is currently executing. */
+	/** Determines whether the command is currently executing, as a snapshot value. */
 	readonly isExecuting: boolean;
+	/** Determines whether the command is currently executing, as an observable. */
 	readonly isExecuting$: Observable<boolean>;
-	/** Determines whether the command can execute or not. */
+	/** Determines whether the command can execute or not, as a snapshot value. */
 	readonly canExecute: boolean;
+	/** Determines whether the command can execute or not, as an observable. */
 	readonly canExecute$: Observable<boolean>;
 
 	/** Execute function to invoke. */
@@ -23,16 +25,22 @@ export interface ICommand {
  * Command object used to encapsulate information which is needed to perform an action.
  */
 export class Command implements ICommand {
+	/** Determines whether the command is currently executing, as a snapshot value. */
 	get isExecuting(): boolean {
 		return this._isExecuting;
 	}
+
+	/** Determines whether the command can execute or not, as a snapshot value. */
 	get canExecute(): boolean {
 		return this._canExecute;
 	}
 
+	/** Determines whether the command is currently executing, as an observable. */
 	get isExecuting$(): Observable<boolean> {
 		return this._isExecuting$.asObservable();
 	}
+
+	/** Determines whether the command can execute or not, as an observable. */
 	readonly canExecute$: Observable<boolean>;
 
 	private _isExecuting$ = new BehaviorSubject<boolean>(false);
@@ -78,10 +86,12 @@ export class Command implements ICommand {
 		this.executionPipe$$ = this.buildExecutionPipe(execute, isAsync).subscribe();
 	}
 
+	/** Execute function to invoke. */
 	execute() {
 		this.executionPipe$.next({});
 	}
 
+	/** Disposes all resources held by subscriptions. */
 	destroy() {
 		if (this.executionPipe$$) {
 			this.executionPipe$$.unsubscribe();
@@ -119,5 +129,18 @@ export class Command implements ICommand {
 			)
 		);
 		return pipe$;
+	}
+}
+
+/**
+ * Async Command object used to encapsulate information which is needed to perform an action,
+ * which takes an execute function as Observable/Promise.
+ */
+export class CommandAsync extends Command {
+	constructor(
+		execute: () => Observable<any> | Promise<any>,
+		canExecute$?: Observable<boolean>
+	) {
+		super(execute, canExecute$, true);
 	}
 }
