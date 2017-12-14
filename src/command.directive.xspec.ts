@@ -1,4 +1,4 @@
-// import {Observable} from "rxjs/Rx";
+// import {Observable} from "rxjs/Observable";
 // import {inject, addProviders, async} from "@angular/core/testing";
 // import {TestComponentBuilder, ComponentFixture} from "@angular/compiler/testing";
 // import {Component, provide} from "@angular/core";

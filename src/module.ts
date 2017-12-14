@@ -6,7 +6,9 @@ import { CommandOptions, COMMAND_DEFAULT_CONFIG, COMMAND_CONFIG } from "./config
 /**
  * @internal
  */
-export const _MODULE_CONFIG = new InjectionToken<CommandOptions | (() => CommandOptions)>("_command-config");
+export const _MODULE_CONFIG = new InjectionToken<CommandOptions | (() => CommandOptions)>(
+	"_command-config"
+);
 
 @NgModule({
 	declarations: [CommandDirective],
@@ -18,7 +20,11 @@ export class CommandModule {
 		return {
 			ngModule: CommandModule,
 			providers: [
-				{ provide: COMMAND_CONFIG, useFactory: _moduleConfigFactory, deps: [_MODULE_CONFIG] },
+				{
+					provide: COMMAND_CONFIG,
+					useFactory: _moduleConfigFactory,
+					deps: [_MODULE_CONFIG],
+				},
 				{ provide: _MODULE_CONFIG, useValue: config },
 			],
 		};

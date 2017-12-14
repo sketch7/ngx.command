@@ -8,10 +8,10 @@ import { tap, map, filter, switchMap } from "rxjs/operators";
 export interface ICommand {
 	/** Determines whether the command is currently executing. */
 	readonly isExecuting: boolean;
-	readonly isExecuting$?: Observable<boolean>;
+	readonly isExecuting$: Observable<boolean>;
 	/** Determines whether the command can execute or not. */
 	readonly canExecute: boolean;
-	readonly canExecute$?: Observable<boolean>;
+	readonly canExecute$: Observable<boolean>;
 
 	/** Execute function to invoke. */
 	execute(): void;
@@ -52,12 +52,16 @@ export class Command implements ICommand {
 	 */
 	constructor(execute: () => any, canExecute$?: Observable<boolean>, isAsync?: boolean) {
 		if (canExecute$) {
-			this.canExecute$ = combineLatest(this._isExecuting$, canExecute$, (isExecuting, canExecuteResult) => {
-				// console.log("[command::combineLatest$] update!", { isExecuting, canExecuteResult });
-				this._isExecuting = isExecuting;
-				this._canExecute = !isExecuting && canExecuteResult;
-				return this._canExecute;
-			});
+			this.canExecute$ = combineLatest(
+				this._isExecuting$,
+				canExecute$,
+				(isExecuting, canExecuteResult) => {
+					// console.log("[command::combineLatest$] update!", { isExecuting, canExecuteResult });
+					this._isExecuting = isExecuting;
+					this._canExecute = !isExecuting && canExecuteResult;
+					return this._canExecute;
+				}
+			);
 			this.canExecute$$ = this.canExecute$.subscribe();
 		} else {
 			this.canExecute$ = this._isExecuting$.pipe(
@@ -67,7 +71,9 @@ export class Command implements ICommand {
 					return canExecute;
 				})
 			);
-			this.isExecuting$$ = this._isExecuting$.pipe(tap(x => (this._isExecuting = x))).subscribe();
+			this.isExecuting$$ = this._isExecuting$
+				.pipe(tap(x => (this._isExecuting = x)))
+				.subscribe();
 		}
 		this.executionPipe$$ = this.buildExecutionPipe(execute, isAsync).subscribe();
 	}
@@ -85,9 +91,6 @@ export class Command implements ICommand {
 		}
 		if (this.isExecuting$$) {
 			this.isExecuting$$.unsubscribe();
-		}
-		if (this._isExecuting$) {
-			this._isExecuting$.complete();
 		}
 	}
 
