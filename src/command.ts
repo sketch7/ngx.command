@@ -6,33 +6,21 @@ import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { tap, map, filter, switchMap } from "rxjs/operators";
 
 export interface ICommand {
-	/**
-	 * Determines whether the command is currently executing.
-	 */
+	/** Determines whether the command is currently executing. */
 	isExecuting: boolean;
 	isExecuting$?: Observable<boolean>;
-	/**
-	 * Determines whether the command can execute or not.
-	 */
+	/** Determines whether the command can execute or not. */
 	canExecute: boolean;
 	canExecute$?: Observable<boolean>;
-	/**
-	 * Execute function to invoke.
-	 */
+	/** Execute function to invoke. */
 	execute(): void;
-	/**
-	 * Disposes all resources held by subscriptions.
-	 */
+	/** Disposes all resources held by subscriptions. */
 	destroy(): void;
 }
 
 
 /**
  * Command object used to encapsulate information which is needed to perform an action.
- *
- * @export
- * @class Command
- * @implements {ICommand}
  */
 export class Command implements ICommand {
 
@@ -49,9 +37,9 @@ export class Command implements ICommand {
 	/**
 	 * Creates an instance of Command.
 	 *
-	 * @param {(() => any)} execute Execute function to invoke - use `isAsync: true` when {Observable<any>}.
-	 * @param {Observable<boolean>} [canExecute] Observable which determines whether it can execute or not.
-	 * @param {boolean} [isAsync] Indicates that the execute function is async e.g. Observable.
+	 * @param execute Execute function to invoke - use `isAsync: true` when {Observable<any>}.
+	 * @param canExecute Observable which determines whether it can execute or not.
+	 * @param isAsync Indicates that the execute function is async e.g. Observable.
 	 */
 	constructor(
 		execute: () => any,
