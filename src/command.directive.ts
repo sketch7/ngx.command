@@ -5,13 +5,16 @@ import {
 	Input,
 	HostBinding,
 	HostListener,
-	Renderer,
 	ElementRef,
-	Inject
+	Inject,
+	Renderer2,
 } from "@angular/core";
 import { Subscription } from "rxjs/Subscription";
+import { Observable } from "rxjs/Observable";
+import { empty } from "rxjs/observable/empty";
+import { tap, merge } from "rxjs/operators";
 
-import { CommandOptions, COMMAND_CONFIG } from "./config";
+import { CommandOptions, COMMAND_CONFIG, COMMAND_DEFAULT_CONFIG } from "./config";
 import { ICommand } from "./command";
 
 /**
@@ -20,49 +23,64 @@ import { ICommand } from "./command";
  * ```html
  * <button [command]="saveCmd" [commandOptions]="{executingCssClass: 'in-progress'}">Save</button>
  * ```
- * @export
- * @class CommandDirective
- * @implements {OnInit}
- * @implements {OnDestroy}
  */
 @Directive({
 	selector: "[command]",
 })
 export class CommandDirective implements OnInit, OnDestroy {
-
 	@Input() command: ICommand;
 	@Input() commandOptions: CommandOptions;
 	@HostBinding("disabled") isDisabled: boolean;
 
-	private canExecute$$: Subscription;
-	private isExecuting$$: Subscription;
+	private data$$: Subscription;
 
 	constructor(
 		@Inject(COMMAND_CONFIG) private config: CommandOptions,
-		private renderer: Renderer,
+		private renderer: Renderer2,
 		private element: ElementRef
-	) {
-
-	}
+	) {}
 
 	ngOnInit() {
 		// console.log("[commandDirective::init]");
-		this.commandOptions = Object.assign({}, this.config, this.commandOptions);
+		this.commandOptions = {
+			...COMMAND_DEFAULT_CONFIG,
+			...this.config,
+			...this.commandOptions,
+		};
 
 		if (!this.command) {
-			throw new Error("[commandDirective] command should be defined!");
+			throw new Error("[commandDirective] [command] should be defined!");
 		}
 
-		this.canExecute$$ = this.command.canExecute$
-			.do(x => {
+		const canExecute$ = this.command.canExecute$.pipe(
+			tap(x => {
 				// console.log("[commandDirective::canExecute$]", x);
 				this.isDisabled = !x;
-			}).subscribe();
-		this.isExecuting$$ = this.command.isExecuting$
-			.do(x => {
-				// console.log("[commandDirective::isExecuting$]", x);
-				this.renderer.setElementClass(this.element.nativeElement, this.commandOptions.executingCssClass, x);
-			}).subscribe();
+			})
+		);
+
+		let isExecuting$: Observable<boolean>;
+		if (this.command.isExecuting$) {
+			isExecuting$ = this.command.isExecuting$.pipe(
+				tap(x => {
+					// console.log("[commandDirective::isExecuting$]", x);
+					if (x) {
+						this.renderer.addClass(
+							this.element.nativeElement,
+							this.commandOptions.executingCssClass
+						);
+					} else {
+						this.renderer.removeClass(
+							this.element.nativeElement,
+							this.commandOptions.executingCssClass
+						);
+					}
+				})
+			);
+		} else {
+			isExecuting$ = empty<boolean>();
+		}
+		this.data$$ = canExecute$.pipe(merge(isExecuting$)).subscribe();
 	}
 
 	@HostListener("click")
@@ -74,7 +92,6 @@ export class CommandDirective implements OnInit, OnDestroy {
 	ngOnDestroy() {
 		// console.log("[commandDirective::destroy]");
 		this.command.destroy();
-		this.canExecute$$.unsubscribe();
-		this.isExecuting$$.unsubscribe();
+		this.data$$.unsubscribe();
 	}
 }

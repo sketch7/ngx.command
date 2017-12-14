@@ -1,7 +1,6 @@
-import { BehaviorSubject } from "rxjs/Rx";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 import { Command } from "./index";
-
 
 describe("CommandSpecs", () => {
 	let SUT: Command;
@@ -21,7 +20,7 @@ describe("CommandSpecs", () => {
 				expect(SUT.canExecute).toBe(true);
 			});
 
-			it("should have canExecute$ set to true", (done: Function) => {
+			it("should have canExecute$ set to true", done => {
 				SUT.canExecute$.subscribe(x => {
 					expect(x).toBe(true);
 					done();
@@ -87,7 +86,7 @@ describe("CommandSpecs", () => {
 			expect(SUT.canExecute).toBe(true);
 		});
 
-		it("should have canExecute$ set to true", (done: Function) => {
+		it("should have canExecute$ set to true", done => {
 			SUT.canExecute$.subscribe(x => {
 				expect(x).toBe(true);
 				done();
@@ -103,7 +102,7 @@ describe("CommandSpecs", () => {
 				expect(SUT.canExecute).toBe(false);
 			});
 
-			it("should update canExecute$", (done: Function) => {
+			it("should update canExecute$", done => {
 				SUT.canExecute$.subscribe(x => {
 					expect(x).toBe(false);
 					done();
@@ -122,7 +121,7 @@ describe("CommandSpecs", () => {
 			expect(SUT.canExecute).toBe(false);
 		});
 
-		it("should have canExecute$ set to false", (done: Function) => {
+		it("should have canExecute$ set to false", done => {
 			SUT.canExecute$.subscribe(x => {
 				expect(x).toBe(false);
 				done();
@@ -140,5 +139,4 @@ describe("CommandSpecs", () => {
 			SUT.destroy();
 		});
 	});
-
 });
