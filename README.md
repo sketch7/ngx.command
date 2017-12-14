@@ -7,7 +7,7 @@
 [commandpatternwiki]: https://en.wikipedia.org/wiki/Command_pattern
 
 # @ssv/ngx.command
-[![CircleCI](https://circleci.com/gh/sketch7/signalr-client.svg?style=shield)](https://circleci.com/gh/sketch7/ngx.command)
+[![CircleCI](https://circleci.com/gh/sketch7/ngx.command.svg?style=shield)](https://circleci.com/gh/sketch7/ngx.command)
 [![bitHound Overall Score](https://www.bithound.io/github/sketch7/ngx.command/badges/score.svg)](https://www.bithound.io/github/sketch7/ngx.command)
 [![npm version](https://badge.fury.io/js/%40ssv%2Fngx.command.svg)](https://badge.fury.io/js/%40ssv%2Fngx.command)
 
