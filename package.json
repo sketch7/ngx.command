@@ -13,24 +13,17 @@
     "ui"
   ],
   "scripts": {
-    "start": "gulp watch",
     "test": "jest",
     "tdd": "jest --watch",
     "test-debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --env jest-environment-node-debug",
     "test-devt": "devtool ./node_modules/jest/bin/jest.js --runInBand --env jest-environment-node-debug",
-    "watch": "gulp watch",
     "clean": "rimraf dist",
     "lint": "gulp lint",
-    "build": "gulp build",
-    "build:rel": "ng-packagr -p ng-package.json",
-    "bundle": "gulp bundle:ts",
+    "build": "ng-packagr -p ng-package.json",
     "prepare-release": "gulp prepare-release"
   },
   "author": "Stephen Lautier <stephen.lautier@outlook.com>",
   "license": "MIT",
-  "main": "dist/bundles/ssv-core.umd.js",
-  "module": "dist/es2015/index.js",
-  "typings": "dist/es2015/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/sketch7/ssv-ng2-command.git"
@@ -52,8 +45,6 @@
     "gulp": "^3.9.1",
     "gulp-bump": "^2.8.0",
     "gulp-conventional-changelog": "^1.1.7",
-    "gulp-plumber": "^1.1.0",
-    "gulp-util": "^3.0.7",
     "jest": "^21.2.1",
     "jest-environment-node-debug": "^2.0.0",
     "ng-packagr": "2.0.0-rc.5",

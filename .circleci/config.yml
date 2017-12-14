@@ -18,8 +18,11 @@ jobs:
             npm i
             npm i gulp -g
       - run:
+          name: lint
+          command: npm run lint
+      - run:
           name: build
-          command: npm run build -- --rel
+          command: npm run build
       - run:
           name: test
           command: npm test
