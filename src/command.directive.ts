@@ -1,18 +1,8 @@
-import {
-	Directive,
-	OnInit,
-	OnDestroy,
-	Input,
-	HostBinding,
-	HostListener,
-	Renderer,
-	ElementRef,
-	Inject
-} from "@angular/core";
+import { Directive, OnInit, OnDestroy, Input, HostBinding, HostListener, Renderer, ElementRef, Inject } from "@angular/core";
 import { Subscription } from "rxjs/Subscription";
 import { tap } from "rxjs/operators";
 
-import { CommandOptions, COMMAND_CONFIG } from "./config";
+import { CommandOptions, COMMAND_CONFIG, COMMAND_DEFAULT_CONFIG } from "./config";
 import { ICommand } from "./command";
 
 /**
@@ -30,7 +20,6 @@ import { ICommand } from "./command";
 	selector: "[command]",
 })
 export class CommandDirective implements OnInit, OnDestroy {
-
 	@Input() command: ICommand;
 	@Input() commandOptions: CommandOptions;
 	@HostBinding("disabled") isDisabled: boolean;
@@ -42,34 +31,36 @@ export class CommandDirective implements OnInit, OnDestroy {
 		@Inject(COMMAND_CONFIG) private config: CommandOptions,
 		private renderer: Renderer, // todo: change to Renderer2
 		private element: ElementRef
-	) {
-
-	}
+	) {}
 
 	ngOnInit() {
 		// console.log("[commandDirective::init]");
-		this.commandOptions = { ...this.config, ...this.commandOptions };
+		this.commandOptions = { ...COMMAND_DEFAULT_CONFIG, ...this.config, ...this.commandOptions };
 
 		if (!this.command) {
 			throw new Error("[commandDirective] command should be defined!");
 		}
 
 		if (this.command.canExecute$) {
-			this.canExecute$$ = this.command.canExecute$.pipe(
-				tap(x => {
-					// console.log("[commandDirective::canExecute$]", x);
-					this.isDisabled = !x;
-				})
-			).subscribe();
+			this.canExecute$$ = this.command.canExecute$
+				.pipe(
+					tap(x => {
+						// console.log("[commandDirective::canExecute$]", x);
+						this.isDisabled = !x;
+					})
+				)
+				.subscribe();
 		}
 
 		if (this.command.isExecuting$) {
-			this.isExecuting$$ = this.command.isExecuting$.pipe(
-				tap(x => {
-					// console.log("[commandDirective::isExecuting$]", x);
-					this.renderer.setElementClass(this.element.nativeElement, this.commandOptions.executingCssClass, x);
-				})
-			).subscribe();
+			this.isExecuting$$ = this.command.isExecuting$
+				.pipe(
+					tap(x => {
+						// console.log("[commandDirective::isExecuting$]", x);
+						this.renderer.setElementClass(this.element.nativeElement, this.commandOptions.executingCssClass, x);
+					})
+				)
+				.subscribe();
 		}
 	}
 
