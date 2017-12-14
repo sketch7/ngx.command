@@ -14,21 +14,21 @@ jobs:
             echo npm version':' $NPM_V
       - checkout
       # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+      # - restore_cache:
+      #     keys:
+      #     - v1-dependencies-{{ checksum "package.json" }}
+      #     # fallback to using the latest cache if no exact match is found
+      #     - v1-dependencies-
       - run:
           name: Package Install
           command: |
             echo -e "$NPM_USER\n$NPM_PWD\n$NPM_EMAIL" | npm login --scope=@ssv
             npm i
             npm i gulp -g
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+      # - save_cache:
+      #     paths:
+      #       - node_modules
+      #     key: v1-dependencies-{{ checksum "package.json" }}
       - run:
           name: lint
           command: npm run lint
