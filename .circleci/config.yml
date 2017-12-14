@@ -3,11 +3,13 @@ jobs:
   build:
     working_directory: ~/repo
     docker:
-      - image: circleci/node:8.9.0
+      - image: circleci/node:8.9
     steps:
       - run:
           name: Print environment versions
           command: |
+            NODE_V=$(node -v)
+            echo node version':' $NODE_V
             NPM_V=$(npm -v)
             echo npm version':' $NPM_V
       - checkout
