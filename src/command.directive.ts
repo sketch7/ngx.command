@@ -1,4 +1,4 @@
-import { Directive, OnInit, OnDestroy, Input, HostBinding, HostListener, Renderer, ElementRef, Inject } from "@angular/core";
+import { Directive, OnInit, OnDestroy, Input, HostBinding, HostListener, ElementRef, Inject, Renderer2 } from "@angular/core";
 import { Subscription } from "rxjs/Subscription";
 import { tap } from "rxjs/operators";
 
@@ -11,10 +11,6 @@ import { ICommand } from "./command";
  * ```html
  * <button [command]="saveCmd" [commandOptions]="{executingCssClass: 'in-progress'}">Save</button>
  * ```
- * @export
- * @class CommandDirective
- * @implements {OnInit}
- * @implements {OnDestroy}
  */
 @Directive({
 	selector: "[command]",
@@ -29,16 +25,17 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 	constructor(
 		@Inject(COMMAND_CONFIG) private config: CommandOptions,
-		private renderer: Renderer, // todo: change to Renderer2
+		private renderer: Renderer2,
 		private element: ElementRef
-	) {}
+	) {
+	}
 
 	ngOnInit() {
 		// console.log("[commandDirective::init]");
 		this.commandOptions = { ...COMMAND_DEFAULT_CONFIG, ...this.config, ...this.commandOptions };
 
 		if (!this.command) {
-			throw new Error("[commandDirective] command should be defined!");
+			throw new Error("[commandDirective] [command] should be defined!");
 		}
 
 		if (this.command.canExecute$) {
@@ -57,7 +54,11 @@ export class CommandDirective implements OnInit, OnDestroy {
 				.pipe(
 					tap(x => {
 						// console.log("[commandDirective::isExecuting$]", x);
-						this.renderer.setElementClass(this.element.nativeElement, this.commandOptions.executingCssClass, x);
+						if (x) {
+							this.renderer.addClass(this.element.nativeElement, this.commandOptions.executingCssClass);
+						} else {
+							this.renderer.removeClass(this.element.nativeElement, this.commandOptions.executingCssClass);
+						}
 					})
 				)
 				.subscribe();
