@@ -1,6 +1,6 @@
 {
   "name": "@ssv/ngx.command",
-  "version": "1.0.0-rc.0",
+  "version": "1.0.0-rc.1",
   "description": "Command pattern implementation for angular. Command used to encapsulate information which is needed to perform an action.",
   "keywords": [
     "sketch7",
@@ -20,7 +20,8 @@
     "clean": "rimraf dist",
     "lint": "gulp lint",
     "build": "ng-packagr -p ng-package.json",
-    "prepare-release": "gulp prepare-release"
+    "prepare-release": "gulp prepare-release",
+    "publish:rel": "npm publish dist --access=public"
   },
   "author": "Stephen Lautier <stephen.lautier@outlook.com>",
   "license": "MIT",
