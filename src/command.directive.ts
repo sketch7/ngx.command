@@ -28,11 +28,11 @@ import { ICommand } from "./command";
 	selector: "[command]",
 })
 export class CommandDirective implements OnInit, OnDestroy {
-	@Input() command: ICommand;
-	@Input() commandOptions: CommandOptions;
-	@HostBinding("disabled") isDisabled: boolean;
+	@Input() command!: ICommand;
+	@Input() commandOptions!: CommandOptions;
+	@HostBinding("disabled") isDisabled: boolean | undefined;
 
-	private data$$: Subscription;
+	private data$$!: Subscription;
 
 	constructor(
 		@Inject(COMMAND_CONFIG) private config: CommandOptions,

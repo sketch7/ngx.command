@@ -47,9 +47,9 @@ export class Command implements ICommand {
 	private _isExecuting = false;
 	private _canExecute = true;
 	private executionPipe$ = new Subject<{}>();
-	private isExecuting$$: Subscription;
-	private canExecute$$: Subscription;
-	private executionPipe$$: Subscription;
+	private isExecuting$$: Subscription | undefined;
+	private canExecute$$: Subscription | undefined;
+	private executionPipe$$: Subscription | undefined;
 
 	/**
 	 * Creates an instance of Command.
