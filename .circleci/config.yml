@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/repo
     docker:
-      - image: circleci/node:9.11
+      - image: circleci/node:9.11 #10.4 -- not working with gulp
     steps:
       - run:
           name: Print environment versions
@@ -19,7 +19,7 @@ jobs:
       #     command: sudo npm i -g gulp
       - run:
           name: Package Install
-          command: npm ci
+          command: npm install # npm ci -- update node
       - run:
           name: lint
           command: npm run lint
