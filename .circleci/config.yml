@@ -14,12 +14,12 @@ jobs:
       - run:
           name: NPM Auth
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
-      - run:
-          name: Install Global Deps
-          command: sudo npm i -g gulp
+      # - run:
+      #     name: Install Global Deps
+      #     command: sudo npm i -g gulp
       - run:
           name: Package Install
-          command: npm i
+          command: npm ci
       - run:
           name: lint
           command: npm run lint
