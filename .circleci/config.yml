@@ -15,6 +15,9 @@ jobs:
           name: NPM Auth
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
       - run:
+          name: Install Global Deps
+          command: npm i -g gulp-cli
+      - run:
           name: Package Install
           command: npm ci
       - run:
