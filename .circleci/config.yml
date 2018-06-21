@@ -14,13 +14,13 @@ jobs:
       - run:
           name: NPM Auth
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
-      - run: npm cache clean --force
+      - run: node_modules ls
       - run:
           name: Install Global Deps
           command: sudo npm i -g gulp
       - run:
           name: Package Install
-          command: npm ci
+          command: npm i
       - run:
           name: lint
           command: npm run lint
