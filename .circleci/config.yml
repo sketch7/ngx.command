@@ -1,9 +1,9 @@
 version: 2
 jobs:
   build:
-    working_directory: /app
+    working_directory: ~/repo
     docker:
-      - image: node:8.6.0
+      - image: circleci/node:9.11 #10.4 -- not working with gulp
     steps:
       - run:
           name: Print environment versions
@@ -12,11 +12,11 @@ jobs:
             echo npm version':' $NPM_V
       - checkout
       - run:
+          name: NPM Auth
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
+      - run:
           name: Package Install
-          command: |
-            echo -e "$NPM_USER\n$NPM_PWD\n$NPM_EMAIL" | npm login --scope=@ssv
-            npm i
-            npm i gulp -g
+          command: npm install # npm ci -- update node
       - run:
           name: lint
           command: npm run lint
