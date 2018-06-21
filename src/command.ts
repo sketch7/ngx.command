@@ -1,8 +1,4 @@
-import { Observable } from "rxjs/Observable";
-import { combineLatest } from "rxjs/observable/combineLatest";
-import { Subscription } from "rxjs/Subscription";
-import { Subject } from "rxjs/Subject";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { Observable, combineLatest, Subscription, Subject, BehaviorSubject } from "rxjs";
 import { tap, map, filter, switchMap } from "rxjs/operators";
 
 export interface ICommand {

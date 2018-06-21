@@ -9,9 +9,7 @@ import {
 	Inject,
 	Renderer2,
 } from "@angular/core";
-import { Subscription } from "rxjs/Subscription";
-import { Observable } from "rxjs/Observable";
-import { empty } from "rxjs/observable/empty";
+import { Subscription, Observable, EMPTY } from "rxjs";
 import { tap, merge } from "rxjs/operators";
 
 import { CommandOptions, COMMAND_CONFIG, COMMAND_DEFAULT_CONFIG } from "./config";
@@ -78,7 +76,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 				})
 			);
 		} else {
-			isExecuting$ = empty<boolean>();
+			isExecuting$ = EMPTY;
 		}
 		this.data$$ = canExecute$.pipe(merge(isExecuting$)).subscribe();
 	}
