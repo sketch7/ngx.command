@@ -1,6 +1,6 @@
 {
   "name": "@ssv/ngx.command",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Command pattern implementation for angular. Command used to encapsulate information which is needed to perform an action.",
   "keywords": [
     "sketch7",
@@ -13,6 +13,7 @@
     "ui"
   ],
   "scripts": {
+    "start": "npm run build -- --watch",
     "test": "jest",
     "tdd": "jest --watch",
     "test-debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --env jest-environment-node-debug",
@@ -49,7 +50,7 @@
     "gulp-conventional-changelog": "^1.1.10",
     "jest": "^23.1.0",
     "jest-environment-node-debug": "^2.0.0",
-    "ng-packagr": "3.0.3",
+    "ng-packagr": "^4.0.0-rc.2",
     "reflect-metadata": "^0.1.12",
     "require-dir": "^1.0.0",
     "rimraf": "^2.6.2",
