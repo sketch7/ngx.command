@@ -54,7 +54,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 		const canExecute$ = this.command.canExecute$.pipe(
 			tap(x => {
-				console.log("[commandDirective::canExecute$]", x);
+				// console.log("[commandDirective::canExecute$]", x);
 				this.isDisabled = !x;
 				this.cdr.markForCheck();
 			})
