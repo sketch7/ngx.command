@@ -8,6 +8,7 @@ import {
 	ElementRef,
 	Inject,
 	Renderer2,
+	ChangeDetectorRef
 } from "@angular/core";
 import { Subscription, Observable, EMPTY } from "rxjs";
 import { tap, merge } from "rxjs/operators";
@@ -35,7 +36,8 @@ export class CommandDirective implements OnInit, OnDestroy {
 	constructor(
 		@Inject(COMMAND_CONFIG) private config: CommandOptions,
 		private renderer: Renderer2,
-		private element: ElementRef
+		private element: ElementRef,
+		private cdr: ChangeDetectorRef,
 	) {}
 
 	ngOnInit() {
@@ -54,6 +56,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 			tap(x => {
 				// console.log("[commandDirective::canExecute$]", x);
 				this.isDisabled = !x;
+				this.cdr.markForCheck();
 			})
 		);
 
