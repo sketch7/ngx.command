@@ -14,7 +14,7 @@ import { Subscription, Observable, EMPTY } from "rxjs";
 import { tap, merge } from "rxjs/operators";
 
 import { CommandOptions, COMMAND_CONFIG, COMMAND_DEFAULT_CONFIG } from "./config";
-import { ICommand } from "./command";
+import { ICommand, Command } from "./command";
 
 /**
  *
@@ -24,14 +24,15 @@ import { ICommand } from "./command";
  * ```
  */
 @Directive({
-	selector: "[command]",
+	selector: "[command],[ssvCommand]",
 })
 export class CommandDirective implements OnInit, OnDestroy {
-	@Input() command!: ICommand;
+	@Input() command!: ICommand | CommandArg | undefined;
 	@Input() commandOptions!: CommandOptions;
 	@HostBinding("disabled") isDisabled: boolean | undefined;
 
 	private data$$!: Subscription;
+	private _command: ICommand;
 
 	constructor(
 		@Inject(COMMAND_CONFIG) private config: CommandOptions,
@@ -41,7 +42,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 	) {}
 
 	ngOnInit() {
-		// console.log("[commandDirective::init]");
+		console.log("[commandDirective::init]");
 		this.commandOptions = {
 			...COMMAND_DEFAULT_CONFIG,
 			...this.config,
@@ -50,9 +51,15 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 		if (!this.command) {
 			throw new Error("[commandDirective] [command] should be defined!");
+		} else if (isCommandArg(this.command)) {
+			const isAsync = this.command.isAsync || this.command.isAsync === undefined;
+			console.log("[commandDirective::set from arg]", {isAsync});
+			this._command = new Command(this.command.execute, this.command.canExecute, isAsync);
+		} else {
+			throw new Error("[commandDirective] [command] is not defined properly!");
 		}
 
-		const canExecute$ = this.command.canExecute$.pipe(
+		const canExecute$ = this._command.canExecute$.pipe(
 			tap(x => {
 				// console.log("[commandDirective::canExecute$]", x);
 				this.isDisabled = !x;
@@ -61,8 +68,8 @@ export class CommandDirective implements OnInit, OnDestroy {
 		);
 
 		let isExecuting$: Observable<boolean>;
-		if (this.command.isExecuting$) {
-			isExecuting$ = this.command.isExecuting$.pipe(
+		if (this._command.isExecuting$) {
+			isExecuting$ = this._command.isExecuting$.pipe(
 				tap(x => {
 					// console.log("[commandDirective::isExecuting$]", x);
 					if (x) {
@@ -87,12 +94,27 @@ export class CommandDirective implements OnInit, OnDestroy {
 	@HostListener("click")
 	onClick() {
 		// console.log("[commandDirective::onClick]");
-		this.command.execute();
+		this._command.execute();
 	}
 
 	ngOnDestroy() {
 		// console.log("[commandDirective::destroy]");
-		this.command.destroy();
+		this._command.destroy();
 		this.data$$.unsubscribe();
 	}
+}
+
+export interface CommandArg {
+	execute: () => Observable<any> | Promise<any> | void;
+	canExecute?: Observable<boolean>;
+	isAsync?: boolean;
+}
+
+function isCommandArg(arg: any): arg is CommandArg {
+	if (arg instanceof Command) {
+		return false;
+	} else if (arg.execute) {
+		return true;
+	}
+	return false;
 }
