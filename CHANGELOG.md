@@ -2,8 +2,10 @@
 
 ## Features
 
- - **command ref:** implemented `ssvCommandRef` directive, which creates a new instance and able to share it in views (useful for loops)
+ - **command ref:** implement `ssvCommandRef` directive, which creates a new instance and able to share it in views (useful for loops)
  - **command:** `execute` now take `...args: any[]`
+ - **command:** implement `subscribe`, `unsubscribe` to be able to auto destroy while still having control
+ - **command:** optionally set `autoDestroy` (defaults to `true`), to auto destroy when subscribers are `0`.
  - **command directive:** add `commandParams` input, arguments which are passed as execute arguments
  - **command directive:** now takes a command creator which is now able to create command `[command]="{execute: removeHero$, canExecute: isValid$, params: [hero, 1337, 'xx']}"`
 

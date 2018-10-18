@@ -10,10 +10,20 @@ export interface ICommand {
 	/** Determines whether the command can execute or not, as an observable. */
 	readonly canExecute$: Observable<boolean>;
 
+	/** Determines whether to auto destroy when having 0 subscribers (defaults to `true`). */
+	autoDestroy: boolean;
+
 	/** Execute function to invoke. */
 	execute(...args: any[]): void;
+
 	/** Disposes all resources held by subscriptions. */
 	destroy(): void;
+
+	/** Subscribe listener, in order to handle auto disposing. */
+	subscribe(): void;
+
+	/** Unsubscribe listener, in order to handle auto disposing. */
+	unsubscribe(): void;
 }
 
 export interface CommandCreator {

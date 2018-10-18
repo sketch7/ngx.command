@@ -103,6 +103,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 			throw new Error("[commandDirective] [command] is not defined properly!");
 		}
 
+		this.command.subscribe();
 		const canExecute$ = this.command.canExecute$.pipe(
 			tap(x => {
 				// console.log("[commandDirective::canExecute$]", x);
@@ -147,7 +148,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 	ngOnDestroy() {
 		// console.log("[commandDirective::destroy]");
-		this.command.destroy();
+		this.command.unsubscribe();
 		this.data$$.unsubscribe();
 	}
 }
