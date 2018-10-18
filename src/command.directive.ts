@@ -27,7 +27,7 @@ import { CommandDirectiveArg, ICommand } from "./command.model";
  * ```
  */
 @Directive({
-	selector: "[command],[ssvCommand]",
+	selector: "[command]",
 })
 export class CommandDirective implements OnInit, OnDestroy {
 	@Input() command!: ICommand | CommandDirectiveArg | undefined;
