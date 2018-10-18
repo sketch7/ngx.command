@@ -5,11 +5,11 @@ import { isCommandArg } from "./command.util";
 import { Command } from "./command";
 
 @Directive({
-	selector: "[commandRef]",
-	exportAs: "commandRef"
+	selector: "[ssvCommandRef]",
+	exportAs: "ssvCommandRef"
 })
 export class CommandRefDirective implements OnInit, OnDestroy {
-	@Input("commandRef") commandInput!: ICommand | CommandDirectiveArg | undefined;
+	@Input("ssvCommandRef") commandInput!: ICommand | CommandDirectiveArg | undefined;
 
 	command: Readonly<ICommand>;
 
