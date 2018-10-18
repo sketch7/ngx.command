@@ -1,21 +1,7 @@
 import { Observable, combineLatest, Subscription, Subject, BehaviorSubject } from "rxjs";
 import { tap, map, filter, switchMap } from "rxjs/operators";
+import { ICommand } from "./command.model";
 
-export interface ICommand {
-	/** Determines whether the command is currently executing, as a snapshot value. */
-	readonly isExecuting: boolean;
-	/** Determines whether the command is currently executing, as an observable. */
-	readonly isExecuting$: Observable<boolean>;
-	/** Determines whether the command can execute or not, as a snapshot value. */
-	readonly canExecute: boolean;
-	/** Determines whether the command can execute or not, as an observable. */
-	readonly canExecute$: Observable<boolean>;
-
-	/** Execute function to invoke. */
-	execute(): void;
-	/** Disposes all resources held by subscriptions. */
-	destroy(): void;
-}
 
 /**
  * Command object used to encapsulate information which is needed to perform an action.

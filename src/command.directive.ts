@@ -8,13 +8,16 @@ import {
 	ElementRef,
 	Inject,
 	Renderer2,
-	ChangeDetectorRef
+	ChangeDetectorRef,
+	ViewContainerRef,
 } from "@angular/core";
 import { Subscription, Observable, EMPTY } from "rxjs";
 import { tap, merge } from "rxjs/operators";
 
 import { CommandOptions, COMMAND_CONFIG, COMMAND_DEFAULT_CONFIG } from "./config";
-import { ICommand, Command } from "./command";
+import { Command } from "./command";
+import { isCommand, isCommandArg } from "./command.util";
+import { CommandDirectiveArg, ICommand } from "./command.model";
 
 /**
  *
@@ -27,8 +30,9 @@ import { ICommand, Command } from "./command";
 	selector: "[command],[ssvCommand]",
 })
 export class CommandDirective implements OnInit, OnDestroy {
-	@Input() command!: ICommand | CommandArg | undefined;
+	@Input() command!: ICommand | CommandDirectiveArg | undefined;
 	@Input() commandOptions!: CommandOptions;
+	@Input() commandParams: any;
 	@HostBinding("disabled") isDisabled: boolean | undefined;
 
 	private data$$!: Subscription;
@@ -39,10 +43,11 @@ export class CommandDirective implements OnInit, OnDestroy {
 		private renderer: Renderer2,
 		private element: ElementRef,
 		private cdr: ChangeDetectorRef,
-	) {}
+		private viewContainer: ViewContainerRef
+	) { }
 
 	ngOnInit() {
-		console.log("[commandDirective::init]");
+		// console.log("[commandDirective::init]");
 		this.commandOptions = {
 			...COMMAND_DEFAULT_CONFIG,
 			...this.config,
@@ -51,10 +56,16 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 		if (!this.command) {
 			throw new Error("[commandDirective] [command] should be defined!");
+		} else if (isCommand(this.command)) {
+			this._command = this.command;
 		} else if (isCommandArg(this.command)) {
 			const isAsync = this.command.isAsync || this.command.isAsync === undefined;
-			console.log("[commandDirective::set from arg]", {isAsync});
-			this._command = new Command(this.command.execute, this.command.canExecute, isAsync);
+			const hostComponent = (this.viewContainer as any)._view.component;
+
+			const execFn = this.command.params
+			? this.command.execute.bind(hostComponent,  ...this.command.params)
+			: this.command.execute.bind(hostComponent);
+			this._command = new Command(execFn, this.command.canExecute, isAsync);
 		} else {
 			throw new Error("[commandDirective] [command] is not defined properly!");
 		}
@@ -102,19 +113,4 @@ export class CommandDirective implements OnInit, OnDestroy {
 		this._command.destroy();
 		this.data$$.unsubscribe();
 	}
-}
-
-export interface CommandArg {
-	execute: () => Observable<any> | Promise<any> | void;
-	canExecute?: Observable<boolean>;
-	isAsync?: boolean;
-}
-
-function isCommandArg(arg: any): arg is CommandArg {
-	if (arg instanceof Command) {
-		return false;
-	} else if (arg.execute) {
-		return true;
-	}
-	return false;
 }
