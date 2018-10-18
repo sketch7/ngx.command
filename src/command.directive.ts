@@ -43,11 +43,12 @@ import { CommandCreator, ICommand } from "./command.model";
  * ```html
  * <button [command]="saveCmd" [commandParams]="{id: 1}">Save</button>
  * ```
- *
+ * *NOTE: if you have only 1 argument, and it should be an array, it should be as enclosed within an array e.g. `[['apple', 'banana']]`,
+ * else it will spread and you will `arg1: "apple", arg2: "banana"`*
  *
   * #### With multi params
  * ```html
- * <button [command]="saveCmd" [commandParams]="[{id: 1}, "hello", hero]">Save</button>
+ * <button [command]="saveCmd" [commandParams]="[{id: 1}, 'hello', hero]">Save</button>
  * ```
  *
  * ### Usage with Command Creator
@@ -68,7 +69,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 	@Input() commandParams: any;
 	@HostBinding("disabled") isDisabled: boolean | undefined;
 
-	Command: Readonly<ICommand>;
+	command: Readonly<ICommand>;
 	private data$$!: Subscription;
 
 	constructor(
@@ -90,19 +91,19 @@ export class CommandDirective implements OnInit, OnDestroy {
 		if (!this.commandInput) {
 			throw new Error("[commandDirective] [command] should be defined!");
 		} else if (isCommand(this.commandInput)) {
-			this.Command = this.commandInput;
+			this.command = this.commandInput;
 		} else if (isCommandCreator(this.commandInput)) {
 			const isAsync = this.commandInput.isAsync || this.commandInput.isAsync === undefined;
 			const hostComponent = (this.viewContainer as any)._view.component;
 
 			const execFn = this.commandInput.execute.bind(hostComponent);
 			this.commandParams = this.commandParams || this.commandInput.params;
-			this.Command = new Command(execFn, this.commandInput.canExecute, isAsync);
+			this.command = new Command(execFn, this.commandInput.canExecute, isAsync);
 		} else {
 			throw new Error("[commandDirective] [command] is not defined properly!");
 		}
 
-		const canExecute$ = this.Command.canExecute$.pipe(
+		const canExecute$ = this.command.canExecute$.pipe(
 			tap(x => {
 				// console.log("[commandDirective::canExecute$]", x);
 				this.isDisabled = !x;
@@ -111,8 +112,8 @@ export class CommandDirective implements OnInit, OnDestroy {
 		);
 
 		let isExecuting$: Observable<boolean>;
-		if (this.Command.isExecuting$) {
-			isExecuting$ = this.Command.isExecuting$.pipe(
+		if (this.command.isExecuting$) {
+			isExecuting$ = this.command.isExecuting$.pipe(
 				tap(x => {
 					// console.log("[commandDirective::isExecuting$]", x);
 					if (x) {
@@ -136,13 +137,17 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 	@HostListener("click")
 	onClick() {
-		// console.log("[commandDirective::onClick]");
-		this.Command.execute(this.commandParams);
+		// console.log("[commandDirective::onClick]", this.commandParams);
+		if (Array.isArray(this.commandParams)) {
+			this.command.execute(...this.commandParams);
+		} else {
+			this.command.execute(this.commandParams);
+		}
 	}
 
 	ngOnDestroy() {
 		// console.log("[commandDirective::destroy]");
-		this.Command.destroy();
+		this.command.destroy();
 		this.data$$.unsubscribe();
 	}
 }

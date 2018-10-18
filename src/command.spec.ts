@@ -60,6 +60,35 @@ describe("CommandSpecs", () => {
 			});
 		});
 
+		describe("when args are passed", () => {
+			beforeEach(() => {
+				const isInitialValid = true;
+				SUT = new Command(executeSpyFn, new BehaviorSubject<boolean>(isInitialValid));
+			});
+
+			fit("and has 1 param should receive 1 arg", () => {
+				const args = { name: "rexxar" };
+				SUT.execute(args);
+				expect(executeSpyFn).toHaveBeenCalledTimes(1);
+				expect(executeSpyFn).toHaveBeenCalledWith(args);
+			});
+
+			fit("and is array param should not spread", () => {
+				const hero = { name: "rexxar" };
+				const args = [hero, "yello"];
+				SUT.execute(args);
+				expect(executeSpyFn).toHaveBeenCalledTimes(1);
+				expect(executeSpyFn).toHaveBeenCalledWith([hero, "yello"]);
+			});
+
+			fit("and multi args are pass should receive all", () => {
+				const hero = { name: "rexxar" };
+				SUT.execute(hero, "yello");
+				expect(executeSpyFn).toHaveBeenCalledTimes(1);
+				expect(executeSpyFn).toHaveBeenCalledWith(hero, "yello");
+			});
+		});
+
 		describe("when canExecute is false", () => {
 			beforeEach(() => {
 				const isInitialValid = false;

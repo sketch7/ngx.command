@@ -71,11 +71,12 @@ export class Command implements ICommand {
 	/** Execute function to invoke. */
 	execute(...args: any[]) {
 		// console.warn("[command::execute]", args);
-		this.executionPipe$.next(...args);
+		this.executionPipe$.next(args);
 	}
 
 	/** Disposes all resources held by subscriptions. */
 	destroy() {
+		// console.warn("[command::destroy]");
 		if (this.executionPipe$$) {
 			this.executionPipe$$.unsubscribe();
 		}
