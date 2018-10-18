@@ -16,7 +16,7 @@ export interface ICommand {
 	destroy(): void;
 }
 
-export interface CommandDirectiveArg {
+export interface CommandCreator {
 	execute: (...args: any[]) => Observable<any> | Promise<any> | void;
 	canExecute?: Observable<boolean>;
 	params: any | any[];

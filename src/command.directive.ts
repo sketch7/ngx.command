@@ -16,8 +16,8 @@ import { tap, merge } from "rxjs/operators";
 
 import { CommandOptions, COMMAND_CONFIG, COMMAND_DEFAULT_CONFIG } from "./config";
 import { Command } from "./command";
-import { isCommand, isCommandArg } from "./command.util";
-import { CommandDirectiveArg, ICommand } from "./command.model";
+import { isCommand, isCommandCreator } from "./command.util";
+import { CommandCreator, ICommand } from "./command.model";
 
 /**
  * Controls the state of a component in sync with `Command`.
@@ -50,7 +50,7 @@ import { CommandDirectiveArg, ICommand } from "./command.model";
  * <button [command]="saveCmd" [commandParams]="[{id: 1}, "hello", hero]">Save</button>
  * ```
  *
- * ### Usage with Command Directive Args
+ * ### Usage with Command Creator
  * This is useful for collections (loops) or using multiple actions with different args, whilst not sharing `isExecuting`.
  *
  *
@@ -63,7 +63,7 @@ import { CommandDirectiveArg, ICommand } from "./command.model";
 	selector: "[command]",
 })
 export class CommandDirective implements OnInit, OnDestroy {
-	@Input("command") commandInput!: ICommand | CommandDirectiveArg | undefined;
+	@Input("command") commandInput!: ICommand | CommandCreator | undefined;
 	@Input() commandOptions!: CommandOptions;
 	@Input() commandParams: any;
 	@HostBinding("disabled") isDisabled: boolean | undefined;
@@ -91,7 +91,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 			throw new Error("[commandDirective] [command] should be defined!");
 		} else if (isCommand(this.commandInput)) {
 			this.Command = this.commandInput;
-		} else if (isCommandArg(this.commandInput)) {
+		} else if (isCommandCreator(this.commandInput)) {
 			const isAsync = this.commandInput.isAsync || this.commandInput.isAsync === undefined;
 			const hostComponent = (this.viewContainer as any)._view.component;
 

@@ -10,3 +10,4 @@ indent_size = 2
 
 [*.md]
 indent_style = spaces
+indent_size = 2
