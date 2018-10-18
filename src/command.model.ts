@@ -11,13 +11,13 @@ export interface ICommand {
 	readonly canExecute$: Observable<boolean>;
 
 	/** Execute function to invoke. */
-	execute(): void;
+	execute(...args: any[]): void;
 	/** Disposes all resources held by subscriptions. */
 	destroy(): void;
 }
 
 export interface CommandDirectiveArg {
-	execute: () => Observable<any> | Promise<any> | void;
+	execute: (...args: any[]) => Observable<any> | Promise<any> | void;
 	canExecute?: Observable<boolean>;
 	params: any | any[];
 	isAsync?: boolean;

@@ -62,9 +62,8 @@ export class CommandDirective implements OnInit, OnDestroy {
 			const isAsync = this.command.isAsync || this.command.isAsync === undefined;
 			const hostComponent = (this.viewContainer as any)._view.component;
 
-			const execFn = this.command.params
-			? this.command.execute.bind(hostComponent,  ...this.command.params)
-			: this.command.execute.bind(hostComponent);
+			const execFn = this.command.execute.bind(hostComponent);
+			this.commandParams = this.commandParams || this.command.params;
 			this._command = new Command(execFn, this.command.canExecute, isAsync);
 		} else {
 			throw new Error("[commandDirective] [command] is not defined properly!");
@@ -105,7 +104,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 	@HostListener("click")
 	onClick() {
 		// console.log("[commandDirective::onClick]");
-		this._command.execute();
+		this._command.execute(this.commandParams);
 	}
 
 	ngOnDestroy() {

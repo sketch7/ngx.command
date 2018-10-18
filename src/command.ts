@@ -28,7 +28,7 @@ export class Command implements ICommand {
 	private _isExecuting$ = new BehaviorSubject<boolean>(false);
 	private _isExecuting = false;
 	private _canExecute = true;
-	private executionPipe$ = new Subject<{}>();
+	private executionPipe$ = new Subject<any[] | undefined | {}>();
 	private isExecuting$$: Subscription | undefined;
 	private canExecute$$: Subscription | undefined;
 	private executionPipe$$: Subscription | undefined;
@@ -40,7 +40,7 @@ export class Command implements ICommand {
 	 * @param canExecute Observable which determines whether it can execute or not.
 	 * @param isAsync Indicates that the execute function is async e.g. Observable.
 	 */
-	constructor(execute: () => any, canExecute$?: Observable<boolean>, isAsync?: boolean) {
+	constructor(execute: (...args: any[]) => any, canExecute$?: Observable<boolean>, isAsync?: boolean) {
 		if (canExecute$) {
 			this.canExecute$ = combineLatest(
 				this._isExecuting$,
@@ -69,8 +69,9 @@ export class Command implements ICommand {
 	}
 
 	/** Execute function to invoke. */
-	execute() {
-		this.executionPipe$.next({});
+	execute(...args: any[]) {
+		// console.warn("[command::execute]", args);
+		this.executionPipe$.next(...args);
 	}
 
 	/** Disposes all resources held by subscriptions. */
@@ -86,16 +87,29 @@ export class Command implements ICommand {
 		}
 	}
 
-	private buildExecutionPipe(execute: () => any, isAsync?: boolean): Observable<{}> {
+	private buildExecutionPipe(execute: (...args: any[]) => any, isAsync?: boolean): Observable<any> {
 		let pipe$ = this.executionPipe$.pipe(
 			filter(() => this._canExecute),
-			tap(() => {
-				// console.log("[command::excutionPipe$] do#1 - set execute");
+			tap(x => {
+				// console.log("[command::excutionPipe$] do#1 - set execute", { args: x });
 				this._isExecuting$.next(true);
 			})
 		);
 
-		const execFn = isAsync ? switchMap(execute) : tap(execute);
+		const execFn = isAsync
+			? switchMap((args: any[] | undefined) => {
+				if (args) {
+					return execute(...args);
+				}
+				return execute();
+			})
+			: tap((args: any[] | undefined) => {
+				if (args) {
+					execute(...args);
+					return;
+				}
+				execute();
+			});
 
 		pipe$ = pipe$.pipe(
 			execFn,
@@ -120,7 +134,7 @@ export class Command implements ICommand {
  */
 export class CommandAsync extends Command {
 	constructor(
-		execute: () => Observable<any> | Promise<any>,
+		execute: (...args: any[]) => Observable<any> | Promise<any>,
 		canExecute$?: Observable<boolean>
 	) {
 		super(execute, canExecute$, true);
