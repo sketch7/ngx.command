@@ -43,7 +43,7 @@ import { CommandCreator, ICommand } from "./command.model";
  * ```html
  * <button [command]="saveCmd" [commandParams]="{id: 1}">Save</button>
  * ```
- * *NOTE: if you have only 1 argument, and it should be an array, it should be as enclosed within an array e.g. `[['apple', 'banana']]`,
+ * *NOTE: if you have only 1 argument as an array, it should be enclosed within an array e.g. `[['apple', 'banana']]`,
  * else it will spread and you will `arg1: "apple", arg2: "banana"`*
  *
   * #### With multi params
@@ -66,7 +66,7 @@ import { CommandCreator, ICommand } from "./command.model";
 export class CommandDirective implements OnInit, OnDestroy {
 	@Input("command") commandInput!: ICommand | CommandCreator | undefined;
 	@Input() commandOptions!: CommandOptions;
-	@Input() commandParams: any;
+	@Input() commandParams: any | any[];
 	@HostBinding("disabled") isDisabled: boolean | undefined;
 
 	command: Readonly<ICommand>;

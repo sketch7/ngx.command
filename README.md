@@ -89,7 +89,7 @@ This is useful for collections (loops) or using multiple actions with different 
 <!-- with single param -->
 <button [command]="saveCmd" [commandParams]="{id: 1}">Save</button>
 <!-- 
-  NOTE: if you have only 1 argument, and it should be an array, it should be as enclosed within an array e.g. [['apple', 'banana']], 
+  NOTE: if you have only 1 argument as an array, it should be enclosed within an array e.g. [['apple', 'banana']], 
   else it will spread and you will arg1: "apple", arg2: "banana"
 -->
 
