@@ -1,21 +1,7 @@
 import { Observable, combineLatest, Subscription, Subject, BehaviorSubject } from "rxjs";
 import { tap, map, filter, switchMap } from "rxjs/operators";
+import { ICommand } from "./command.model";
 
-export interface ICommand {
-	/** Determines whether the command is currently executing, as a snapshot value. */
-	readonly isExecuting: boolean;
-	/** Determines whether the command is currently executing, as an observable. */
-	readonly isExecuting$: Observable<boolean>;
-	/** Determines whether the command can execute or not, as a snapshot value. */
-	readonly canExecute: boolean;
-	/** Determines whether the command can execute or not, as an observable. */
-	readonly canExecute$: Observable<boolean>;
-
-	/** Execute function to invoke. */
-	execute(): void;
-	/** Disposes all resources held by subscriptions. */
-	destroy(): void;
-}
 
 /**
  * Command object used to encapsulate information which is needed to perform an action.
@@ -36,16 +22,20 @@ export class Command implements ICommand {
 		return this._isExecuting$.asObservable();
 	}
 
+	/** Determines whether to auto destroy when having 0 subscribers. */
+	autoDestroy = true;
+
 	/** Determines whether the command can execute or not, as an observable. */
 	readonly canExecute$: Observable<boolean>;
 
 	private _isExecuting$ = new BehaviorSubject<boolean>(false);
 	private _isExecuting = false;
 	private _canExecute = true;
-	private executionPipe$ = new Subject<{}>();
+	private executionPipe$ = new Subject<any[] | undefined | {}>();
 	private isExecuting$$: Subscription | undefined;
 	private canExecute$$: Subscription | undefined;
 	private executionPipe$$: Subscription | undefined;
+	private subscribersCount = 0;
 
 	/**
 	 * Creates an instance of Command.
@@ -54,7 +44,11 @@ export class Command implements ICommand {
 	 * @param canExecute Observable which determines whether it can execute or not.
 	 * @param isAsync Indicates that the execute function is async e.g. Observable.
 	 */
-	constructor(execute: () => any, canExecute$?: Observable<boolean>, isAsync?: boolean) {
+	constructor(
+		execute: (...args: any[]) => any,
+		canExecute$?: Observable<boolean>,
+		isAsync?: boolean,
+	) {
 		if (canExecute$) {
 			this.canExecute$ = combineLatest(
 				this._isExecuting$,
@@ -83,12 +77,14 @@ export class Command implements ICommand {
 	}
 
 	/** Execute function to invoke. */
-	execute() {
-		this.executionPipe$.next({});
+	execute(...args: any[]) {
+		// console.warn("[command::execute]", args);
+		this.executionPipe$.next(args);
 	}
 
 	/** Disposes all resources held by subscriptions. */
 	destroy() {
+		// console.warn("[command::destroy]");
 		if (this.executionPipe$$) {
 			this.executionPipe$$.unsubscribe();
 		}
@@ -100,16 +96,41 @@ export class Command implements ICommand {
 		}
 	}
 
-	private buildExecutionPipe(execute: () => any, isAsync?: boolean): Observable<{}> {
+	subscribe() {
+		this.subscribersCount++;
+	}
+
+	unsubscribe() {
+		this.subscribersCount--;
+		// console.log("[command::unsubscribe]", { autoDestroy: this.autoDestroy, subscribersCount: this.subscribersCount });
+		if (this.autoDestroy && this.subscribersCount <= 0) {
+			this.destroy();
+		}
+	}
+
+	private buildExecutionPipe(execute: (...args: any[]) => any, isAsync?: boolean): Observable<any> {
 		let pipe$ = this.executionPipe$.pipe(
 			filter(() => this._canExecute),
 			tap(() => {
-				// console.log("[command::excutionPipe$] do#1 - set execute");
+				// console.log("[command::excutionPipe$] do#1 - set execute", { args: x });
 				this._isExecuting$.next(true);
 			})
 		);
 
-		const execFn = isAsync ? switchMap(execute) : tap(execute);
+		const execFn = isAsync
+			? switchMap((args: any[] | undefined) => {
+				if (args) {
+					return execute(...args);
+				}
+				return execute();
+			})
+			: tap((args: any[] | undefined) => {
+				if (args) {
+					execute(...args);
+					return;
+				}
+				execute();
+			});
 
 		pipe$ = pipe$.pipe(
 			execFn,
@@ -134,8 +155,8 @@ export class Command implements ICommand {
  */
 export class CommandAsync extends Command {
 	constructor(
-		execute: () => Observable<any> | Promise<any>,
-		canExecute$?: Observable<boolean>
+		execute: (...args: any[]) => Observable<any> | Promise<any>,
+		canExecute$?: Observable<boolean>,
 	) {
 		super(execute, canExecute$, true);
 	}

@@ -35,9 +35,9 @@ npm install @ssv/ngx.command
 import { CommandModule } from "@ssv/ngx.command";
 
 @NgModule({
-    imports: [
-        CommandModule
-    ]
+  imports: [
+    CommandModule
+  ]
 }
 export class AppModule {
 }
@@ -76,9 +76,32 @@ Generally used on a `<button>` as below.
 
 <!-- using isExecuting + showing spinner -->
 <button [command]="saveCmd">
-    <i *ngIf="saveCmd.isExecuting" class="ai-circled ai-indicator ai-dark-spin small"></i>
-    Save
+  <i *ngIf="saveCmd.isExecuting" class="ai-circled ai-indicator ai-dark-spin small"></i>
+  Save
 </button>
+```
+
+#### Usage with params
+This is useful for collections (loops) or using multiple actions with different args.
+*NOTE: This will share the `isExecuting` when used with multiple controls.*
+
+```html
+<!-- with single param -->
+<button [command]="saveCmd" [commandParams]="{id: 1}">Save</button>
+<!-- 
+  NOTE: if you have only 1 argument as an array, it should be enclosed within an array e.g. [['apple', 'banana']], 
+  else it will spread and you will arg1: "apple", arg2: "banana"
+-->
+
+ <!-- with multi params -->
+<button [command]="saveCmd" [commandParams]="[{id: 1}, 'hello', hero]">Save</button>
+```
+
+#### Usage with command creator
+This is useful for collections (loops) or using multiple actions with different args, whilst not sharing `isExecuting`.
+
+```html
+<button [command]="{execute: removeHero$, canExecute: isValid$, params: [hero, 1337, 'xx']}">Save</button>
 ```
 
 ## Usage without Attribute
@@ -92,6 +115,22 @@ It can also be used as below without the command attribute.
 </button>
 ```
 
+## CommandRef Attribute (directive)
+Command creator ref, directive which allows creating Command in the template and associate it to a command (in order to share executions).
+
+```html
+<div *ngFor="let hero of heroes">
+  <div #actionCmd="ssvCommandRef" [ssvCommandRef]="{execute: removeHero$, canExecute: isValid$}" class="button-group">
+    <button [command]="actionCmd.command" [commandParams]="hero">
+      Remove
+    </button>
+    <button [command]="actionCmd.command" [commandParams]="hero">
+      Remove
+    </button>
+  </div>
+</div>
+```
+
 ## Configure
 In order to configure globally, you can do so as following:
 
@@ -103,15 +142,16 @@ import { CommandModule } from "@ssv/ngx.command";
     ],
 ```
 
+
 ## Getting Started
 
 ### Setup Machine for Development
 
 Install/setup the following:
 
-* NodeJS v9+
+* NodeJS v10+
 * Visual Studio Code or similar code editor
-* TypeScript 2.6+
+* TypeScript 2.7+
 * Git + SourceTree, SmartGit or similar (optional)
 * Ensure to install **global NPM modules** using the following:
 

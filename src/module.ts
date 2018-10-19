@@ -1,6 +1,7 @@
 import { NgModule, ModuleWithProviders, InjectionToken } from "@angular/core";
 
 import { CommandDirective } from "./command.directive";
+import { CommandRefDirective } from "./command-ref.directive";
 import { CommandOptions, COMMAND_DEFAULT_CONFIG, COMMAND_CONFIG } from "./config";
 
 /**
@@ -11,9 +12,9 @@ export const _MODULE_CONFIG = new InjectionToken<CommandOptions | (() => Command
 );
 
 @NgModule({
-	declarations: [CommandDirective],
+	declarations: [CommandDirective, CommandRefDirective],
 	providers: [{ provide: COMMAND_CONFIG, useValue: COMMAND_DEFAULT_CONFIG }],
-	exports: [CommandDirective],
+	exports: [CommandDirective, CommandRefDirective],
 })
 export class CommandModule {
 	static forRoot(config?: CommandOptions | (() => CommandOptions)): ModuleWithProviders {
