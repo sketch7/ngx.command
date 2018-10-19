@@ -119,13 +119,15 @@ It can also be used as below without the command attribute.
 Command creator ref, directive which allows creating Command in the template and associate it to a command (in order to share executions).
 
 ```html
-<div class="action button-group" #actionCmd="ssvCommandRef" [ssvCommandRef]="{execute: removeHero$, canExecute: isValid$}">
-  <button [command]="actionCmd.command" [commandParams]="hero">
-    Remove
-  </button>
-  <button [command]="actionCmd.command" [commandParams]="hero">
-    Remove
-  </button>
+<div *ngFor="let hero of heroes">
+  <div #actionCmd="ssvCommandRef" [ssvCommandRef]="{execute: removeHero$, canExecute: isValid$}" class="button-group">
+    <button [command]="actionCmd.command" [commandParams]="hero">
+      Remove
+    </button>
+    <button [command]="actionCmd.command" [commandParams]="hero">
+      Remove
+    </button>
+  </div>
 </div>
 ```
 
