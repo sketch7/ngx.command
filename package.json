@@ -19,7 +19,7 @@
     "test-debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --env jest-environment-node-debug",
     "test-devt": "devtool ./node_modules/jest/bin/jest.js --runInBand --env jest-environment-node-debug",
     "clean": "rimraf dist",
-    "lint": "gulp lint",
+    "lint": "tslint -p . -c tslint.json -t stylish",
     "build": "ng-packagr -p ng-package.json",
     "prepare-release": "gulp prepare-release",
     "publish:rel": "npm publish dist --access=public"
