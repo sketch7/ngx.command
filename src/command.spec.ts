@@ -66,14 +66,14 @@ describe("CommandSpecs", () => {
 				SUT = new Command(executeSpyFn, new BehaviorSubject<boolean>(isInitialValid));
 			});
 
-			fit("and has 1 param should receive 1 arg", () => {
+			it("and has 1 param should receive 1 arg", () => {
 				const args = { name: "rexxar" };
 				SUT.execute(args);
 				expect(executeSpyFn).toHaveBeenCalledTimes(1);
 				expect(executeSpyFn).toHaveBeenCalledWith(args);
 			});
 
-			fit("and is array param should not spread", () => {
+			it("and is array param should not spread", () => {
 				const hero = { name: "rexxar" };
 				const args = [hero, "yello"];
 				SUT.execute(args);
@@ -81,7 +81,7 @@ describe("CommandSpecs", () => {
 				expect(executeSpyFn).toHaveBeenCalledWith([hero, "yello"]);
 			});
 
-			fit("and multi args are pass should receive all", () => {
+			it("and multi args are pass should receive all", () => {
 				const hero = { name: "rexxar" };
 				SUT.execute(hero, "yello");
 				expect(executeSpyFn).toHaveBeenCalledTimes(1);
