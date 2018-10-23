@@ -1,13 +1,13 @@
 ## [1.1.1](https://github.com/sketch7/ngx.command/compare/1.1.0...1.1.1) (2018-10-20)
 
-## Features
+### Features
 
 - **deps:** now depends on `@angular/core >=6.0.0` to be compatible with v7
 
 
 ## [1.1.0](https://github.com/sketch7/ngx.command/compare/1.0.2...1.1.0) (2018-10-19)
 
-## Features
+### Features
 
 - **command ref:** implement `ssvCommandRef` directive, which creates a new instance and able to share it in views (useful for loops)
 - **command:** `execute` now take `...args: any[]`

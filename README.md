@@ -1,7 +1,7 @@
 [projecturi]: https://github.com/sketch7/ngx.command
 [projectgit]: https://github.com/sketch7/ngx.command.git
 [changelog]: ./CHANGELOG.md
-[releaseworkflowwiki]: ./doc/RELEASE-WORKFLOW.md
+[releaseworkflowwiki]: ./docs/RELEASE-WORKFLOW.md
 
 [npm]: https://www.npmjs.com
 [commandpatternwiki]: https://en.wikipedia.org/wiki/Command_pattern
