@@ -48,6 +48,8 @@ export class CommandRefDirective implements OnInit, OnDestroy {
 
 	ngOnDestroy() {
 		// console.log("[commandRef::destroy]");
-		this.command.destroy();
+		if (this.command) {
+			this.command.destroy();
+		}
 	}
 }
