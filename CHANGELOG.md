@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/sketch7/ngx.command/compare/1.1.1...1.1.2) (2018-11-02)
+
+### Bug Fixes
+
+- **directive:** wrap vars in if, as sometimes might not initialize and they will throw
+
+
 ## [1.1.1](https://github.com/sketch7/ngx.command/compare/1.1.0...1.1.1) (2018-10-20)
 
 ### Features

@@ -148,8 +148,12 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 	ngOnDestroy() {
 		// console.log("[commandDirective::destroy]");
-		this.command.unsubscribe();
-		this.data$$.unsubscribe();
+		if (this.command) {
+			this.command.unsubscribe();
+		}
+		if (this.data$$) {
+			this.data$$.unsubscribe();
+		}
 	}
 }
 
