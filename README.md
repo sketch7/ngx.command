@@ -71,10 +71,10 @@ Generally used on a `<button>` as below.
 
 ```html
 <!-- simple usage -->
-<button [command]="saveCmd">Save</button>
+<button [ssvCommand]="saveCmd">Save</button>
 
 <!-- using isExecuting + showing spinner -->
-<button [command]="saveCmd">
+<button [ssvCommand]="saveCmd">
   <i *ngIf="saveCmd.isExecuting" class="ai-circled ai-indicator ai-dark-spin small"></i>
   Save
 </button>
@@ -86,21 +86,21 @@ This is useful for collections (loops) or using multiple actions with different 
 
 ```html
 <!-- with single param -->
-<button [command]="saveCmd" [commandParams]="{id: 1}">Save</button>
+<button [ssvCommand]="saveCmd" [ssvCommandParams]="{id: 1}">Save</button>
 <!-- 
   NOTE: if you have only 1 argument as an array, it should be enclosed within an array e.g. [['apple', 'banana']], 
   else it will spread and you will arg1: "apple", arg2: "banana"
 -->
 
  <!-- with multi params -->
-<button [command]="saveCmd" [commandParams]="[{id: 1}, 'hello', hero]">Save</button>
+<button [ssvCommand]="saveCmd" [ssvCommandParams]="[{id: 1}, 'hello', hero]">Save</button>
 ```
 
 #### Usage with command creator
 This is useful for collections (loops) or using multiple actions with different args, whilst not sharing `isExecuting`.
 
 ```html
-<button [command]="{execute: removeHero$, canExecute: isValid$, params: [hero, 1337, 'xx']}">Save</button>
+<button [ssvCommand]="{execute: removeHero$, canExecute: isValid$, params: [hero, 1337, 'xx']}">Save</button>
 ```
 
 ## Usage without Attribute
@@ -120,15 +120,30 @@ Command creator ref, directive which allows creating Command in the template and
 ```html
 <div *ngFor="let hero of heroes">
   <div #actionCmd="ssvCommandRef" [ssvCommandRef]="{execute: removeHero$, canExecute: isValid$}" class="button-group">
-    <button [command]="actionCmd.command" [commandParams]="hero">
+    <button [ssvCommand]="actionCmd.command" [ssvCommandParams]="hero">
       Remove
     </button>
-    <button [command]="actionCmd.command" [commandParams]="hero">
+    <button [ssvCommand]="actionCmd.command" [ssvCommandParams]="hero">
       Remove
     </button>
   </div>
 </div>
 ```
+
+## Utils
+
+### canExecuteFromNgForm
+In order to use with `NgForm` easily, you can use the following utility method.
+This will make canExecute respond to `form.valid`.
+
+```ts
+import { CommandAsync, canExecuteFromNgForm } from "@ssv/ngx.command";
+
+ngOnInit() {
+  this.loginCmd = new CommandAsync(this.login.bind(this), canExecuteFromNgForm(this.form));
+}
+```
+
 
 ## Configure
 In order to configure globally, you can do so as following:

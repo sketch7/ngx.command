@@ -1,3 +1,7 @@
+import { NgForm } from "@angular/forms";
+import { Observable } from "rxjs";
+import { map, distinctUntilChanged } from "rxjs/operators";
+
 import { CommandCreator, ICommand } from "./command.model";
 import { Command } from "./command";
 
@@ -14,4 +18,12 @@ export function isCommandCreator(arg: any): arg is CommandCreator {
 		return true;
 	}
 	return false;
+}
+
+/** Get `NgForm.valid` as observable. */
+export function canExecuteFromNgForm(form: NgForm): Observable<boolean> {
+	return form.statusChanges!.pipe(
+		map(() => !!form.valid),
+		distinctUntilChanged(),
+	);
 }

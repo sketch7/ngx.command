@@ -24,13 +24,13 @@ import { CommandCreator, ICommand } from "./command.model";
  *
  * ### Most common usage
  * ```html
- * <button [command]="saveCmd">Save</button>
+ * <button [ssvCommand]="saveCmd">Save</button>
  * ```
  *
  *
  * ### Usage with options
  * ```html
- * <button [command]="saveCmd" [commandOptions]="{executingCssClass: 'in-progress'}">Save</button>
+ * <button [ssvCommand]="saveCmd" [ssvCommandOptions]="{executingCssClass: 'in-progress'}">Save</button>
  * ```
  *
  *
@@ -41,14 +41,14 @@ import { CommandCreator, ICommand } from "./command.model";
  * #### With single param
  *
  * ```html
- * <button [command]="saveCmd" [commandParams]="{id: 1}">Save</button>
+ * <button [ssvCommand]="saveCmd" [ssvCommandParams]="{id: 1}">Save</button>
  * ```
  * *NOTE: if you have only 1 argument as an array, it should be enclosed within an array e.g. `[['apple', 'banana']]`,
  * else it will spread and you will `arg1: "apple", arg2: "banana"`*
  *
   * #### With multi params
  * ```html
- * <button [command]="saveCmd" [commandParams]="[{id: 1}, 'hello', hero]">Save</button>
+ * <button [ssvCommand]="saveCmd" [ssvCommandParams]="[{id: 1}, 'hello', hero]">Save</button>
  * ```
  *
  * ### Usage with Command Creator
@@ -56,21 +56,44 @@ import { CommandCreator, ICommand } from "./command.model";
  *
  *
  * ```html
- * <button [command]="{execute: removeHero$, canExecute: isValid$, params: [hero, 1337, 'xx']}">Save</button>
+ * <button [ssvCommand]="{execute: removeHero$, canExecute: isValid$, params: [hero, 1337, 'xx']}">Save</button>
  * ```
  *
  */
 @Directive({
-	selector: "[command]",
+	selector: "[ssvCommand], [command]", // todo: @deprecated - remove `[command]` after next major
+	exportAs: "ssvCommand"
 })
 export class CommandDirective implements OnInit, OnDestroy {
-	@Input("command") commandInput!: ICommand | CommandCreator | undefined;
-	@Input() commandOptions!: CommandOptions;
-	@Input() commandParams: any | any[];
+
+	@Input("ssvCommand") commandOrCreator: ICommand | CommandCreator | undefined;
+
+	/** @deprecated Use `commandInput` instead. */
+	@Input("command")
+	get _commandOrCreator() { return this.commandOrCreator; }
+	set _commandOrCreator(value: ICommand | CommandCreator | undefined) {
+		this.commandOrCreator = value;
+	}
+	@Input("ssvCommandOptions") commandOptions!: CommandOptions;
+	/** @deprecated Use `commandOptions` instead. */
+	@Input("commandOptions")
+	get _commandOptions() { return this.commandOptions; }
+	set _commandOptions(value: CommandOptions) {
+		this.commandOptions = value;
+	}
+
+	@Input("ssvCommandParams") commandParams: any | any[];
+	/** @deprecated Use `commandParams` instead. */
+	@Input("commandParams")
+	get _commandParams() { return this.commandParams; }
+	set _commandParams(value: any | any[]) {
+		this.commandParams = value;
+	}
 	@HostBinding("disabled") isDisabled: boolean | undefined;
 
-	command: Readonly<ICommand>;
-	private data$$!: Subscription;
+	get command(): ICommand { return this._command; }
+	private _command: ICommand;
+	private data$$ = Subscription.EMPTY;
 
 	constructor(
 		@Inject(COMMAND_CONFIG) private config: CommandOptions,
@@ -88,23 +111,23 @@ export class CommandDirective implements OnInit, OnDestroy {
 			...this.commandOptions,
 		};
 
-		if (!this.commandInput) {
+		if (!this.commandOrCreator) {
 			throw new Error("[commandDirective] [command] should be defined!");
-		} else if (isCommand(this.commandInput)) {
-			this.command = this.commandInput;
-		} else if (isCommandCreator(this.commandInput)) {
-			const isAsync = this.commandInput.isAsync || this.commandInput.isAsync === undefined;
+		} else if (isCommand(this.commandOrCreator)) {
+			this._command = this.commandOrCreator;
+		} else if (isCommandCreator(this.commandOrCreator)) {
+			const isAsync = this.commandOrCreator.isAsync || this.commandOrCreator.isAsync === undefined;
 			const hostComponent = (this.viewContainer as any)._view.component;
 
-			const execFn = this.commandInput.execute.bind(hostComponent);
-			this.commandParams = this.commandParams || this.commandInput.params;
-			this.command = new Command(execFn, this.commandInput.canExecute, isAsync);
+			const execFn = this.commandOrCreator.execute.bind(hostComponent);
+			this.commandParams = this.commandParams || this.commandOrCreator.params;
+			this._command = new Command(execFn, this.commandOrCreator.canExecute, isAsync);
 		} else {
 			throw new Error("[commandDirective] [command] is not defined properly!");
 		}
 
-		this.command.subscribe();
-		const canExecute$ = this.command.canExecute$.pipe(
+		this._command.subscribe();
+		const canExecute$ = this._command.canExecute$.pipe(
 			tap(x => {
 				// console.log("[commandDirective::canExecute$]", x);
 				this.isDisabled = !x;
@@ -113,8 +136,8 @@ export class CommandDirective implements OnInit, OnDestroy {
 		);
 
 		let isExecuting$: Observable<boolean>;
-		if (this.command.isExecuting$) {
-			isExecuting$ = this.command.isExecuting$.pipe(
+		if (this._command.isExecuting$) {
+			isExecuting$ = this._command.isExecuting$.pipe(
 				tap(x => {
 					// console.log("[commandDirective::isExecuting$]", x);
 					if (x) {
@@ -140,20 +163,18 @@ export class CommandDirective implements OnInit, OnDestroy {
 	onClick() {
 		// console.log("[commandDirective::onClick]", this.commandParams);
 		if (Array.isArray(this.commandParams)) {
-			this.command.execute(...this.commandParams);
+			this._command.execute(...this.commandParams);
 		} else {
-			this.command.execute(this.commandParams);
+			this._command.execute(this.commandParams);
 		}
 	}
 
 	ngOnDestroy() {
 		// console.log("[commandDirective::destroy]");
-		if (this.command) {
-			this.command.unsubscribe();
+		if (this._command) {
+			this._command.unsubscribe();
 		}
-		if (this.data$$) {
-			this.data$$.unsubscribe();
-		}
+		this.data$$.unsubscribe();
 	}
 }
 

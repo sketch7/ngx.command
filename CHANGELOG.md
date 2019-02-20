@@ -1,3 +1,20 @@
+## [1.2.0](https://github.com/sketch7/ngx.command/compare/1.1.2...1.2.0) (2019-02-20)
+
+### Features
+
+- **util:** add util `canExecuteFromNgForm` which takes `NgForm` and returns observable
+- **util:** utils are now exported
+- **command:** add exportAs `ssvCommand`
+
+### Bug Fixes
+
+- **command:** when `executeFn` was throwing, it was completing the observable and won't handle any more clicks
+
+### Marked for Deprecation
+
+- **command:** `command`, `commandOptions` and `commandParams` in favor of `ssv` prefixed e.g. `ssvCommand`, `ssvCommandOptions` and `ssvCommandParams`
+
+
 ## [1.1.2](https://github.com/sketch7/ngx.command/compare/1.1.1...1.1.2) (2018-11-02)
 
 ### Bug Fixes

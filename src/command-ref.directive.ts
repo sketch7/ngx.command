@@ -11,12 +11,12 @@ import { Command } from "./command";
  * ### Most common usage
  * ```html
  * <div class="action button-group" #actionCmd="ssvCommandRef" [ssvCommandRef]="{execute: removeHero$, canExecute: isValid$}">
-* 	<button [command]="actionCmd.command" [commandParams]="hero">
-		Remove
-	</button>
-	<button [command]="actionCmd.command" [commandParams]="hero">
-		Remove
-	</button>
+ *    <button [ssvCommand]="actionCmd.command" [ssvCommandParams]="hero">
+ *      Remove
+ *    </button>
+ *    <button [ssvCommand]="actionCmd.command" [ssvCommandParams]="hero">
+ *       Remove
+ *    </button>
  * </div>
  * ```
  *
@@ -26,21 +26,23 @@ import { Command } from "./command";
 	exportAs: "ssvCommandRef"
 })
 export class CommandRefDirective implements OnInit, OnDestroy {
-	@Input("ssvCommandRef") commandInput!: ICommand | CommandCreator | undefined;
 
-	command: Readonly<ICommand>;
+	@Input("ssvCommandRef") commandCreator: CommandCreator | undefined;
+
+	get command(): ICommand { return this._command; }
+	private _command: ICommand;
 
 	constructor(
 		private viewContainer: ViewContainerRef
 	) { }
 
 	ngOnInit() {
-		if (isCommandCreator(this.commandInput)) {
-			const isAsync = this.commandInput.isAsync || this.commandInput.isAsync === undefined;
+		if (isCommandCreator(this.commandCreator)) {
+			const isAsync = this.commandCreator.isAsync || this.commandCreator.isAsync === undefined;
 			const hostComponent = (this.viewContainer as any)._view.component;
 
-			const execFn = this.commandInput.execute.bind(hostComponent);
-			this.command = new Command(execFn, this.commandInput.canExecute, isAsync);
+			const execFn = this.commandCreator.execute.bind(hostComponent);
+			this._command = new Command(execFn, this.commandCreator.canExecute, isAsync);
 		} else {
 			throw new Error("[ssvCommandRef] is not defined properly!");
 		}
@@ -48,8 +50,8 @@ export class CommandRefDirective implements OnInit, OnDestroy {
 
 	ngOnDestroy() {
 		// console.log("[commandRef::destroy]");
-		if (this.command) {
-			this.command.destroy();
+		if (this._command) {
+			this._command.destroy();
 		}
 	}
 }

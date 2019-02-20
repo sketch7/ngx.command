@@ -1,5 +1,5 @@
-import { Observable, combineLatest, Subscription, Subject, BehaviorSubject } from "rxjs";
-import { tap, map, filter, switchMap } from "rxjs/operators";
+import { Observable, combineLatest, Subscription, Subject, BehaviorSubject, of } from "rxjs";
+import { tap, map, filter, switchMap, catchError } from "rxjs/operators";
 import { ICommand } from "./command.model";
 
 
@@ -32,9 +32,9 @@ export class Command implements ICommand {
 	private _isExecuting = false;
 	private _canExecute = true;
 	private executionPipe$ = new Subject<any[] | undefined | {}>();
-	private isExecuting$$: Subscription | undefined;
-	private canExecute$$: Subscription | undefined;
-	private executionPipe$$: Subscription | undefined;
+	private isExecuting$$ = Subscription.EMPTY;
+	private canExecute$$ = Subscription.EMPTY;
+	private executionPipe$$ = Subscription.EMPTY;
 	private subscribersCount = 0;
 
 	/**
@@ -70,7 +70,7 @@ export class Command implements ICommand {
 				})
 			);
 			this.isExecuting$$ = this._isExecuting$
-				.pipe(tap(x => (this._isExecuting = x)))
+				.pipe(tap(x => this._isExecuting = x))
 				.subscribe();
 		}
 		this.executionPipe$$ = this.buildExecutionPipe(execute, isAsync).subscribe();
@@ -85,15 +85,9 @@ export class Command implements ICommand {
 	/** Disposes all resources held by subscriptions. */
 	destroy() {
 		// console.warn("[command::destroy]");
-		if (this.executionPipe$$) {
-			this.executionPipe$$.unsubscribe();
-		}
-		if (this.canExecute$$) {
-			this.canExecute$$.unsubscribe();
-		}
-		if (this.isExecuting$$) {
-			this.isExecuting$$.unsubscribe();
-		}
+		this.executionPipe$$.unsubscribe();
+		this.canExecute$$.unsubscribe();
+		this.isExecuting$$.unsubscribe();
 	}
 
 	subscribe() {
@@ -133,7 +127,13 @@ export class Command implements ICommand {
 			});
 
 		pipe$ = pipe$.pipe(
-			execFn,
+			switchMap(args => of(args).pipe(
+				execFn,
+				catchError(error => {
+					console.error("Unhandled execute error", error);
+					return of(error);
+				}),
+			)),
 			tap(
 				() => {
 					// console.log("[command::excutionPipe$] do#2 - set idle");
