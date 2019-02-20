@@ -6,7 +6,7 @@
 // import {Command, ICommand, CommandDirective} from "./index";
 
 // @Component({
-// 	template: `<button class="btn" [command]="saveCmd" >Save</button>`,
+// 	template: `<button class="btn" [ssvCommand]="saveCmd" >Save</button>`,
 // 	directives: [
 // 		CommandDirective
 // 	]
@@ -16,7 +16,7 @@
 // }
 
 // @Component({
-// 	template: `<button class="btn" [command]="emptyCmd" >Save</button>`,
+// 	template: `<button class="btn" [ssvCommand]="emptyCmd" >Save</button>`,
 // 	directives: [
 // 		CommandDirective
 // 	]
