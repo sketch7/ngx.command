@@ -145,7 +145,6 @@ ngOnInit() {
 ```
 
 
-
 ## Configure
 In order to configure globally, you can do so as following:
 
