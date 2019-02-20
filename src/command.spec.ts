@@ -60,6 +60,29 @@ describe("CommandSpecs", () => {
 			});
 		});
 
+		describe("when an error is thrown", () => {
+			const _errorFn = console.error;
+			beforeAll(() => {
+				console.error = jest.fn();
+			});
+
+			beforeEach(() => {
+				const isInitialValid = true;
+				executeSpyFn = jasmine.createSpy("execute").and.throwError("Execution failed!");
+				SUT = new Command(executeSpyFn, new BehaviorSubject<boolean>(isInitialValid));
+			});
+
+			it("should invoke multiple times", () => {
+				SUT.execute();
+				SUT.execute();
+				expect(executeSpyFn).toHaveBeenCalledTimes(2);
+			});
+
+			afterAll(() => {
+				console.error = _errorFn;
+			});
+		});
+
 		describe("when args are passed", () => {
 			beforeEach(() => {
 				const isInitialValid = true;

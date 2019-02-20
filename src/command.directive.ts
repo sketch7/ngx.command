@@ -61,16 +61,38 @@ import { CommandCreator, ICommand } from "./command.model";
  *
  */
 @Directive({
-	selector: "[command]",
+	selector: "[ssvCommand], [command]", // todo: @deprecated - remove `[command]` after next major
+	exportAs: "ssvCommand"
 })
 export class CommandDirective implements OnInit, OnDestroy {
-	@Input("command") commandInput!: ICommand | CommandCreator | undefined;
-	@Input() commandOptions!: CommandOptions;
-	@Input() commandParams: any | any[];
+
+	@Input("ssvCommand") commandInput!: ICommand | CommandCreator | undefined;
+
+	/** @deprecated Use `commandInput` instead. */
+	@Input("command")
+	get _commandInput() { return this.commandInput; }
+	set _commandInput(value: ICommand | CommandCreator | undefined) {
+		this.commandInput = value;
+	}
+	@Input("ssvCommandOptions") commandOptions!: CommandOptions;
+	/** @deprecated Use `commandOptions` instead. */
+	@Input("commandOptions")
+	get _commandOptions() { return this.commandOptions; }
+	set _commandOptions(value: CommandOptions) {
+		this.commandOptions = value;
+	}
+
+	@Input("ssvCommandParams") commandParams: any | any[];
+	/** @deprecated Use `commandParams` instead. */
+	@Input("commandParams")
+	get _commandParams() { return this.commandParams; }
+	set _commandParams(value: any | any[]) {
+		this.commandParams = value;
+	}
 	@HostBinding("disabled") isDisabled: boolean | undefined;
 
 	command: Readonly<ICommand>;
-	private data$$!: Subscription;
+	private data$$ = Subscription.EMPTY;
 
 	constructor(
 		@Inject(COMMAND_CONFIG) private config: CommandOptions,
@@ -81,7 +103,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 	) { }
 
 	ngOnInit() {
-		// console.log("[commandDirective::init]");
+		console.log("[commandDirective::init]", this.data$$);
 		this.commandOptions = {
 			...COMMAND_DEFAULT_CONFIG,
 			...this.config,
@@ -151,9 +173,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 		if (this.command) {
 			this.command.unsubscribe();
 		}
-		if (this.data$$) {
-			this.data$$.unsubscribe();
-		}
+		this.data$$.unsubscribe();
 	}
 }
 
