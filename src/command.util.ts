@@ -20,7 +20,7 @@ export function isCommandCreator(arg: any): arg is CommandCreator {
 	return false;
 }
 
-/** Get observable valid from `NgForm`. */
+/** Get `NgForm.valid` as observable. */
 export function canExecuteFromNgForm(form: NgForm): Observable<boolean> {
 	return form.statusChanges!.pipe(
 		map(() => !!form.valid),
