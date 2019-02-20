@@ -66,13 +66,13 @@ import { CommandCreator, ICommand } from "./command.model";
 })
 export class CommandDirective implements OnInit, OnDestroy {
 
-	@Input("ssvCommand") commandInput: ICommand | CommandCreator | undefined;
+	@Input("ssvCommand") commandOrCreator: ICommand | CommandCreator | undefined;
 
 	/** @deprecated Use `commandInput` instead. */
 	@Input("command")
-	get _commandInput() { return this.commandInput; }
-	set _commandInput(value: ICommand | CommandCreator | undefined) {
-		this.commandInput = value;
+	get _commandOrCreator() { return this.commandOrCreator; }
+	set _commandOrCreator(value: ICommand | CommandCreator | undefined) {
+		this.commandOrCreator = value;
 	}
 	@Input("ssvCommandOptions") commandOptions!: CommandOptions;
 	/** @deprecated Use `commandOptions` instead. */
@@ -111,17 +111,17 @@ export class CommandDirective implements OnInit, OnDestroy {
 			...this.commandOptions,
 		};
 
-		if (!this.commandInput) {
+		if (!this.commandOrCreator) {
 			throw new Error("[commandDirective] [command] should be defined!");
-		} else if (isCommand(this.commandInput)) {
-			this._command = this.commandInput;
-		} else if (isCommandCreator(this.commandInput)) {
-			const isAsync = this.commandInput.isAsync || this.commandInput.isAsync === undefined;
+		} else if (isCommand(this.commandOrCreator)) {
+			this._command = this.commandOrCreator;
+		} else if (isCommandCreator(this.commandOrCreator)) {
+			const isAsync = this.commandOrCreator.isAsync || this.commandOrCreator.isAsync === undefined;
 			const hostComponent = (this.viewContainer as any)._view.component;
 
-			const execFn = this.commandInput.execute.bind(hostComponent);
-			this.commandParams = this.commandParams || this.commandInput.params;
-			this._command = new Command(execFn, this.commandInput.canExecute, isAsync);
+			const execFn = this.commandOrCreator.execute.bind(hostComponent);
+			this.commandParams = this.commandParams || this.commandOrCreator.params;
+			this._command = new Command(execFn, this.commandOrCreator.canExecute, isAsync);
 		} else {
 			throw new Error("[commandDirective] [command] is not defined properly!");
 		}

@@ -27,7 +27,7 @@ import { Command } from "./command";
 })
 export class CommandRefDirective implements OnInit, OnDestroy {
 
-	@Input("ssvCommandRef") commandRef: ICommand | CommandCreator | undefined;
+	@Input("ssvCommandRef") commandCreator: CommandCreator | undefined;
 
 	get command(): ICommand { return this._command; }
 	private _command: ICommand;
@@ -37,12 +37,12 @@ export class CommandRefDirective implements OnInit, OnDestroy {
 	) { }
 
 	ngOnInit() {
-		if (isCommandCreator(this.commandRef)) {
-			const isAsync = this.commandRef.isAsync || this.commandRef.isAsync === undefined;
+		if (isCommandCreator(this.commandCreator)) {
+			const isAsync = this.commandCreator.isAsync || this.commandCreator.isAsync === undefined;
 			const hostComponent = (this.viewContainer as any)._view.component;
 
-			const execFn = this.commandRef.execute.bind(hostComponent);
-			this._command = new Command(execFn, this.commandRef.canExecute, isAsync);
+			const execFn = this.commandCreator.execute.bind(hostComponent);
+			this._command = new Command(execFn, this.commandCreator.canExecute, isAsync);
 		} else {
 			throw new Error("[ssvCommandRef] is not defined properly!");
 		}
