@@ -130,6 +130,22 @@ Command creator ref, directive which allows creating Command in the template and
 </div>
 ```
 
+## Utils
+
+### canExecuteFromNgForm
+In order to use with `NgForm` easily, you can use the following utility method.
+This will make canExecute respond to `form.valid`.
+
+```ts
+import { CommandAsync, canExecuteFromNgForm } from "@ssv/ngx.command";
+
+ngOnInit() {
+  this.loginCmd = new CommandAsync(this.login.bind(this), canExecuteFromNgForm(this.form));
+}
+```
+
+
+
 ## Configure
 In order to configure globally, you can do so as following:
 

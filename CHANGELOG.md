@@ -2,7 +2,7 @@
 
 ### Features
 
-- **util:** add util `canExecuteFromForm` which takes `NgForm` and returns observable
+- **util:** add util `canExecuteFromNgForm` which takes `NgForm` and returns observable
 - **util:** utils are now exported
 - **command:** add exportAs `ssvCommand`
 
