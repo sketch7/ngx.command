@@ -129,9 +129,9 @@ export class Command implements ICommand {
 		pipe$ = pipe$.pipe(
 			switchMap(args => of(args).pipe(
 				execFn,
-				catchError(e => {
-					console.error("Unhandled execute error", e);
-					return of(e);
+				catchError(error => {
+					console.error("Unhandled execute error", error);
+					return of(error);
 				}),
 			)),
 			tap(
