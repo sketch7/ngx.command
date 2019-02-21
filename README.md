@@ -1,4 +1,4 @@
-[projectUri]: https://github.com/sketch7/ssv-core
+[projectUri]: https://github.com/sketch7/ngx.command
 [changeLog]: ./CHANGELOG.md
 [releaseWorkflowWiki]: ./docs/RELEASE-WORKFLOW.md
 
