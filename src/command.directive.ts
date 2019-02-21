@@ -92,7 +92,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 	@HostBinding("disabled") isDisabled: boolean | undefined;
 
 	get command(): ICommand { return this._command; }
-	private _command: ICommand;
+	private _command!: ICommand;
 	private data$$ = Subscription.EMPTY;
 
 	constructor(

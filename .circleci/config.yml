@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/repo
     docker:
-      - image: circleci/node:9.11 #10.4 -- not working with gulp
+      - image: circleci/node:10.15.1
     steps:
       - run:
           name: Print environment versions
@@ -15,16 +15,19 @@ jobs:
           name: NPM Auth
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
       - run:
-          name: Package Install
-          command: npm install # npm ci -- update node
+          name: Install Packages
+          command: npm ci
       - run:
-          name: lint
+          name: Lint
           command: npm run lint
       - run:
-          name: build
+          name: Prebuild
+          command: ./node_modules/.bin/gulp prebuild:rel
+      - run:
+          name: Build
           command: npm run build
       - run:
-          name: test
+          name: Test
           command: npm test
       - deploy:
           name: Publish NPM

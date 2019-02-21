@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/sketch7/ngx.command/compare/1.2.0...1.2.1) (2018-02-21)
+
+### Chore
+
+update tooling
+
+
 ## [1.2.0](https://github.com/sketch7/ngx.command/compare/1.1.2...1.2.0) (2019-02-20)
 
 ### Features

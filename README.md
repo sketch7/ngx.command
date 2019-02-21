@@ -1,7 +1,6 @@
-[projecturi]: https://github.com/sketch7/ngx.command
-[projectgit]: https://github.com/sketch7/ngx.command.git
-[changelog]: ./CHANGELOG.md
-[releaseworkflowwiki]: ./docs/RELEASE-WORKFLOW.md
+[projectUri]: https://github.com/sketch7/ngx.command
+[changeLog]: ./CHANGELOG.md
+[releaseWorkflowWiki]: ./docs/RELEASE-WORKFLOW.md
 
 [npm]: https://www.npmjs.com
 [commandpatternwiki]: https://en.wikipedia.org/wiki/Command_pattern
@@ -18,7 +17,7 @@ Primary usage is to disable a button when an action is executing, or not in a va
 
 [Change logs][changeLog] | [Project Repository][projectUri]
 
-# Installation
+## Installation
 
 Get library via [npm]
 
@@ -160,30 +159,27 @@ import { CommandModule } from "@ssv/ngx.command";
 ## Getting Started
 
 ### Setup Machine for Development
-
 Install/setup the following:
 
-* NodeJS v10+
-* Visual Studio Code or similar code editor
-* TypeScript 3.1+
-* Git + SourceTree, SmartGit or similar (optional)
-* Ensure to install **global NPM modules** using the following:
+- NodeJS v10+
+- Visual Studio Code or similar code editor
+- TypeScript 3.1+
+- Git + SourceTree, SmartGit or similar (optional)
+- Ensure to install **global NPM modules** using the following:
+
 
 ```bash
-npm install -g git gulp yarn devtool
+npm install -g git gulp devtool
 ```
 
-#### Cloning Repo
-
-* Run `git clone https://github.com/sketch7/ngx.command.git`
 
 ### Project Setup
-
 The following process need to be executed in order to get started.
 
 ```bash
 npm install
 ```
+
 
 ### Building the code
 
@@ -197,28 +193,26 @@ npm run build
 npm test
 ```
 
-### Development utils
-
 #### Watch
-
-Builds on changes.
+Handles compiling of changes.
 
 ```bash
 npm start
 ```
 
-#### Running Continuous Tests
 
+#### Running Continuous Tests
 Spawns test runner and keep watching for changes.
 
 ```bash
 npm run tdd
 ```
 
+
 ### Preparation for Release
 
-```bash
-npm run prepare-release -- --bump major|minor|patch|prerelease (default: patch)
-```
+- Update changelogs
+- bump version
 
-Check out the [release workflow guide][releaseworkflowwiki] in order to guide you creating a release and publishing it.
+
+Check out the [release workflow guide][releaseWorkflowWiki] in order to guide you creating a release and publishing it.
