@@ -31,7 +31,7 @@ export class Command implements ICommand {
 	private _isExecuting$ = new BehaviorSubject<boolean>(false);
 	private _isExecuting = false;
 	private _canExecute = true;
-	private executionPipe$ = new Subject<any[] | undefined | {}>();
+	private executionPipe$ = new Subject<any[] | undefined>();
 	private isExecuting$$ = Subscription.EMPTY;
 	private canExecute$$ = Subscription.EMPTY;
 	private executionPipe$$ = Subscription.EMPTY;
@@ -112,7 +112,7 @@ export class Command implements ICommand {
 		);
 
 		const execFn = isAsync
-			? switchMap((args: any[] | undefined) => {
+			? switchMap<any[] | undefined, any[]>(args => {
 				if (args) {
 					return execute(...args);
 				}

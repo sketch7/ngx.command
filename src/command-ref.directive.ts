@@ -30,7 +30,7 @@ export class CommandRefDirective implements OnInit, OnDestroy {
 	@Input("ssvCommandRef") commandCreator: CommandCreator | undefined;
 
 	get command(): ICommand { return this._command; }
-	private _command: ICommand;
+	private _command!: ICommand;
 
 	constructor(
 		private viewContainer: ViewContainerRef

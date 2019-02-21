@@ -1,12 +1,19 @@
 {
-	"extends": "./node_modules/@ssv/tools/tsconfig.base.json",
-	"compilerOptions": {
-		"types": [
-			"jest"
-		]
-	},
-	"include": [
-		"src/**/*",
-		"test/**/*"
-	]
+  "extends": "./node_modules/@ssv/tools/config/tsconfig.json",
+  "compilerOptions": {
+    "importHelpers": true,
+    "types": [
+      "jest"
+    ]
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "angularCompilerOptions": {
+    "strictInjectionParameters": true,
+    "strictMetadataEmit": true,
+    "skipTemplateCodegen": true,
+    "annotateForClosureCompiler": false,
+    "fullTemplateTypeCheck": true
+  }
 }
