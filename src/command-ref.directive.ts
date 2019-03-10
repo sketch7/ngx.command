@@ -44,7 +44,7 @@ export class CommandRefDirective implements OnInit, OnDestroy {
 			const execFn = this.commandCreator.execute.bind(hostComponent);
 			this._command = new Command(execFn, this.commandCreator.canExecute, isAsync);
 		} else {
-			throw new Error("[ssvCommandRef] is not defined properly!");
+			throw new Error("ssvCommandRef: [ssvCommandRef] is not defined properly!");
 		}
 	}
 

@@ -1,5 +1,5 @@
-import { Observable, combineLatest, Subscription, Subject, BehaviorSubject, of } from "rxjs";
-import { tap, map, filter, switchMap, catchError } from "rxjs/operators";
+import { Observable, combineLatest, Subscription, Subject, BehaviorSubject, of, EMPTY } from "rxjs";
+import { tap, map, filter, switchMap, catchError, finalize } from "rxjs/operators";
 import { ICommand } from "./command.model";
 
 
@@ -129,9 +129,13 @@ export class Command implements ICommand {
 		pipe$ = pipe$.pipe(
 			switchMap(args => of(args).pipe(
 				execFn,
+				finalize(() => {
+					// console.log("[command::excutionPipe$]  finalize inner#1 - set idle");
+					this._isExecuting$.next(false);
+				}),
 				catchError(error => {
 					console.error("Unhandled execute error", error);
-					return of(error);
+					return EMPTY;
 				}),
 			)),
 			tap(
@@ -139,10 +143,6 @@ export class Command implements ICommand {
 					// console.log("[command::excutionPipe$] do#2 - set idle");
 					this._isExecuting$.next(false);
 				},
-				() => {
-					// console.log("[command::excutionPipe$] do#2 error - set idle");
-					this._isExecuting$.next(false);
-				}
 			)
 		);
 		return pipe$;

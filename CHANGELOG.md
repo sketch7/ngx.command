@@ -1,4 +1,12 @@
-## [1.2.1](https://github.com/sketch7/ngx.command/compare/1.2.0...1.2.1) (2018-02-21)
+## [1.2.2](https://github.com/sketch7/ngx.command/compare/1.2.1...1.2.2) (2019-03-10)
+
+### Bug Fixes
+
+- **command:** when `executeFn` was returned as complete e.g. `EMPTY` it was still marked as executing.
+- **command:** `ssvCommandOptions` defaults were only applied on initial, now they are merged everytime.
+
+
+## [1.2.1](https://github.com/sketch7/ngx.command/compare/1.2.0...1.2.1) (2019-02-21)
 
 ### Chore
 

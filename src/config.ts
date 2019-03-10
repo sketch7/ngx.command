@@ -7,6 +7,7 @@ export interface CommandOptions {
 	executingCssClass: string;
 }
 
+// todo: make immutable e.g. Object.freeze()
 export const COMMAND_DEFAULT_CONFIG: CommandOptions = {
 	executingCssClass: "executing",
 };

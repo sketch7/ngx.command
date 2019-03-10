@@ -74,11 +74,26 @@ export class CommandDirective implements OnInit, OnDestroy {
 	set _commandOrCreator(value: ICommand | CommandCreator | undefined) {
 		this.commandOrCreator = value;
 	}
-	@Input("ssvCommandOptions") commandOptions!: CommandOptions;
+	@Input("ssvCommandOptions")
+	get commandOptions() { return this._commandOptions; }
+	set commandOptions(value: CommandOptions) {
+		if (value === this._commandOptions) {
+			return;
+		}
+		this._commandOptions = {
+			...COMMAND_DEFAULT_CONFIG, // todo: merge config in module
+			...this.config,
+			...value,
+		};
+	}
+	private _commandOptions: CommandOptions = {
+		...COMMAND_DEFAULT_CONFIG,
+		...this.config,
+	};
 	/** @deprecated Use `commandOptions` instead. */
 	@Input("commandOptions")
-	get _commandOptions() { return this.commandOptions; }
-	set _commandOptions(value: CommandOptions) {
+	get __commandOptions() { return this.commandOptions; }
+	set __commandOptions(value: CommandOptions) {
 		this.commandOptions = value;
 	}
 
@@ -104,15 +119,9 @@ export class CommandDirective implements OnInit, OnDestroy {
 	) { }
 
 	ngOnInit() {
-		// console.log("[commandDirective::init]");
-		this.commandOptions = {
-			...COMMAND_DEFAULT_CONFIG,
-			...this.config,
-			...this.commandOptions,
-		};
-
+		// console.log("[ssvCommand::init]");
 		if (!this.commandOrCreator) {
-			throw new Error("[commandDirective] [command] should be defined!");
+			throw new Error("ssvCommand: [ssvCommand] should be defined!");
 		} else if (isCommand(this.commandOrCreator)) {
 			this._command = this.commandOrCreator;
 		} else if (isCommandCreator(this.commandOrCreator)) {
@@ -123,13 +132,13 @@ export class CommandDirective implements OnInit, OnDestroy {
 			this.commandParams = this.commandParams || this.commandOrCreator.params;
 			this._command = new Command(execFn, this.commandOrCreator.canExecute, isAsync);
 		} else {
-			throw new Error("[commandDirective] [command] is not defined properly!");
+			throw new Error("ssvCommand: [ssvCommand] is not defined properly!");
 		}
 
 		this._command.subscribe();
 		const canExecute$ = this._command.canExecute$.pipe(
 			tap(x => {
-				// console.log("[commandDirective::canExecute$]", x);
+				// console.log("[ssvCommand::canExecute$]", x);
 				this.isDisabled = !x;
 				this.cdr.markForCheck();
 			})
@@ -139,7 +148,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 		if (this._command.isExecuting$) {
 			isExecuting$ = this._command.isExecuting$.pipe(
 				tap(x => {
-					// console.log("[commandDirective::isExecuting$]", x);
+					// console.log("[ssvCommand::isExecuting$]", x);
 					if (x) {
 						this.renderer.addClass(
 							this.element.nativeElement,
@@ -161,7 +170,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 	@HostListener("click")
 	onClick() {
-		// console.log("[commandDirective::onClick]", this.commandParams);
+		// console.log("[ssvCommand::onClick]", this.commandParams);
 		if (Array.isArray(this.commandParams)) {
 			this._command.execute(...this.commandParams);
 		} else {
@@ -170,7 +179,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		// console.log("[commandDirective::destroy]");
+		// console.log("[ssvCommand::destroy]");
 		if (this._command) {
 			this._command.unsubscribe();
 		}
