@@ -1,4 +1,4 @@
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, EMPTY } from "rxjs";
 
 import { Command } from "./index";
 
@@ -60,6 +60,21 @@ describe("CommandSpecs", () => {
 			});
 		});
 
+		describe("when observable completes", () => {
+			beforeEach(() => {
+				const isInitialValid = true;
+				executeSpyFn = jasmine.createSpy("execute").and.returnValue(EMPTY);
+				SUT = new Command(executeSpyFn, new BehaviorSubject<boolean>(isInitialValid));
+			});
+
+			it("should invoke multiple times", () => {
+				SUT.execute();
+				SUT.execute();
+				expect(SUT.isExecuting).toBeFalsy();
+				expect(executeSpyFn).toHaveBeenCalledTimes(2);
+			});
+		});
+
 		describe("when an error is thrown", () => {
 			const _errorFn = console.error;
 			beforeAll(() => {
@@ -75,6 +90,7 @@ describe("CommandSpecs", () => {
 			it("should invoke multiple times", () => {
 				SUT.execute();
 				SUT.execute();
+				expect(SUT.isExecuting).toBeFalsy();
 				expect(executeSpyFn).toHaveBeenCalledTimes(2);
 			});
 
