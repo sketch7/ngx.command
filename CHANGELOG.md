@@ -3,7 +3,7 @@
 ### Bug Fixes
 
 - **command:** when `executeFn` returned observable was complete e.g. `EMPTY` it was still marked as executing.
-- **command:** `ssvCommandOptions` defaults were only applied on initial, now they are merged everytime.
+- **command:** `ssvCommandOptions` defaults were only applied on initial, now they are merged with every change.
 
 
 ## [1.2.1](https://github.com/sketch7/ngx.command/compare/1.2.0...1.2.1) (2019-02-21)
