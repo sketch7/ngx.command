@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/sketch7/ngx.command/compare/1.2.2...1.2.3) (2019-03-10)
+
+### Bug Fixes
+
+- **command:** fix regression when using with observable which doesn't complete, on next click `isExecuting` was being set to `false` immediately
+
+
 ## [1.2.2](https://github.com/sketch7/ngx.command/compare/1.2.1...1.2.2) (2019-03-10)
 
 ### Bug Fixes

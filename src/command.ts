@@ -1,5 +1,5 @@
 import { Observable, combineLatest, Subscription, Subject, BehaviorSubject, of, EMPTY } from "rxjs";
-import { tap, map, filter, switchMap, catchError, finalize } from "rxjs/operators";
+import { tap, map, filter, switchMap, catchError, finalize, first } from "rxjs/operators";
 import { ICommand } from "./command.model";
 
 
@@ -133,6 +133,7 @@ export class Command implements ICommand {
 					// console.log("[command::excutionPipe$]  finalize inner#1 - set idle");
 					this._isExecuting$.next(false);
 				}),
+				first(),
 				catchError(error => {
 					console.error("Unhandled execute error", error);
 					return EMPTY;
@@ -140,7 +141,7 @@ export class Command implements ICommand {
 			)),
 			tap(
 				() => {
-					// console.log("[command::excutionPipe$] do#2 - set idle");
+					// console.log("[command::excutionPipe$] tap#2 - set idle");
 					this._isExecuting$.next(false);
 				},
 			)
