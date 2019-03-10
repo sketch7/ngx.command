@@ -2,7 +2,7 @@
 
 ### Bug Fixes
 
-- **command:** when `executeFn` was returned as complete e.g. `EMPTY` it was still marked as executing.
+- **command:** when `executeFn` returned observable was complete e.g. `EMPTY` it was still marked as executing.
 - **command:** `ssvCommandOptions` defaults were only applied on initial, now they are merged everytime.
 
 
