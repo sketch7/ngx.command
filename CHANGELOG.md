@@ -1,3 +1,10 @@
+## [1.2.5](https://github.com/sketch7/ngx.command/compare/1.2.4...1.2.5) (2019-04-18)
+
+### Bug Fixes
+
+- **util:** fix `canExecuteFromNgForm` initial value will now emit
+
+
 ## [1.2.4](https://github.com/sketch7/ngx.command/compare/1.2.3...1.2.4) (2019-04-18)
 
 ### Features
