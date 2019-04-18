@@ -1,4 +1,4 @@
-import { NgForm } from "@angular/forms";
+import { AbstractControl, AbstractControlDirective } from "@angular/forms";
 import { Observable } from "rxjs";
 import { map, distinctUntilChanged } from "rxjs/operators";
 
@@ -20,8 +20,8 @@ export function isCommandCreator(arg: any): arg is CommandCreator {
 	return false;
 }
 
-/** Get `NgForm.valid` as observable. */
-export function canExecuteFromNgForm(form: NgForm): Observable<boolean> {
+/** Get form is valid as an observable. */
+export function canExecuteFromNgForm(form: AbstractControl | AbstractControlDirective): Observable<boolean> {
 	return form.statusChanges!.pipe(
 		map(() => !!form.valid),
 		distinctUntilChanged(),

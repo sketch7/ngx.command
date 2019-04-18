@@ -1,6 +1,6 @@
 {
   "name": "@ssv/ngx.command",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Command pattern implementation for angular. Command used to encapsulate information which is needed to perform an action.",
   "keywords": [
     "sketch7",
