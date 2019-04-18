@@ -1,3 +1,10 @@
+## [1.2.4](https://github.com/sketch7/ngx.command/compare/1.2.3...1.2.4) (2019-04-18)
+
+### Features
+
+- **util:** `canExecuteFromNgForm` now takes `AbstractControl | AbstractControlDirective` instead of `NgForm` - to support reactive forms
+
+
 ## [1.2.3](https://github.com/sketch7/ngx.command/compare/1.2.2...1.2.3) (2019-03-10)
 
 ### Bug Fixes
