@@ -1,3 +1,12 @@
+## [1.2.6](https://github.com/sketch7/ngx.command/compare/1.2.5...1.2.6) (2019-06-11)
+
+### Chore
+
+*No new fixes/features in this release*
+
+- **deps:** update dev dependencies
+- **ci:** update node version
+
 ## [1.2.5](https://github.com/sketch7/ngx.command/compare/1.2.4...1.2.5) (2019-04-18)
 
 ### Bug Fixes
