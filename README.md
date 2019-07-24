@@ -133,14 +133,18 @@ Command creator ref, directive which allows creating Command in the template and
 
 ### canExecuteFromNgForm
 In order to use with `NgForm` easily, you can use the following utility method.
-This will make canExecute respond to `form.valid`.
+This will make canExecute respond to `form.valid` and for `form.dirty` - also can optionally disable validity or dirty.
 
 ```ts
 import { CommandAsync, canExecuteFromNgForm } from "@ssv/ngx.command";
 
-ngOnInit() {
-  this.loginCmd = new CommandAsync(this.login.bind(this), canExecuteFromNgForm(this.form));
-}
+loginCmd = new CommandAsync(this.login.bind(this), canExecuteFromNgForm(this.form));
+
+// options - disable dirty check
+loginCmd = new CommandAsync(this.login.bind(this), canExecuteFromNgForm(this.form, {
+  dirty: false
+}));
+
 ```
 
 
