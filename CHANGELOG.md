@@ -1,8 +1,14 @@
+## [1.2.6](https://github.com/sketch7/ngx.command/compare/1.2.6...1.3.0) (2019-07-24)
+
+### Features
+
+- **util:** `canExecuteFromNgForm` now take `CanExecuteFormOptions` and defaults to check for dirty check (UI modified). Can optionally disable whether to check for `validity` and for `dirty`.
+
 ## [1.2.6](https://github.com/sketch7/ngx.command/compare/1.2.5...1.2.6) (2019-06-11)
 
 ### Chore
 
-*No new fixes/features in this release*
+_No new fixes/features in this release_
 
 - **deps:** update dev dependencies
 - **ci:** update node version
@@ -13,20 +19,17 @@
 
 - **util:** fix `canExecuteFromNgForm` initial value will now emit
 
-
 ## [1.2.4](https://github.com/sketch7/ngx.command/compare/1.2.3...1.2.4) (2019-04-18)
 
 ### Features
 
 - **util:** `canExecuteFromNgForm` now takes `AbstractControl | AbstractControlDirective` instead of `NgForm` - to support reactive forms
 
-
 ## [1.2.3](https://github.com/sketch7/ngx.command/compare/1.2.2...1.2.3) (2019-03-10)
 
 ### Bug Fixes
 
 - **command:** fix regression when using with observable which doesn't complete, on next click `isExecuting` was being set to `false` immediately
-
 
 ## [1.2.2](https://github.com/sketch7/ngx.command/compare/1.2.1...1.2.2) (2019-03-10)
 
@@ -35,13 +38,11 @@
 - **command:** when `executeFn` returned observable was complete e.g. `EMPTY` it was still marked as executing.
 - **command:** `ssvCommandOptions` defaults were only applied on initial, now they are merged with every change.
 
-
 ## [1.2.1](https://github.com/sketch7/ngx.command/compare/1.2.0...1.2.1) (2019-02-21)
 
 ### Chore
 
 update tooling
-
 
 ## [1.2.0](https://github.com/sketch7/ngx.command/compare/1.1.2...1.2.0) (2019-02-20)
 
@@ -59,20 +60,17 @@ update tooling
 
 - **command:** `command`, `commandOptions` and `commandParams` in favor of `ssv` prefixed e.g. `ssvCommand`, `ssvCommandOptions` and `ssvCommandParams`
 
-
 ## [1.1.2](https://github.com/sketch7/ngx.command/compare/1.1.1...1.1.2) (2018-11-02)
 
 ### Bug Fixes
 
 - **directive:** wrap vars in if, as sometimes might not initialize and they will throw
 
-
 ## [1.1.1](https://github.com/sketch7/ngx.command/compare/1.1.0...1.1.1) (2018-10-20)
 
 ### Features
 
 - **deps:** now depends on `@angular/core >=6.0.0` to be compatible with v7
-
 
 ## [1.1.0](https://github.com/sketch7/ngx.command/compare/1.0.2...1.1.0) (2018-10-19)
 
@@ -89,21 +87,17 @@ update tooling
 
 - **util:** export `isCommand` and `isCommandCreator` utils, which check type of object.
 
-
 ## [1.0.2](https://github.com/sketch7/ngx.command/compare/1.0.0...1.0.2) (2018-07-31)
 
 ### Bug Fixes
 
 - **directive:** fix an issue when using in an OnPush component
 
-
 ## [1.0.0](https://github.com/sketch7/ngx.command/compare/1.0.0-rc.2...1.0.0) (2018-06-21)
-
 
 ### Features
 
 - **deps:** now depends on `@angular/core 6.x` and `rxjs 6.x`
-
 
 ## [1.0.0-rc.2](https://github.com/sketch7/ngx.command/compare/1.0.0-rc.1...1.0.0-rc.2) (2018-02-03)
 
@@ -111,13 +105,12 @@ update tooling
 
 - **ts:** fix typescript in strict
 
-
 ## [1.0.0-rc.1](https://github.com/sketch7/ngx.command/compare/1.0.0-rc.0...1.0.0-rc.1) (2018-01-30)
 
 ### Bug Fixes
 
 - **release:** fixed release
 
-
 ## [1.0.0-rc.0](https://github.com/sketch7/ngx.command) (2014-12-14)
+
 Initial release

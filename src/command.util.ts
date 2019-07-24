@@ -20,11 +20,24 @@ export function isCommandCreator(arg: any): arg is CommandCreator {
 	return false;
 }
 
+export interface CanExecuteFormOptions {
+	/** Determines whether to check for validity. (defaults: true) */
+	validity?: boolean;
+
+	/** Determines whether to check whether UI has been touched. (defaults: true) */
+	dirty?: boolean;
+}
+
 /** Get form is valid as an observable. */
-export function canExecuteFromNgForm(form: AbstractControl | AbstractControlDirective): Observable<boolean> {
+export function canExecuteFromNgForm(
+	form: AbstractControl | AbstractControlDirective,
+	options?: CanExecuteFormOptions
+): Observable<boolean> {
+	const opts: CanExecuteFormOptions = { validity: true, dirty: true, ...options };
+
 	return form.statusChanges!.pipe(
 		startWith(form.valid),
-		map(() => !!form.valid),
+		map(() => !!(!opts.validity || form.valid) && !!(!opts.dirty || form.dirty)),
 		distinctUntilChanged(),
 	);
 }
