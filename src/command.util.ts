@@ -38,7 +38,6 @@ export function canExecuteFromNgForm(
 	return form.statusChanges!.pipe(
 		startWith(form.valid),
 		map(() => !!(!opts.validity || form.valid) && !!(!opts.dirty || form.dirty)),
-		tap(x => console.warn(">>>> canExecuteFromNgForm", { result: x, dirty: form.dirty, valid: form.valid, opts })),
 		distinctUntilChanged(),
 	);
 }
