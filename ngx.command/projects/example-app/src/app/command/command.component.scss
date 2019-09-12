@@ -5,7 +5,11 @@ $var-code-font: "consolas";
 .container {
 	display: flex;
 	flex-flow: row wrap;
-	justify-content: space-between;
+  justify-content: space-between;
+
+  .mat-card {
+    margin-bottom: 1em;
+  }
 }
 
 .type {
@@ -21,10 +25,6 @@ $var-code-font: "consolas";
 			color: $var-boolean-value-color;
 		}
 	}
-}
-
-fieldset {
-	margin: 2em 0;
 }
 
 .form-group {

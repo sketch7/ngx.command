@@ -6,31 +6,33 @@
     <strong>@ssv/ngx.command</strong></a>.
 </p>
 <div class="container">
-  <fieldset>
-    <legend>Vanilla</legend>
-    <div class="btn-group"
-      role="group">
-      <button mat-flat-button
-        [color]="!isValid ? 'primary' : 'warn'"
-        (click)="toggleValidity()">
-        Mark as {{ isValid ? "Invalid" : "Valid" }}
-      </button>
-    </div>
-    <div class="form-group">
-      <div>
-        <small>
-          <span class="type variable">isValid</span>
-          <span class="type boolean value">{{isValid}}</span>
-        </small>
+  <mat-card>
+    <mat-card-title>Vanilla</mat-card-title>
+    <mat-card-content>
+      <div class="btn-group"
+        role="group">
+        <button mat-flat-button
+          [color]="!isValid ? 'primary' : 'warn'"
+          (click)="toggleValidity()">
+          Mark as {{ isValid ? "Invalid" : "Valid" }}
+        </button>
       </div>
-      <div>
-        <small>
-          <span class="type variable">isExecuting</span>
-          <span class="type boolean value">{{isExecuting}}</span>
-        </small>
+      <div class="form-group">
+        <div>
+          <small>
+            <span class="type variable">isValid</span>
+            <span class="type boolean value">{{isValid}}</span>
+          </small>
+        </div>
+        <div>
+          <small>
+            <span class="type variable">isExecuting</span>
+            <span class="type boolean value">{{isExecuting}}</span>
+          </small>
+        </div>
       </div>
-    </div>
-    <div class="button-group">
+    </mat-card-content>
+    <mat-card-actions>
       <button mat-raised-button
         color="primary"
         [disabled]="!isValid || isExecuting"
@@ -38,39 +40,42 @@
         Save
         <small>execute</small>
       </button>
-    </div>
-  </fieldset>
-  <fieldset>
-    <legend>Using Command</legend>
-    <div class="btn-group"
-      role="group">
-      <button mat-flat-button
-        [color]="!isValid$.value ? 'primary' : 'warn'"
-        (click)="toggleValidity$()">
-        Mark as {{ (isValid$ | async) ? "Invalid" : "Valid" }}
-      </button>
-    </div>
-    <div class="form-group">
-      <div>
-        <small>
-          <span class="type variable">isValid</span>
-          <span class="type boolean value">{{isValid$ | async}}</span>
-        </small>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-title>Using Command</mat-card-title>
+    <mat-card-content>
+      <div class="btn-group"
+        role="group">
+        <button mat-flat-button
+          [color]="!isValid$.value ? 'primary' : 'warn'"
+          (click)="toggleValidity$()">
+          Mark as {{ (isValid$ | async) ? "Invalid" : "Valid" }}
+        </button>
       </div>
-      <div>
-        <small>
-          <span class="type variable">saveCmd.isExecuting</span>
-          <span class="type boolean value">{{saveCmd.isExecuting}}</span>
-        </small>
+      <div class="form-group">
+        <div>
+          <small>
+            <span class="type variable">isValid</span>
+            <span class="type boolean value">{{isValid$ | async}}</span>
+          </small>
+        </div>
+        <div>
+          <small>
+            <span class="type variable">saveCmd.isExecuting</span>
+            <span class="type boolean value">{{saveCmd.isExecuting}}</span>
+          </small>
+        </div>
+        <div>
+          <small>
+            <span class="type variable">saveCmd.canExecute</span>
+            <span class="type boolean value">{{saveCmd.canExecute}}</span>
+          </small>
+        </div>
       </div>
-      <div>
-        <small>
-          <span class="type variable">saveCmd.canExecute</span>
-          <span class="type boolean value">{{saveCmd.canExecute}}</span>
-        </small>
-      </div>
-    </div>
-    <div class="button-group">
+    </mat-card-content>
+    <mat-card-actions>
       <button mat-raised-button
         color="primary"
         [disabled]="!saveCmd.canExecute"
@@ -100,39 +105,42 @@
         Save
         <small>with [options]</small>
       </button>
-    </div>
-  </fieldset>
-  <fieldset>
-    <legend>Using Command Redux</legend>
-    <div class="btn-group"
-      role="group">
-      <button mat-flat-button
-        [color]="!isValidRedux$.value ? 'primary' : 'warn'"
-        (click)="toggleValidityRedux()">
-        Mark as {{ (isValidRedux$ | async) ? "Invalid" : "Valid" }}
-      </button>
-    </div>
-    <div class="form-group">
-      <div>
-        <small>
-          <span class="type variable">isValidRedux</span>
-          <span class="type boolean value">{{isValidRedux$ | async}}</span>
-        </small>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-title>Using Command Redux</mat-card-title>
+    <mat-card-content>
+      <div class="btn-group"
+        role="group">
+        <button mat-flat-button
+          [color]="!isValidRedux$.value ? 'primary' : 'warn'"
+          (click)="toggleValidityRedux()">
+          Mark as {{ (isValidRedux$ | async) ? "Invalid" : "Valid" }}
+        </button>
       </div>
-      <div>
-        <small>
-          <span class="type variable">saveReduxCmd.isExecuting</span>
-          <span class="type boolean value">{{saveReduxCmd.isExecuting}}</span>
-        </small>
+      <div class="form-group">
+        <div>
+          <small>
+            <span class="type variable">isValidRedux</span>
+            <span class="type boolean value">{{isValidRedux$ | async}}</span>
+          </small>
+        </div>
+        <div>
+          <small>
+            <span class="type variable">saveReduxCmd.isExecuting</span>
+            <span class="type boolean value">{{saveReduxCmd.isExecuting}}</span>
+          </small>
+        </div>
+        <div>
+          <small>
+            <span class="type variable">saveReduxCmd.canExecute</span>
+            <span class="type boolean value">{{saveReduxCmd.canExecute}}</span>
+          </small>
+        </div>
       </div>
-      <div>
-        <small>
-          <span class="type variable">saveReduxCmd.canExecute</span>
-          <span class="type boolean value">{{saveReduxCmd.canExecute}}</span>
-        </small>
-      </div>
-    </div>
-    <div class="button-group">
+    </mat-card-content>
+    <mat-card-actions>
       <button mat-raised-button
         color="primary"
         [disabled]="!saveReduxCmd.canExecute"
@@ -165,69 +173,72 @@
         Save
         <small>with [options]</small>
       </button>
-    </div>
-  </fieldset>
-  <fieldset>
-    <legend>Within Collection</legend>
-    <div class="btn-group"
-      role="group">
-      <button mat-flat-button
-        [color]="!isValidHeroRemove$.value ? 'primary' : 'warn'"
-        (click)="toggleValidityRemoveHero()">
-        Mark as {{ (isValidHeroRemove$ | async) ? "Invalid" : "Valid" }}
-      </button>
-    </div>
-    <div class="form-group collection">
-      <div *ngFor="let hero of heroes"
-        class="collection-item">
-        <div class="hero">
-          {{hero.name}}
-        </div>
+    </mat-card-actions>
+  </mat-card>
 
-        <div class="action button-group"
-          #actionCmd="ssvCommandRef"
-          [ssvCommandRef]="{execute: removeHero$, canExecute: isValidHeroRemove$}">
-          <button mat-icon-button
-            [ssvCommand]="{execute: removeHero$, canExecute: isValidHeroRemove$, params: [hero, 1337, 'xx']}"
-            title="params in object">
-            <mat-icon>close</mat-icon>
-          </button>
-          <button mat-icon-button
-            color="primary"
-            [ssvCommand]="{execute: removeHero$, params: hero}"
-            [ssvCommandParams]="[hero, 1336, 'yo']"
-            title="params always takes over + doesnt respect isValid">
-            <mat-icon>close</mat-icon>
-          </button>
-          <button mat-icon-button
-            color="accent"
-            [ssvCommand]="{execute: removeHero$, canExecute: isValidHeroRemove$}"
-            [ssvCommandParams]="hero"
-            title="params only">
-            <mat-icon>close</mat-icon>
-          </button>
-          <button mat-icon-button
-            [ssvCommand]="removeHeroCmd"
-            [ssvCommandParams]="hero"
-            title="shared with other items">
-            <mat-icon>close</mat-icon>
-          </button>
-          <button mat-icon-button
-            color="warn"
-            [ssvCommand]="actionCmd.command"
-            [ssvCommandParams]="hero"
-            title="shared with x2">
-            <mat-icon>close</mat-icon> x2
-          </button>
-          <button mat-icon-button
-            color="warn"
-            [ssvCommand]="actionCmd.command"
-            [ssvCommandParams]="[hero, 1333, 'yo']"
-            title="shared with x2">
-            <mat-icon>close</mat-icon> x2
-          </button>
+  <mat-card>
+    <mat-card-title>Within Collection</mat-card-title>
+    <mat-card-content>
+      <div class="btn-group"
+        role="group">
+        <button mat-flat-button
+          [color]="!isValidHeroRemove$.value ? 'primary' : 'warn'"
+          (click)="toggleValidityRemoveHero()">
+          Mark as {{ (isValidHeroRemove$ | async) ? "Invalid" : "Valid" }}
+        </button>
+      </div>
+      <div class="form-group collection">
+        <div *ngFor="let hero of heroes"
+          class="collection-item">
+          <div class="hero">
+            {{hero.name}}
+          </div>
+
+          <div class="action button-group"
+            #actionCmd="ssvCommandRef"
+            [ssvCommandRef]="{execute: removeHero$, canExecute: isValidHeroRemove$}">
+            <button mat-icon-button
+              [ssvCommand]="{execute: removeHero$, canExecute: isValidHeroRemove$, params: [hero, 1337, 'xx']}"
+              title="params in object">
+              <mat-icon>close</mat-icon>
+            </button>
+            <button mat-icon-button
+              color="primary"
+              [ssvCommand]="{execute: removeHero$, params: hero}"
+              [ssvCommandParams]="[hero, 1336, 'yo']"
+              title="params always takes over + doesnt respect isValid">
+              <mat-icon>close</mat-icon>
+            </button>
+            <button mat-icon-button
+              color="accent"
+              [ssvCommand]="{execute: removeHero$, canExecute: isValidHeroRemove$}"
+              [ssvCommandParams]="hero"
+              title="params only">
+              <mat-icon>close</mat-icon>
+            </button>
+            <button mat-icon-button
+              [ssvCommand]="removeHeroCmd"
+              [ssvCommandParams]="hero"
+              title="shared with other items">
+              <mat-icon>close</mat-icon>
+            </button>
+            <button mat-icon-button
+              color="warn"
+              [ssvCommand]="actionCmd.command"
+              [ssvCommandParams]="hero"
+              title="shared with x2">
+              <mat-icon>close</mat-icon> x2
+            </button>
+            <button mat-icon-button
+              color="warn"
+              [ssvCommand]="actionCmd.command"
+              [ssvCommandParams]="[hero, 1333, 'yo']"
+              title="shared with x2">
+              <mat-icon>close</mat-icon> x2
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  </fieldset>
+    </mat-card-content>
+  </mat-card>
 </div>
