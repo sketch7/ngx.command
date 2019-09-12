@@ -1,5 +1,5 @@
 import { Observable, combineLatest, Subscription, Subject, BehaviorSubject, of, EMPTY } from "rxjs";
-import { tap, map, filter, switchMap, catchError, finalize, first } from "rxjs/operators";
+import { tap, map, filter, switchMap, catchError, finalize, first, share } from "rxjs/operators";
 import { ICommand } from "./command.model";
 
 
@@ -52,6 +52,7 @@ export class Command implements ICommand {
 		if (canExecute$) {
 			this.canExecute$ = combineLatest(
 				this._isExecuting$,
+				// canExecute$.pipe(share()),
 				canExecute$,
 				(isExecuting, canExecuteResult) => {
 					// console.log("[command::combineLatest$] update!", { isExecuting, canExecuteResult });

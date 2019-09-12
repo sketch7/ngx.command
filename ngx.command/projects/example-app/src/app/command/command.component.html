@@ -217,28 +217,51 @@
               <mat-icon>close</mat-icon>
             </button>
             <button mat-icon-button
-              [ssvCommand]="removeHeroCmd"
+              [ssvCommand]="pauseHeroCmd"
               [ssvCommandParams]="hero"
               title="shared with other items">
-              <mat-icon>close</mat-icon>
+              <mat-icon>pause</mat-icon>
             </button>
             <button mat-icon-button
               color="warn"
               [ssvCommand]="actionCmd.command"
               [ssvCommandParams]="hero"
               title="shared with x2">
-              <mat-icon>close</mat-icon> x2
+              <mat-icon>delete</mat-icon> x2
             </button>
             <button mat-icon-button
               color="warn"
               [ssvCommand]="actionCmd.command"
               [ssvCommandParams]="[hero, 1333, 'yo']"
               title="shared with x2">
-              <mat-icon>close</mat-icon> x2
+              <mat-icon>delete</mat-icon> x2
             </button>
           </div>
         </div>
       </div>
     </mat-card-content>
   </mat-card>
+
+  <mat-card>
+    <mat-card-title>Within Collection CanExecute</mat-card-title>
+    <mat-card-content>
+      <div class="form-group collection">
+        <div *ngFor="let hero of heroes"
+          class="collection-item">
+          <div class="hero">
+            {{hero.name}}
+          </div>
+          <div class="action button-group">
+            <button mat-icon-button
+              color="accent"
+              [ssvCommand]="{execute: pauseHero$, canExecute: canPauseHero$, params: hero}"
+              title="synced with the other collection's items">
+              <mat-icon>pause</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
 </div>

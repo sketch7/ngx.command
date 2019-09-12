@@ -5,7 +5,7 @@ import {
   ChangeDetectorRef,
 } from "@angular/core";
 import { BehaviorSubject, timer, Observable, of } from "rxjs";
-import { tap, filter, map } from "rxjs/operators";
+import { tap, filter, map, distinctUntilChanged } from "rxjs/operators";
 import { CommandAsync } from "@ssv/ngx.command";
 
 interface Hero {
@@ -18,6 +18,10 @@ enum Roles {
   Warrior = 1,
   Specialist = 2,
   BossFight = 5
+}
+
+interface HeroPausedState {
+  [key: string]: { isPaused: boolean };
 }
 
 @Component({
@@ -36,19 +40,21 @@ export class CommandComponent {
 
   saveCmd = new CommandAsync(this.save$.bind(this), this.isValid$);
   removeHeroCmd = new CommandAsync(this.removeHero$.bind(this), this.isValidHeroRemove$);
+  pauseHeroCmd = new CommandAsync(this.pauseHero$.bind(this), this.isValidHeroRemove$);
   saveReduxCmd = new CommandAsync(
     this.saveRedux.bind(this),
     this.isValidRedux$,
   );
   heroes: Hero[] = [
     { key: "rexxar", name: "Rexxar" },
-    { key: "Malthael", name: "Malthael" },
+    { key: "malthael", name: "Malthael" },
     { key: "diablo", name: "Diablo" },
   ];
 
   // saveCmdSync: ICommand = new Command(this.save$.bind(this), this.isValid$, true);
   // saveCmd: ICommand = new Command(this.save$.bind(this), null, true);
   private _state = new BehaviorSubject({ isLoading: false });
+  private _pauseState = new BehaviorSubject<HeroPausedState>({});
 
   constructor(
     private cdr: ChangeDetectorRef
@@ -93,10 +99,38 @@ export class CommandComponent {
     );
   }
 
+  pauseHero$(hero: Hero, param2: any, param3: any) {
+    console.log("pauseHero$", { hero, param2, param3, heroes: this.heroes });
+
+    this.updateHeroPause(hero.key, { isPaused: true });
+    return timer(2000).pipe(
+      tap(() => console.warn("pauseHero$", "execute complete", this.heroes)),
+      tap(() => this.updateHeroPause(hero.key, { isPaused: false })),
+    );
+  }
+
+  canPauseHero$(hero: Hero, param2: any, param3: any): Observable<boolean> {
+    console.log("canPauseHero$ - factory init", { hero, param2, param3, heroes: this.heroes });
+    return this._pauseState.pipe(
+      tap(x => console.warn(">>>> pauseState emit #1", x, hero)),
+      map(x => x[hero.key]),
+      map(x => x && !x.isPaused),
+      distinctUntilChanged(),
+      tap(x => console.warn(">>>> canPauseChange", x, hero)),
+      tap(() => this.cdr.markForCheck()),
+    );
+  }
+
   canRemoveHero$(id: string): Observable<boolean> {
     return of(id).pipe(
       map(x => x === "invulnerable")
     );
+  }
+
+  private updateHeroPause(key: string, changes: { isPaused: boolean }) {
+    const newState = Object.assign({}, this._pauseState.value, { [key]: { ...changes } });
+    console.warn(">>> _pauseState change", newState);
+    this._pauseState.next(newState);
   }
 
   private save$() {
@@ -111,8 +145,10 @@ export class CommandComponent {
 
     console.warn(">>> saveRedux init");
     // selector
-    return this._state.pipe(filter(x => !x.isLoading),
-      tap(x => console.warn(">>>> isloading", x)));
+    return this._state.pipe(
+      filter(x => !x.isLoading),
+      tap(x => console.warn(">>>> isloading", x))
+    );
   }
 
   private fakeDispatch() {
