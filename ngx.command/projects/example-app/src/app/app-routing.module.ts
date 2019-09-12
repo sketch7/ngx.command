@@ -4,7 +4,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { CommandComponent } from "./command/command.component";
 
 const routes: Routes = [
-  { path: "command", component: CommandComponent },
+  { path: "", component: CommandComponent },
 ];
 
 @NgModule({
