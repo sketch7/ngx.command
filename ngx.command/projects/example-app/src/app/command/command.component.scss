@@ -5,10 +5,10 @@ $var-code-font: "consolas";
 .container {
 	display: flex;
 	flex-flow: row wrap;
-  justify-content: space-between;
+  justify-content: space-evenly;
 
   .mat-card {
-    margin-bottom: 1em;
+    margin-bottom: 2em;
   }
 }
 
