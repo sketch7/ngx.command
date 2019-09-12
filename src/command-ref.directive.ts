@@ -1,3 +1,4 @@
+import { Observable } from "rxjs";
 import { Directive, OnInit, OnDestroy, Input, ViewContainerRef } from "@angular/core";
 
 import { ICommand, CommandCreator } from "./command.model";
@@ -42,7 +43,7 @@ export class CommandRefDirective implements OnInit, OnDestroy {
 			const hostComponent = (this.viewContainer as any)._view.component;
 
 			const execFn = this.commandCreator.execute.bind(hostComponent);
-			this._command = new Command(execFn, this.commandCreator.canExecute, isAsync);
+			this._command = new Command(execFn, this.commandCreator.canExecute as Observable<boolean> | undefined, isAsync);
 		} else {
 			throw new Error("ssvCommandRef: [ssvCommandRef] is not defined properly!");
 		}

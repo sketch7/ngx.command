@@ -28,7 +28,7 @@ export interface ICommand {
 
 export interface CommandCreator {
 	execute: (...args: any[]) => Observable<any> | Promise<any> | void;
-	canExecute?: Observable<boolean>;
+	canExecute?: Observable<boolean> | Function;
 	params: any | any[];
 	isAsync?: boolean;
 }

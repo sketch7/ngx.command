@@ -1,4 +1,13 @@
-## [1.2.6](https://github.com/sketch7/ngx.command/compare/1.2.6...1.3.0) (2019-07-24)
+## [1.4.0](https://github.com/sketch7/ngx.command/compare/1.3.0...1.4.0) (2019-09-11)
+
+### Features
+
+- **directive:** now supports `canExecute` with params for the command creator only e.g.
+```html
+<button [ssvCommand]="{execute: removeHero$, canExecute: canRemoveHero$, params: [hero, 1337, 'xx']}">Remove</button>
+```
+
+## [1.3.0](https://github.com/sketch7/ngx.command/compare/1.2.6...1.3.0) (2019-07-24)
 
 ### Features
 

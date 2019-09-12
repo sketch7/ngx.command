@@ -99,7 +99,20 @@ This is useful for collections (loops) or using multiple actions with different 
 This is useful for collections (loops) or using multiple actions with different args, whilst not sharing `isExecuting`.
 
 ```html
-<button [ssvCommand]="{execute: removeHero$, canExecute: isValid$, params: [hero, 1337, 'xx']}">Save</button>
+<button [ssvCommand]="{execute: removeHero$, canExecute: isValid$, params: [hero, 1337, 'xx']}">Remove</button>
+```
+
+##### canExecute with params
+```html
+<button [ssvCommand]="{execute: removeHero$, canExecute: canRemoveHero$, params: [hero, 1337, 'xx']}">Remove</button>
+```
+
+```ts
+canRemoveHero$(hero: Hero, id: number, param2): Observable<boolean> {
+  return of(id).pipe(
+    map(x => x === "invulnerable")
+  );
+}
 ```
 
 ## Usage without Attribute

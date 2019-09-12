@@ -130,7 +130,16 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 			const execFn = this.commandOrCreator.execute.bind(hostComponent);
 			this.commandParams = this.commandParams || this.commandOrCreator.params;
-			this._command = new Command(execFn, this.commandOrCreator.canExecute, isAsync);
+
+			const canExec = this.commandOrCreator.canExecute instanceof Function
+				? this.commandOrCreator.canExecute.bind(hostComponent, this.commandParams)()
+				: this.commandOrCreator.canExecute;
+
+			// console.log("[ssvCommand::init] command creator", {
+			// 	firstParam: this.commandParams ? this.commandParams[0] : null,
+			// 	params: this.commandParams
+			// });
+			this._command = new Command(execFn, canExec, isAsync);
 		} else {
 			throw new Error("ssvCommand: [ssvCommand] is not defined properly!");
 		}
