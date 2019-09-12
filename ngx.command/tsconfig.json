@@ -17,7 +17,24 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@angular/*": [
+        "./node_modules/@angular/*"
+      ],
+      "@ssv/ngx.command": [
+        "../src"
+      ],
+      "@ssv/ngx.command/*": [
+        "../src/*"
+      ],
+      "rxjs": [
+        "../node_modules/rxjs"
+      ],
+      "rxjs/*": [
+        "../node_modules/rxjs/*"
+      ],
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
