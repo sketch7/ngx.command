@@ -4,6 +4,7 @@
 
 - **directive:** `canExecute` when started as `false` was not working with material buttons
 - **command:** `canExecute` when returning `undefined`/`null` or so its always converted to bool instead as truthy
+- **command:** `canExecute` now shares the result with directive and no longer executes twice
 
 ### Chore
 
