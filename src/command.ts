@@ -52,7 +52,6 @@ export class Command implements ICommand {
 		if (canExecute$) {
 			this.canExecute$ = combineLatest(
 				this._isExecuting$,
-				// canExecute$.pipe(share()),
 				canExecute$,
 				(isExecuting, canExecuteResult) => {
 					// console.log("[command::combineLatest$] update!", { isExecuting, canExecuteResult });
