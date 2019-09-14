@@ -4,11 +4,11 @@ import { Routes, RouterModule } from "@angular/router";
 import { CommandComponent } from "./command/command.component";
 
 const routes: Routes = [
-  { path: "", component: CommandComponent },
+	{ path: "", component: CommandComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forRoot(routes)],
+	exports: [RouterModule]
 })
 export class AppRoutingModule { }

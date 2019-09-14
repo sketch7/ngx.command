@@ -5,11 +5,11 @@ $var-code-font: "consolas";
 .container {
 	display: flex;
 	flex-flow: row wrap;
-  justify-content: space-evenly;
+	justify-content: space-evenly;
 
-  .mat-card {
-    margin-bottom: 2em;
-  }
+	.mat-card {
+		margin-bottom: 2em;
+	}
 }
 
 .type {

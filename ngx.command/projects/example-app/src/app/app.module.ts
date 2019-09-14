@@ -12,26 +12,26 @@ import { AppRoutingModule } from "./app-routing.module";
 import { CommandComponent } from "./command/command.component";
 
 const materialModules = [
-  MatButtonModule,
-  MatProgressSpinnerModule,
-  MatIconModule,
-  MatCardModule,
+	MatButtonModule,
+	MatProgressSpinnerModule,
+	MatIconModule,
+	MatCardModule,
 ];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    CommandComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
+	declarations: [
+		AppComponent,
+		CommandComponent,
+	],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		BrowserAnimationsModule,
 
-    CommandModule,
-    materialModules,
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+		CommandModule,
+		materialModules,
+	],
+	providers: [],
+	bootstrap: [AppComponent]
 })
 export class AppModule { }
