@@ -2,7 +2,6 @@ import { Observable, combineLatest, Subscription, Subject, BehaviorSubject, of, 
 import { tap, map, filter, switchMap, catchError, finalize, first } from "rxjs/operators";
 import { ICommand } from "./command.model";
 
-
 /**
  * Command object used to encapsulate information which is needed to perform an action.
  */
@@ -59,7 +58,6 @@ export class Command implements ICommand {
 					this._canExecute = !isExecuting && !!canExecuteResult;
 					return this._canExecute;
 				}
-			// ).pipe(share());
 			);
 			this.canExecute$$ = this.canExecute$.subscribe();
 		} else {
