@@ -1,5 +1,5 @@
 import { Observable, combineLatest, Subscription, Subject, BehaviorSubject, of, EMPTY } from "rxjs";
-import { tap, map, filter, switchMap, catchError, finalize, first, share } from "rxjs/operators";
+import { tap, map, filter, switchMap, catchError, finalize, first } from "rxjs/operators";
 import { ICommand } from "./command.model";
 
 
@@ -59,7 +59,8 @@ export class Command implements ICommand {
 					this._canExecute = !isExecuting && !!canExecuteResult;
 					return this._canExecute;
 				}
-			).pipe(share());
+			// ).pipe(share());
+			);
 			this.canExecute$$ = this.canExecute$.subscribe();
 		} else {
 			this.canExecute$ = this._isExecuting$.pipe(
