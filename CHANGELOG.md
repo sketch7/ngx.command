@@ -1,3 +1,14 @@
+## [1.4.1](https://github.com/sketch7/ngx.command/compare/1.4.0...1.4.1) (2019-09-11)
+
+### Bug Fixes
+
+- **directive:** `canExecute` when started as `false` was not working with material buttons
+- **command:** `canExecute` when returning `undefined`/`null` or so its always converted to bool instead as truthy
+
+### Chore
+
+- **example:** add/move examples to project
+
 ## [1.4.0](https://github.com/sketch7/ngx.command/compare/1.3.0...1.4.0) (2019-09-11)
 
 ### Features

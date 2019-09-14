@@ -7,7 +7,8 @@
     ]
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    // "ngx.command/**/*"
   ],
   "angularCompilerOptions": {
     "strictInjectionParameters": true,

@@ -12,7 +12,7 @@ import {
 	ViewContainerRef,
 } from "@angular/core";
 import { Subscription, Observable, EMPTY } from "rxjs";
-import { tap, merge } from "rxjs/operators";
+import { tap, merge, delay } from "rxjs/operators";
 
 import { CommandOptions, COMMAND_CONFIG, COMMAND_DEFAULT_CONFIG } from "./config";
 import { Command } from "./command";
@@ -115,7 +115,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 		private renderer: Renderer2,
 		private element: ElementRef,
 		private cdr: ChangeDetectorRef,
-		private viewContainer: ViewContainerRef
+		private viewContainer: ViewContainerRef,
 	) { }
 
 	ngOnInit() {
@@ -146,9 +146,10 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 		this._command.subscribe();
 		const canExecute$ = this._command.canExecute$.pipe(
+			delay(1),
 			tap(x => {
-				// console.log("[ssvCommand::canExecute$]", x);
 				this.isDisabled = !x;
+				// console.log("[ssvCommand::canExecute$] x2", x, this.isDisabled);
 				this.cdr.markForCheck();
 			})
 		);

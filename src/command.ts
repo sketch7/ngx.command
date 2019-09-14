@@ -2,7 +2,6 @@ import { Observable, combineLatest, Subscription, Subject, BehaviorSubject, of, 
 import { tap, map, filter, switchMap, catchError, finalize, first } from "rxjs/operators";
 import { ICommand } from "./command.model";
 
-
 /**
  * Command object used to encapsulate information which is needed to perform an action.
  */
@@ -56,7 +55,7 @@ export class Command implements ICommand {
 				(isExecuting, canExecuteResult) => {
 					// console.log("[command::combineLatest$] update!", { isExecuting, canExecuteResult });
 					this._isExecuting = isExecuting;
-					this._canExecute = !isExecuting && canExecuteResult;
+					this._canExecute = !isExecuting && !!canExecuteResult;
 					return this._canExecute;
 				}
 			);
@@ -104,6 +103,7 @@ export class Command implements ICommand {
 
 	private buildExecutionPipe(execute: (...args: any[]) => any, isAsync?: boolean): Observable<any> {
 		let pipe$ = this.executionPipe$.pipe(
+			// tap(x => console.warn(">>>> executionPipe", this._canExecute)),
 			filter(() => this._canExecute),
 			tap(() => {
 				// console.log("[command::excutionPipe$] do#1 - set execute", { args: x });
