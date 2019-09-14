@@ -9,7 +9,7 @@ import { CommandModule } from "@ssv/ngx.command";
 
 import { AppComponent } from "./app.component";
 import { AppRoutingModule } from "./app-routing.module";
-import { CommandComponent } from "./command/command.component";
+import { ExampleCommandComponent } from "./command/example-command.component";
 
 const materialModules = [
 	MatButtonModule,
@@ -21,7 +21,7 @@ const materialModules = [
 @NgModule({
 	declarations: [
 		AppComponent,
-		CommandComponent,
+		ExampleCommandComponent,
 	],
 	imports: [
 		BrowserModule,

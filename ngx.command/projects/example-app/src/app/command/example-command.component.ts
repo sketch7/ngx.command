@@ -27,12 +27,12 @@ interface HeroPausedState {
 }
 
 @Component({
-	selector: "app-command",
-	templateUrl: "./command.component.html",
-	styleUrls: ["./command.component.scss"],
+	selector: "app-example-command",
+	templateUrl: "./example-command.component.html",
+	styleUrls: ["./example-command.component.scss"],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CommandComponent {
+export class ExampleCommandComponent {
 	isValid = true;
 	isExecuting = false;
 
