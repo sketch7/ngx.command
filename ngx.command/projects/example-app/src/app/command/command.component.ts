@@ -48,8 +48,8 @@ export class CommandComponent {
     this.isValidRedux$,
   );
   heroes: Hero[] = [
-    // { key: "rexxar", name: "Rexxar" },
-    // { key: "malthael", name: "Malthael" },
+    { key: "rexxar", name: "Rexxar" },
+    { key: "malthael", name: "Malthael" },
     { key: "diablo", name: "Diablo" },
   ];
 

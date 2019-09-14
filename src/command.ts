@@ -60,7 +60,7 @@ export class Command implements ICommand {
 					this._canExecute = !isExecuting && !!canExecuteResult;
 					return this._canExecute;
 				}
-			);
+			).pipe(share());
 			this.canExecute$$ = this.canExecute$.subscribe();
 		} else {
 			this.canExecute$ = this._isExecuting$.pipe(
@@ -105,6 +105,7 @@ export class Command implements ICommand {
 
 	private buildExecutionPipe(execute: (...args: any[]) => any, isAsync?: boolean): Observable<any> {
 		let pipe$ = this.executionPipe$.pipe(
+			// tap(x => console.warn(">>>> executionPipe", this._canExecute)),
 			filter(() => this._canExecute),
 			tap(() => {
 				// console.log("[command::excutionPipe$] do#1 - set execute", { args: x });
