@@ -6,7 +6,7 @@
     <strong>@ssv/ngx.command</strong></a>.
 </p>
 <div class="container">
-  <mat-card>
+  <mat-card *ngIf="true">
     <mat-card-title>Vanilla</mat-card-title>
     <mat-card-content>
       <div class="btn-group"
@@ -43,7 +43,7 @@
     </mat-card-actions>
   </mat-card>
 
-  <mat-card>
+  <mat-card *ngIf="true">
     <mat-card-title>Using Command</mat-card-title>
     <mat-card-content>
       <div class="btn-group"
@@ -176,7 +176,7 @@
     </mat-card-actions>
   </mat-card>
 
-  <mat-card>
+  <mat-card *ngIf="false">
     <mat-card-title>Within Collection</mat-card-title>
     <mat-card-content>
       <div class="btn-group"
@@ -242,7 +242,7 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-card>
+  <mat-card *ngIf="true">
     <mat-card-title>Within Collection CanExecute</mat-card-title>
     <mat-card-content>
       <div class="form-group collection">
@@ -259,6 +259,33 @@
               <mat-icon>pause</mat-icon>
             </button>
           </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="false">
+    <mat-card-title>Command Creator CanExecute</mat-card-title>
+    <mat-card-content>
+      <div class="btn-group"
+        role="group">
+        <button mat-flat-button
+          [color]="invulnerableHero.isInvulnerable ? null : 'warn'"
+          (click)="toggleHeroVulnerability()">
+          Mark as {{ invulnerableHero.isInvulnerable ? "Vulerable" : "Invulerable" }}
+        </button>
+      </div>
+      <div class="form-group collection">
+        <div class="hero">
+          {{invulnerableHero.name}}
+        </div>
+        <div class="action button-group">
+          <button mat-icon-button
+            color="accent"
+            [ssvCommand]="{execute: pauseHero$, canExecute: canRemoveHero$, params: invulnerableHero}"
+            title="command creator canExecute">
+            <mat-icon>face</mat-icon>
+          </button>
         </div>
       </div>
     </mat-card-content>

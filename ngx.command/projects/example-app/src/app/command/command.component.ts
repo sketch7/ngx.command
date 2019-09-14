@@ -11,6 +11,8 @@ import { CommandAsync } from "@ssv/ngx.command";
 interface Hero {
   key: string;
   name: string;
+
+  isInvulnerable?: boolean;
 }
 
 enum Roles {
@@ -46,10 +48,19 @@ export class CommandComponent {
     this.isValidRedux$,
   );
   heroes: Hero[] = [
-    { key: "rexxar", name: "Rexxar" },
-    { key: "malthael", name: "Malthael" },
+    // { key: "rexxar", name: "Rexxar" },
+    // { key: "malthael", name: "Malthael" },
     { key: "diablo", name: "Diablo" },
   ];
+
+  get invulnerableHero(): Hero {
+    return this.invulnerableHeroState$.value;
+  }
+  invulnerableHeroState$ = new BehaviorSubject({
+    key: "brahum",
+    name: "Brahum",
+    isInvulnerable: true
+  } as Hero);
 
   // saveCmdSync: ICommand = new Command(this.save$.bind(this), this.isValid$, true);
   // saveCmd: ICommand = new Command(this.save$.bind(this), null, true);
@@ -112,19 +123,29 @@ export class CommandComponent {
   canPauseHero$(hero: Hero, param2: any, param3: any): Observable<boolean> {
     console.log("canPauseHero$ - factory init", { hero, param2, param3, heroes: this.heroes });
     return this._pauseState.pipe(
-      tap(x => console.warn(">>>> pauseState emit #1", x, hero)),
+      tap(x => console.warn(">>>> canPauseHero$ - pauseState emit #1", x, hero)),
       map(x => x[hero.key]),
-      map(x => x && !x.isPaused),
+      map(x => !x || !x.isPaused),
       distinctUntilChanged(),
-      tap(x => console.warn(">>>> canPauseChange", x, hero)),
+      tap(x => console.warn(">>>> canPauseHero$ change", x, hero)),
       tap(() => this.cdr.markForCheck()),
     );
   }
 
-  canRemoveHero$(id: string): Observable<boolean> {
-    return of(id).pipe(
-      map(x => x === "invulnerable")
+  canRemoveHero$(hero: Hero): Observable<boolean> {
+    console.log("canRemoveHero$ - factory init", { hero });
+
+    return this.invulnerableHeroState$.pipe(
+      map(x => !!x.isInvulnerable),
+      tap(x => console.warn(">>>> canRemoveHero$ change", x, hero)),
     );
+  }
+
+  toggleHeroVulnerability(): void {
+    console.info("toggleHeroVulnerability");
+    const h = this.invulnerableHero;
+    const newHero: Hero = { ...h, isInvulnerable: !h.isInvulnerable };
+    this.invulnerableHeroState$.next(newHero);
   }
 
   private updateHeroPause(key: string, changes: { isPaused: boolean }) {
