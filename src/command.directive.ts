@@ -146,6 +146,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 		this._command.subscribe();
 		const canExecute$ = this._command.canExecute$.pipe(
+			delay(1),
 			tap(x => {
 				// console.log("[ssvCommand::canExecute$]", x);
 				this.isDisabled = !x;

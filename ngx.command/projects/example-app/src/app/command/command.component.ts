@@ -4,7 +4,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
 } from "@angular/core";
-import { BehaviorSubject, timer, Observable, of } from "rxjs";
+import { BehaviorSubject, timer, Observable } from "rxjs";
 import { tap, filter, map, distinctUntilChanged } from "rxjs/operators";
 import { CommandAsync } from "@ssv/ngx.command";
 

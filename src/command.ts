@@ -57,7 +57,7 @@ export class Command implements ICommand {
 				(isExecuting, canExecuteResult) => {
 					// console.log("[command::combineLatest$] update!", { isExecuting, canExecuteResult });
 					this._isExecuting = isExecuting;
-					this._canExecute = !isExecuting && canExecuteResult;
+					this._canExecute = !isExecuting && !!canExecuteResult;
 					return this._canExecute;
 				}
 			);
