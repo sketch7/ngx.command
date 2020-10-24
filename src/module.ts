@@ -13,6 +13,7 @@ export const _MODULE_CONFIG = new InjectionToken<CommandOptions>("_command-confi
 	exports: [CommandDirective, CommandRefDirective],
 })
 export class CommandModule {
+
 	static forRoot(config?: CommandOptions | (() => CommandOptions)): ModuleWithProviders<CommandModule> {
 		return {
 			ngModule: CommandModule,
@@ -26,6 +27,7 @@ export class CommandModule {
 			],
 		};
 	}
+
 }
 
 /** @internal */
