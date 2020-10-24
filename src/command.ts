@@ -49,15 +49,16 @@ export class Command implements ICommand {
 		isAsync?: boolean,
 	) {
 		if (canExecute$) {
-			this.canExecute$ = combineLatest(
+			this.canExecute$ = combineLatest([
 				this._isExecuting$,
-				canExecute$,
-				(isExecuting, canExecuteResult) => {
+				canExecute$
+			]).pipe(
+				map(([isExecuting, canExecuteResult]) => {
 					// console.log("[command::combineLatest$] update!", { isExecuting, canExecuteResult });
 					this._isExecuting = isExecuting;
 					this._canExecute = !isExecuting && !!canExecuteResult;
 					return this._canExecute;
-				}
+				}),
 			);
 			this.canExecute$$ = this.canExecute$.subscribe();
 		} else {

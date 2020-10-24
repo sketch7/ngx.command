@@ -30,20 +30,22 @@
     "type": "git",
     "url": "https://github.com/sketch7/ngx.command.git"
   },
-  "dependencies": {},
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
   "peerDependencies": {
     "@angular/core": ">=6.0.0",
     "@angular/forms": ">=6.0.0",
     "rxjs": "^6.0.0"
   },
   "devDependencies": {
-    "@angular/common": "^8.0.0",
-    "@angular/compiler": "^8.0.0",
-    "@angular/compiler-cli": "^8.0.0",
-    "@angular/core": "^8.0.0",
-    "@angular/forms": "^8.0.0",
-    "@angular/platform-browser": "^8.0.0",
-    "@angular/platform-browser-dynamic": "^8.0.0",
+    "@angular/common": "^10.1.6",
+    "@angular/compiler": "^10.1.6",
+    "@angular/compiler-cli": "^10.1.6",
+    "@angular/core": "^10.1.6",
+    "@angular/forms": "^10.1.6",
+    "@angular/platform-browser": "^10.1.6",
+    "@angular/platform-browser-dynamic": "^10.1.6",
     "@ssv/tools": "^0.8.1",
     "@types/jest": "^24.0.13",
     "gulp": "^4.0.2",
@@ -51,17 +53,17 @@
     "gulp-conventional-changelog": "^2.0.19",
     "jest": "^24.8.0",
     "jest-environment-node-debug": "^2.0.0",
-    "ng-packagr": "^5.3.0",
+    "ng-packagr": "^10.1.2",
     "reflect-metadata": "^0.1.13",
     "require-dir": "^1.2.0",
     "rimraf": "^2.6.3",
-    "rxjs": "^6.5.2",
+    "rxjs": "^6.6.3",
     "ts-jest": "^24.0.2",
-    "tsickle": "^0.35.0",
+    "tsickle": "^0.39.1",
     "tslint": "^5.17.0",
-    "typescript": "~3.4.5",
+    "typescript": "~4.0.3",
     "yargs": "^13.2.4",
-    "zone.js": "^0.9.1"
+    "zone.js": "^0.11.2"
   },
   "resolutions": {
     "natives": "1.1.3"
