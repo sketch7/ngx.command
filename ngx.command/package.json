@@ -12,16 +12,15 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~10.2.0",
-    "@angular/cdk": "~8.2.0",
+    "@angular/cdk": "~9.2.4",
     "@angular/common": "~10.2.0",
     "@angular/compiler": "~10.2.0",
     "@angular/core": "~10.2.0",
     "@angular/forms": "~10.2.0",
-    "@angular/material": "^8.2.0",
+    "@angular/material": "^9.2.4",
     "@angular/platform-browser": "~10.2.0",
     "@angular/platform-browser-dynamic": "~10.2.0",
     "@angular/router": "~10.2.0",
-    "hammerjs": "^2.0.8",
     "rxjs": "~6.6.3",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
