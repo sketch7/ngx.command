@@ -33,7 +33,7 @@
       ],
       "rxjs/*": [
         "../node_modules/rxjs/*"
-      ],
+      ]
     }
   },
   "angularCompilerOptions": {
