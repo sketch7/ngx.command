@@ -6,7 +6,7 @@
     <strong>@ssv/ngx.command</strong></a>.
 </p>
 <div class="container">
-  <mat-card *ngIf="false">
+  <mat-card *ngIf="true">
     <mat-card-title>Vanilla</mat-card-title>
     <mat-card-content>
       <div class="btn-group"
@@ -80,7 +80,7 @@
         color="primary"
         [disabled]="!saveCmd.canExecute"
         (click)="saveCmd.execute()">
-        Save xx
+        Save
         <small>execute</small>
       </button>
 
@@ -89,11 +89,11 @@
         [ssvCommand]="saveCmd">
         <i *ngIf="saveCmd.isExecuting"
           class="ai-circled ai-indicator ai-dark-spin small"></i>
-        Save x1
+        Save
         <small>with [ssvCommand]</small>
       </button>
 
-      <!-- <button mat-raised-button
+      <button mat-raised-button
         color="primary"
         [ssvCommand]="saveCmd"
         [ssvCommandOptions]="{executingCssClass: 'is-loading'}">
@@ -104,11 +104,11 @@
         </mat-icon>
         Save
         <small>with [options]</small>
-      </button> -->
+      </button>
     </mat-card-actions>
   </mat-card>
 
-  <mat-card *ngIf="false">
+  <mat-card>
     <mat-card-title>Using Command Redux</mat-card-title>
     <mat-card-content>
       <div class="btn-group"
@@ -176,7 +176,7 @@
     </mat-card-actions>
   </mat-card>
 
-  <mat-card *ngIf="false">
+  <mat-card *ngIf="true">
     <mat-card-title>Within Collection</mat-card-title>
     <mat-card-content>
       <div class="btn-group"
@@ -242,7 +242,7 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-card *ngIf="false">
+  <mat-card *ngIf="true">
     <mat-card-title>Within Collection CanExecute</mat-card-title>
     <mat-card-content>
       <div class="form-group collection">
@@ -264,7 +264,7 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-card *ngIf="false">
+  <mat-card *ngIf="true">
     <mat-card-title>Command Creator CanExecute</mat-card-title>
     <mat-card-content>
       <div class="btn-group"

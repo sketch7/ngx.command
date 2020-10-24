@@ -36,7 +36,7 @@ export class ExampleCommandComponent {
 	isValid = true;
 	isExecuting = false;
 
-	isValid$ = new BehaviorSubject(false);
+	isValid$ = new BehaviorSubject(true);
 	isValidRedux$ = new BehaviorSubject(true);
 	isValidHeroRemove$ = new BehaviorSubject(true);
 
