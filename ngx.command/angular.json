@@ -128,5 +128,8 @@
       }
     }
   },
-  "defaultProject": "example-app"
+  "defaultProject": "example-app",
+  "cli": {
+    "analytics": false
+  }
 }
