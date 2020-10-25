@@ -5,6 +5,7 @@
 _This version is focused for maintenance rather than features_
 
 - **export:** export `CommandCreator` `ICommand`
+- **deps:** now depends on tslib `^1.10.0`
 
 ### Refactor 
 

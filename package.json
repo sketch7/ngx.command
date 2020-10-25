@@ -30,7 +30,9 @@
     "type": "git",
     "url": "https://github.com/sketch7/ngx.command.git"
   },
-  "dependencies": {},
+  "dependencies": {
+    "tslib": "^1.10.0"
+  },
   "peerDependencies": {
     "@angular/core": ">=6.0.0",
     "@angular/forms": ">=6.0.0",
