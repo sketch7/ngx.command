@@ -12,8 +12,9 @@ export const _MODULE_CONFIG = new InjectionToken<CommandOptions>("_command-confi
 	providers: [{ provide: COMMAND_CONFIG, useValue: COMMAND_DEFAULT_CONFIG }],
 	exports: [CommandDirective, CommandRefDirective],
 })
-export class CommandModule {
-	static forRoot(config?: CommandOptions | (() => CommandOptions)): ModuleWithProviders {
+export class CommandModule { // todo: rename to SsvCommandModule
+
+	static forRoot(config?: CommandOptions | (() => CommandOptions)): ModuleWithProviders<CommandModule> {
 		return {
 			ngModule: CommandModule,
 			providers: [
@@ -26,6 +27,7 @@ export class CommandModule {
 			],
 		};
 	}
+
 }
 
 /** @internal */

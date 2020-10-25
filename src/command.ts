@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Observable, combineLatest, Subscription, Subject, BehaviorSubject, of, EMPTY } from "rxjs";
 import { tap, map, filter, switchMap, catchError, finalize, first } from "rxjs/operators";
 import { ICommand } from "./command.model";
@@ -6,6 +7,7 @@ import { ICommand } from "./command.model";
  * Command object used to encapsulate information which is needed to perform an action.
  */
 export class Command implements ICommand {
+
 	/** Determines whether the command is currently executing, as a snapshot value. */
 	get isExecuting(): boolean {
 		return this._isExecuting;
@@ -30,7 +32,7 @@ export class Command implements ICommand {
 	private _isExecuting$ = new BehaviorSubject<boolean>(false);
 	private _isExecuting = false;
 	private _canExecute = true;
-	private executionPipe$ = new Subject<any[] | undefined>();
+	private executionPipe$ = new Subject<unknown[] | undefined>();
 	private isExecuting$$ = Subscription.EMPTY;
 	private canExecute$$ = Subscription.EMPTY;
 	private executionPipe$$ = Subscription.EMPTY;
@@ -44,20 +46,21 @@ export class Command implements ICommand {
 	 * @param isAsync Indicates that the execute function is async e.g. Observable.
 	 */
 	constructor(
-		execute: (...args: any[]) => any,
+		execute: (...args: unknown[]) => unknown,
 		canExecute$?: Observable<boolean>,
 		isAsync?: boolean,
 	) {
 		if (canExecute$) {
-			this.canExecute$ = combineLatest(
+			this.canExecute$ = combineLatest([
 				this._isExecuting$,
-				canExecute$,
-				(isExecuting, canExecuteResult) => {
+				canExecute$
+			]).pipe(
+				map(([isExecuting, canExecuteResult]) => {
 					// console.log("[command::combineLatest$] update!", { isExecuting, canExecuteResult });
 					this._isExecuting = isExecuting;
 					this._canExecute = !isExecuting && !!canExecuteResult;
 					return this._canExecute;
-				}
+				}),
 			);
 			this.canExecute$$ = this.canExecute$.subscribe();
 		} else {
@@ -76,24 +79,24 @@ export class Command implements ICommand {
 	}
 
 	/** Execute function to invoke. */
-	execute(...args: any[]) {
+	execute(...args: unknown[]): void {
 		// console.warn("[command::execute]", args);
 		this.executionPipe$.next(args);
 	}
 
 	/** Disposes all resources held by subscriptions. */
-	destroy() {
+	destroy(): void {
 		// console.warn("[command::destroy]");
 		this.executionPipe$$.unsubscribe();
 		this.canExecute$$.unsubscribe();
 		this.isExecuting$$.unsubscribe();
 	}
 
-	subscribe() {
+	subscribe(): void {
 		this.subscribersCount++;
 	}
 
-	unsubscribe() {
+	unsubscribe(): void {
 		this.subscribersCount--;
 		// console.log("[command::unsubscribe]", { autoDestroy: this.autoDestroy, subscribersCount: this.subscribersCount });
 		if (this.autoDestroy && this.subscribersCount <= 0) {
@@ -101,24 +104,24 @@ export class Command implements ICommand {
 		}
 	}
 
-	private buildExecutionPipe(execute: (...args: any[]) => any, isAsync?: boolean): Observable<any> {
+	private buildExecutionPipe(execute: (...args: unknown[]) => any, isAsync?: boolean): Observable<unknown> {
 		let pipe$ = this.executionPipe$.pipe(
 			// tap(x => console.warn(">>>> executionPipe", this._canExecute)),
 			filter(() => this._canExecute),
 			tap(() => {
-				// console.log("[command::excutionPipe$] do#1 - set execute", { args: x });
+				// console.log("[command::executionPipe$] do#1 - set execute", { args: x });
 				this._isExecuting$.next(true);
 			})
 		);
 
 		const execFn = isAsync
-			? switchMap<any[] | undefined, any[]>(args => {
+			? switchMap<unknown[] | undefined, any[]>(args => {
 				if (args) {
 					return execute(...args);
 				}
 				return execute();
 			})
-			: tap((args: any[] | undefined) => {
+			: tap((args: unknown[] | undefined) => {
 				if (args) {
 					execute(...args);
 					return;
@@ -130,7 +133,7 @@ export class Command implements ICommand {
 			switchMap(args => of(args).pipe(
 				execFn,
 				finalize(() => {
-					// console.log("[command::excutionPipe$]  finalize inner#1 - set idle");
+					// console.log("[command::executionPipe$]  finalize inner#1 - set idle");
 					this._isExecuting$.next(false);
 				}),
 				first(),
@@ -141,13 +144,14 @@ export class Command implements ICommand {
 			)),
 			tap(
 				() => {
-					// console.log("[command::excutionPipe$] tap#2 - set idle");
+					// console.log("[command::executionPipe$] tap#2 - set idle");
 					this._isExecuting$.next(false);
 				},
 			)
 		);
 		return pipe$;
 	}
+
 }
 
 /**
@@ -155,10 +159,12 @@ export class Command implements ICommand {
  * which takes an execute function as Observable/Promise.
  */
 export class CommandAsync extends Command {
+
 	constructor(
-		execute: (...args: any[]) => Observable<any> | Promise<any>,
+		execute: (...args: unknown[]) => Observable<unknown> | Promise<unknown>,
 		canExecute$?: Observable<boolean>,
 	) {
 		super(execute, canExecute$, true);
 	}
+
 }

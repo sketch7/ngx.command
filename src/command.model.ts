@@ -14,7 +14,7 @@ export interface ICommand {
 	autoDestroy: boolean;
 
 	/** Execute function to invoke. */
-	execute(...args: any[]): void;
+	execute(...args: unknown[]): void;
 
 	/** Disposes all resources held by subscriptions. */
 	destroy(): void;
@@ -27,8 +27,9 @@ export interface ICommand {
 }
 
 export interface CommandCreator {
-	execute: (...args: any[]) => Observable<any> | Promise<any> | void;
+	execute: (...args: unknown[]) => Observable<unknown> | Promise<unknown> | void;
+	// eslint-disable-next-line @typescript-eslint/ban-types
 	canExecute?: Observable<boolean> | Function;
-	params: any | any[];
+	params: unknown | unknown[];
 	isAsync?: boolean;
 }

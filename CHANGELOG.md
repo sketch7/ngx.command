@@ -1,3 +1,24 @@
+## [1.5.0](https://github.com/sketch7/ngx.command/compare/1.4.1...1.5.0) (2020-10-25)
+
+### Features
+
+_This version is focused for maintenance rather than features_
+
+- **export:** export `CommandCreator` `ICommand`
+- **deps:** now depends on tslib `^1.10.0`
+
+### Refactor 
+
+- **lint:** fix all lint errors
+- **all:** minor refactoring
+- **all:** remove rxjs deprecations
+
+### Chore
+
+- **deps:** update dev dependencies
+- **ci:** update node version
+- **lint:** migrate from tslint to eslint
+
 ## [1.4.1](https://github.com/sketch7/ngx.command/compare/1.4.0...1.4.1) (2019-09-11)
 
 ### Bug Fixes

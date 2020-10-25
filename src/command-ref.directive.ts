@@ -37,9 +37,10 @@ export class CommandRefDirective implements OnInit, OnDestroy {
 		private viewContainer: ViewContainerRef
 	) { }
 
-	ngOnInit() {
+	ngOnInit(): void {
 		if (isCommandCreator(this.commandCreator)) {
 			const isAsync = this.commandCreator.isAsync || this.commandCreator.isAsync === undefined;
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			const hostComponent = (this.viewContainer as any)._view.component;
 
 			const execFn = this.commandCreator.execute.bind(hostComponent);
@@ -49,10 +50,11 @@ export class CommandRefDirective implements OnInit, OnDestroy {
 		}
 	}
 
-	ngOnDestroy() {
+	ngOnDestroy(): void {
 		// console.log("[commandRef::destroy]");
 		if (this._command) {
 			this._command.destroy();
 		}
 	}
+
 }

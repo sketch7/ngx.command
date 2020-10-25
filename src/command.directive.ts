@@ -11,8 +11,8 @@ import {
 	ChangeDetectorRef,
 	ViewContainerRef,
 } from "@angular/core";
-import { Subscription, Observable, EMPTY } from "rxjs";
-import { tap, merge, delay } from "rxjs/operators";
+import { Subject } from "rxjs";
+import { tap, delay, takeUntil } from "rxjs/operators";
 
 import { CommandOptions, COMMAND_CONFIG, COMMAND_DEFAULT_CONFIG } from "./config";
 import { Command } from "./command";
@@ -70,12 +70,12 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 	/** @deprecated Use `commandInput` instead. */
 	@Input("command")
-	get _commandOrCreator() { return this.commandOrCreator; }
+	get _commandOrCreator(): ICommand | CommandCreator | undefined { return this.commandOrCreator; }
 	set _commandOrCreator(value: ICommand | CommandCreator | undefined) {
 		this.commandOrCreator = value;
 	}
 	@Input("ssvCommandOptions")
-	get commandOptions() { return this._commandOptions; }
+	get commandOptions(): CommandOptions { return this._commandOptions; }
 	set commandOptions(value: CommandOptions) {
 		if (value === this._commandOptions) {
 			return;
@@ -86,29 +86,30 @@ export class CommandDirective implements OnInit, OnDestroy {
 			...value,
 		};
 	}
-	private _commandOptions: CommandOptions = {
-		...COMMAND_DEFAULT_CONFIG,
-		...this.config,
-	};
+
 	/** @deprecated Use `commandOptions` instead. */
 	@Input("commandOptions")
-	get __commandOptions() { return this.commandOptions; }
+	get __commandOptions(): CommandOptions { return this.commandOptions; }
 	set __commandOptions(value: CommandOptions) {
 		this.commandOptions = value;
 	}
 
-	@Input("ssvCommandParams") commandParams: any | any[];
+	@Input("ssvCommandParams") commandParams: unknown | unknown[];
 	/** @deprecated Use `commandParams` instead. */
 	@Input("commandParams")
-	get _commandParams() { return this.commandParams; }
-	set _commandParams(value: any | any[]) {
+	get _commandParams(): unknown | unknown[] { return this.commandParams; }
+	set _commandParams(value: unknown | unknown[]) {
 		this.commandParams = value;
 	}
 	@HostBinding("disabled") isDisabled: boolean | undefined;
 
 	get command(): ICommand { return this._command; }
 	private _command!: ICommand;
-	private data$$ = Subscription.EMPTY;
+	private _commandOptions: CommandOptions = {
+		...COMMAND_DEFAULT_CONFIG,
+		...this.config,
+	};
+	private _destroy$ = new Subject<void>();
 
 	constructor(
 		@Inject(COMMAND_CONFIG) private config: CommandOptions,
@@ -118,7 +119,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 		private viewContainer: ViewContainerRef,
 	) { }
 
-	ngOnInit() {
+	ngOnInit(): void {
 		// console.log("[ssvCommand::init]");
 		if (!this.commandOrCreator) {
 			throw new Error("ssvCommand: [ssvCommand] should be defined!");
@@ -126,6 +127,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 			this._command = this.commandOrCreator;
 		} else if (isCommandCreator(this.commandOrCreator)) {
 			const isAsync = this.commandOrCreator.isAsync || this.commandOrCreator.isAsync === undefined;
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			const hostComponent = (this.viewContainer as any)._view.component;
 
 			const execFn = this.commandOrCreator.execute.bind(hostComponent);
@@ -145,18 +147,18 @@ export class CommandDirective implements OnInit, OnDestroy {
 		}
 
 		this._command.subscribe();
-		const canExecute$ = this._command.canExecute$.pipe(
+		this._command.canExecute$.pipe(
 			delay(1),
 			tap(x => {
 				this.isDisabled = !x;
 				// console.log("[ssvCommand::canExecute$] x2", x, this.isDisabled);
 				this.cdr.markForCheck();
-			})
-		);
+			}),
+			takeUntil(this._destroy$),
+		).subscribe();
 
-		let isExecuting$: Observable<boolean>;
 		if (this._command.isExecuting$) {
-			isExecuting$ = this._command.isExecuting$.pipe(
+			this._command.isExecuting$.pipe(
 				tap(x => {
 					// console.log("[ssvCommand::isExecuting$]", x);
 					if (x) {
@@ -170,16 +172,14 @@ export class CommandDirective implements OnInit, OnDestroy {
 							this.commandOptions.executingCssClass
 						);
 					}
-				})
-			);
-		} else {
-			isExecuting$ = EMPTY;
+				}),
+				takeUntil(this._destroy$),
+			).subscribe();
 		}
-		this.data$$ = canExecute$.pipe(merge(isExecuting$)).subscribe();
 	}
 
 	@HostListener("click")
-	onClick() {
+	onClick(): void {
 		// console.log("[ssvCommand::onClick]", this.commandParams);
 		if (Array.isArray(this.commandParams)) {
 			this._command.execute(...this.commandParams);
@@ -188,12 +188,14 @@ export class CommandDirective implements OnInit, OnDestroy {
 		}
 	}
 
-	ngOnDestroy() {
+	ngOnDestroy(): void {
 		// console.log("[ssvCommand::destroy]");
+		this._destroy$.next();
+		this._destroy$.complete();
 		if (this._command) {
 			this._command.unsubscribe();
 		}
-		this.data$$.unsubscribe();
 	}
+
 }
 
