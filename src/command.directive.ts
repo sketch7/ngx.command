@@ -147,7 +147,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 		}
 
 		this._command.subscribe();
-		const canExecute$ = this._command.canExecute$.pipe(
+		this._command.canExecute$.pipe(
 			delay(1),
 			tap(x => {
 				this.isDisabled = !x;
@@ -155,7 +155,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 				this.cdr.markForCheck();
 			}),
 			takeUntil(this._destroy$),
-		);
+		).subscribe();
 
 		if (this._command.isExecuting$) {
 			this._command.isExecuting$.pipe(
@@ -176,9 +176,6 @@ export class CommandDirective implements OnInit, OnDestroy {
 				takeUntil(this._destroy$),
 			).subscribe();
 		}
-
-		[canExecute$]
-			.forEach(x => x.subscribe());
 	}
 
 	@HostListener("click")
