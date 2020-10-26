@@ -37,8 +37,8 @@ jobs:
       - run:
           name: Check if branch is publishable
           command: |
-            if [ "$CIRCLE_BRANCH" != "master" ]; then
-              echo -e "\e[33m Branch does not publish -- exit!"
+            if ! ([ $CIRCLE_BRANCH = "master" ] || [[ "$CIRCLE_BRANCH" =~ ^(([0-9]+|\.)+x)$ ]]); then
+              echo -e "\e[33m Non-publishable branch; Stopping."
               circleci step halt
             fi
       - deploy:
