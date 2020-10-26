@@ -21,6 +21,11 @@ jobs:
           name: Lint
           command: npm run lint
       - run:
+          name: Version
+          command: |
+            . ./tools/version-builder.sh
+            npm version $PACKAGE_VERSION
+      - run:
           name: Prebuild
           command: ./node_modules/.bin/gulp prebuild:rel
       - run:
