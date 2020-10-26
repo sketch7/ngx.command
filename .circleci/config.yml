@@ -24,7 +24,7 @@ jobs:
           name: Version
           command: |
             . ./tools/version-builder.sh
-            npm version "$PACKAGE_VERSION" --allow-same-version=true --git-tag-version=false
+            npm version $VERSION --allow-same-version=true --git-tag-version=false
       - run:
           name: Prebuild
           command: ./node_modules/.bin/gulp prebuild:rel
