@@ -1,3 +1,17 @@
+## [2.0.0](https://github.com/sketch7/ngx.ux/compare/1.5.1...2.0.0) (2020-10-29)
+
+### Features
+
+- **deps:** update angular v10
+- **deps:** add dependency on `tslib: ^2.0.0`
+
+### BREAKING CHANGES
+
+- **command:** remove deprecated code
+- **command:** change `ssvCommand` and `ssvCommandRef` when using CommandCreator e.g. `[ssvCommandRef]="{host: this, execute: removeHero$}` to require `host`. 
+    This was added due to a limitation (which previously was handled via hack and is not supported anymore). [See this issue](https://github.com/angular/angular/issues/8277).
+- **module:** rename module to `SsvCommandModule` from `CommandModule`
+
 ## [1.5.1](https://github.com/sketch7/ngx.ux/compare/1.5.0...1.5.1) (2020-10-28)
 
 ### Bug Fixes
