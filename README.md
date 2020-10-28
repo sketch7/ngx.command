@@ -25,6 +25,14 @@ Get library via [npm]
 npm install @ssv/ngx.command
 ```
 
+Choose the version corresponding to your Angular version:
+
+ | Angular          | library |
+ | ---------------- | ------- |
+ | 10               | 2.x+    |
+ | 4 to 9 (non ivy) | 1.x+    |
+
+
 # Usage
 
 ## Register module

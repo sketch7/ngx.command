@@ -2,13 +2,13 @@
 
 ### Features
 
-- **deps:** update angular v10
+- **deps:** update dependencies to support Angular v10
 - **deps:** add dependency on `tslib: ^2.0.0`
 
 ### BREAKING CHANGES
 
 - **command:** remove deprecated code
-- **command:** change `ssvCommand` and `ssvCommandRef` when using CommandCreator e.g. `[ssvCommandRef]="{host: this, execute: removeHero$}` to require `host`. 
+- **command:** change `ssvCommand` and `ssvCommandRef` when using `CommandCreator` e.g. this syntax only `[ssvCommandRef]="{host: this, execute: removeHero$}` to require `host: this`. 
     This was added due to a limitation (which previously was handled via hack and is not supported anymore). [See this issue](https://github.com/angular/angular/issues/8277).
 - **module:** rename module to `SsvCommandModule` from `CommandModule`
 
