@@ -36,7 +36,6 @@ export class CommandRefDirective implements OnInit, OnDestroy {
 	ngOnInit(): void {
 		if (isCommandCreator(this.commandCreator)) {
 			const isAsync = this.commandCreator.isAsync || this.commandCreator.isAsync === undefined;
-			// const hostComponent = (this.viewContainer as any)._view.component;
 
 			const execFn = this.commandCreator.execute.bind(this.commandCreator.host);
 			this._command = new Command(execFn, this.commandCreator.canExecute as Observable<boolean> | undefined, isAsync);
