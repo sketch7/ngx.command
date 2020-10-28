@@ -14,8 +14,7 @@ export function isCommand(arg: unknown): arg is ICommand {
 export function isCommandCreator(arg: unknown): arg is CommandCreator {
 	if (arg instanceof Command) {
 		return false;
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	} else if ((arg as any).execute) {
+	} else if (isUnknownObject(arg) && arg.execute) {
 		return true;
 	}
 	return false;
@@ -43,4 +42,8 @@ export function canExecuteFromNgForm(
 			distinctUntilChanged(),
 		)
 		: of(true);
+}
+
+function isUnknownObject(x: unknown): x is { [key in PropertyKey]: unknown } {
+	return x !== null && typeof x === "object";
 }
