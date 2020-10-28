@@ -17,7 +17,7 @@
 ### Bug Fixes
 
 - **build:** down version several dev dependencies packages in order to support angular 8 (and possibly less)
-- **deps:** revert dependency on tslib `^1.10.0`
+- **deps:** revert dependency on `tslib: ^1.10.0`
 
 ## [1.5.0](https://github.com/sketch7/ngx.command/compare/1.4.1...1.5.0) (2020-10-25)
 
@@ -26,7 +26,7 @@
 _This version is focused for maintenance rather than features_
 
 - **export:** export `CommandCreator` `ICommand`
-- **deps:** now depends on tslib `^1.10.0`
+- **deps:** now depends on `tslib: ^1.10.0`
 
 ### Refactor
 
