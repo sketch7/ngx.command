@@ -30,11 +30,11 @@ npm install @ssv/ngx.command
 ## Register module
 
 ```ts
-import { CommandModule } from "@ssv/ngx.command";
+import { SsvCommandModule } from "@ssv/ngx.command";
 
 @NgModule({
   imports: [
-    CommandModule
+    SsvCommandModule
   ]
 }
 export class AppModule {
@@ -99,12 +99,12 @@ This is useful for collections (loops) or using multiple actions with different 
 This is useful for collections (loops) or using multiple actions with different args, whilst not sharing `isExecuting`.
 
 ```html
-<button [ssvCommand]="{execute: removeHero$, canExecute: isValid$, params: [hero, 1337, 'xx']}">Remove</button>
+<button [ssvCommand]="{host: this, execute: removeHero$, canExecute: isValid$, params: [hero, 1337, 'xx']}">Remove</button>
 ```
 
 ##### canExecute with params
 ```html
-<button [ssvCommand]="{execute: removeHero$, canExecute: canRemoveHero$, params: [hero, 1337, 'xx']}">Remove</button>
+<button [ssvCommand]="{host: this, execute: removeHero$, canExecute: canRemoveHero$, params: [hero, 1337, 'xx']}">Remove</button>
 ```
 
 ```ts
@@ -131,7 +131,7 @@ Command creator ref, directive which allows creating Command in the template and
 
 ```html
 <div *ngFor="let hero of heroes">
-  <div #actionCmd="ssvCommandRef" [ssvCommandRef]="{execute: removeHero$, canExecute: isValid$}" class="button-group">
+  <div #actionCmd="ssvCommandRef" [ssvCommandRef]="{host: this, execute: removeHero$, canExecute: isValid$}" class="button-group">
     <button [ssvCommand]="actionCmd.command" [ssvCommandParams]="hero">
       Remove
     </button>
@@ -165,10 +165,10 @@ loginCmd = new CommandAsync(this.login.bind(this), canExecuteFromNgForm(this.for
 In order to configure globally, you can do so as following:
 
 ```ts
-import { CommandModule } from "@ssv/ngx.command";
+import { SsvCommandModule } from "@ssv/ngx.command";
 
     imports: [
-        CommandModule.forRoot({ executingCssClass: "is-busy" })
+        SsvCommandModule.forRoot({ executingCssClass: "is-busy" })
     ],
 ```
 
