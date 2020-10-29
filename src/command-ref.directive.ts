@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { Directive, OnInit, OnDestroy, Input, ViewContainerRef } from "@angular/core";
+import { Directive, OnInit, OnDestroy, Input } from "@angular/core";
 
 import { ICommand, CommandCreator } from "./command.model";
 import { isCommandCreator } from "./command.util";
@@ -8,10 +8,10 @@ import { Command } from "./command";
 /**
  * Command creator ref, directive which allows creating Command in the template
  * and associate it to a command (in order to share executions).
- *
+ * @example
  * ### Most common usage
  * ```html
- * <div class="action button-group" #actionCmd="ssvCommandRef" [ssvCommandRef]="{execute: removeHero$, canExecute: isValid$}">
+ * <div #actionCmd="ssvCommandRef" [ssvCommandRef]="{host: this, execute: removeHero$, canExecute: isValid$}">
  *    <button [ssvCommand]="actionCmd.command" [ssvCommandParams]="hero">
  *      Remove
  *    </button>
@@ -33,17 +33,11 @@ export class CommandRefDirective implements OnInit, OnDestroy {
 	get command(): ICommand { return this._command; }
 	private _command!: ICommand;
 
-	constructor(
-		private viewContainer: ViewContainerRef
-	) { }
-
 	ngOnInit(): void {
 		if (isCommandCreator(this.commandCreator)) {
 			const isAsync = this.commandCreator.isAsync || this.commandCreator.isAsync === undefined;
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			const hostComponent = (this.viewContainer as any)._view.component;
 
-			const execFn = this.commandCreator.execute.bind(hostComponent);
+			const execFn = this.commandCreator.execute.bind(this.commandCreator.host);
 			this._command = new Command(execFn, this.commandCreator.canExecute as Observable<boolean> | undefined, isAsync);
 		} else {
 			throw new Error("ssvCommandRef: [ssvCommandRef] is not defined properly!");

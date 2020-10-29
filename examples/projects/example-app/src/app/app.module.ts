@@ -5,7 +5,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatIconModule } from "@angular/material/icon";
 import { MatCardModule } from "@angular/material/card";
-import { CommandModule } from "@ssv/ngx.command";
+import { SsvCommandModule } from "@ssv/ngx.command";
 
 import { AppComponent } from "./app.component";
 import { AppRoutingModule } from "./app-routing.module";
@@ -28,7 +28,9 @@ const materialModules = [
 		AppRoutingModule,
 		BrowserAnimationsModule,
 
-		CommandModule,
+		SsvCommandModule.forRoot({
+			executingCssClass: "is-busy"
+		}),
 		materialModules,
 	],
 	providers: [],

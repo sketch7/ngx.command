@@ -7,9 +7,8 @@ export interface CommandOptions {
 	executingCssClass: string;
 }
 
-// todo: make immutable e.g. Object.freeze()
-export const COMMAND_DEFAULT_CONFIG: CommandOptions = {
+export const COMMAND_DEFAULT_CONFIG: Readonly<CommandOptions> = Object.freeze({
 	executingCssClass: "executing",
-};
+});
 
 export const COMMAND_CONFIG = new InjectionToken<CommandOptions>("command-config");

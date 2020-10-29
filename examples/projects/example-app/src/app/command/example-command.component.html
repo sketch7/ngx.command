@@ -196,22 +196,22 @@
 
           <div class="action button-group"
             #actionCmd="ssvCommandRef"
-            [ssvCommandRef]="{execute: removeHero$, canExecute: isValidHeroRemove$}">
+            [ssvCommandRef]="{host: this, execute: removeHero$, canExecute: isValidHeroRemove$}">
             <button mat-icon-button
-              [ssvCommand]="{execute: removeHero$, canExecute: isValidHeroRemove$, params: [hero, 1337, 'xx']}"
+              [ssvCommand]="{host: this, execute: removeHero$, canExecute: isValidHeroRemove$, params: [hero, 1337, 'xx']}"
               title="params in object">
               <mat-icon>close</mat-icon>
             </button>
             <button mat-icon-button
               color="primary"
-              [ssvCommand]="{execute: removeHero$, params: hero}"
+              [ssvCommand]="{host: this, execute: removeHero$, params: hero}"
               [ssvCommandParams]="[hero, 1336, 'yo']"
               title="params always takes over + doesnt respect isValid">
               <mat-icon>close</mat-icon>
             </button>
             <button mat-icon-button
               color="accent"
-              [ssvCommand]="{execute: removeHero$, canExecute: isValidHeroRemove$}"
+              [ssvCommand]="{host: this, execute: removeHero$, canExecute: isValidHeroRemove$}"
               [ssvCommandParams]="hero"
               title="params only">
               <mat-icon>close</mat-icon>
@@ -254,7 +254,7 @@
           <div class="action button-group">
             <button mat-icon-button
               color="accent"
-              [ssvCommand]="{execute: pauseHero$, canExecute: canPauseHero$, params: hero}"
+              [ssvCommand]="{host: this, execute: pauseHero$, canExecute: canPauseHero$, params: hero}"
               title="synced with the other collection's items">
               <mat-icon>pause</mat-icon>
             </button>
@@ -282,7 +282,7 @@
         <div class="action button-group">
           <button mat-icon-button
             color="accent"
-            [ssvCommand]="{execute: pauseHero$, canExecute: canRemoveHero$, params: invulnerableHero}"
+            [ssvCommand]="{host: this, execute: pauseHero$, canExecute: canRemoveHero$, params: invulnerableHero}"
             title="command creator canExecute">
             <mat-icon>face</mat-icon>
           </button>
