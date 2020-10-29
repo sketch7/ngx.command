@@ -33,6 +33,7 @@ interface HeroPausedState {
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExampleCommandComponent {
+
 	isValid = true;
 	isExecuting = false;
 
@@ -180,4 +181,5 @@ export class ExampleCommandComponent {
 				tap(() => this._state.next({ isLoading: false })),
 			).subscribe();
 	}
+
 }
