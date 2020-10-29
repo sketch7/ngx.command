@@ -17,6 +17,7 @@
   ],
   "scripts": {
     "start": "npm run build -- --watch",
+    "example": "cd ./examples && npm start",
     "build": "ng-packagr -p ng-package.json",
     "clean": "rimraf dist",
     "lint": "eslint -c .eslintrc.js --ext .ts \"src/**/*.ts\"",
