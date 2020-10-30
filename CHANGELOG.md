@@ -1,4 +1,4 @@
-## [vNext](https://github.com/sketch7/ngx.ux/compare/1.5.1...2.0.0) (2020-x-x)
+## [vNext](https://github.com/sketch7/ngx.ux/compare/1.5.2...2.0.0) (2020-x-x)
 
 ### Features
 
