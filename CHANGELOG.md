@@ -1,4 +1,4 @@
-## [2.0.0](https://github.com/sketch7/ngx.ux/compare/1.5.1...2.0.0) (2020-10-29)
+## [vNext](https://github.com/sketch7/ngx.ux/compare/1.5.2...2.0.0) (2020-x-x)
 
 ### Features
 
@@ -11,6 +11,12 @@
 - **command:** change `ssvCommand` and `ssvCommandRef` when using `CommandCreator` e.g. this syntax only `[ssvCommandRef]="{host: this, execute: removeHero$}` to require `host: this`. 
     This was added due to a limitation (which previously was handled via hack and is not supported anymore). [See this issue](https://github.com/angular/angular/issues/8277).
 - **module:** rename module to `SsvCommandModule` from `CommandModule`
+
+## [1.5.2](https://github.com/sketch7/ngx.ux/compare/1.5.1...1.5.2) (2020-10-30)
+
+### Bug Fixes
+
+- **command:** initial delay to disable on load (now inverted so its smoother)
 
 ## [1.5.1](https://github.com/sketch7/ngx.ux/compare/1.5.0...1.5.1) (2020-10-28)
 
