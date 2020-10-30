@@ -98,6 +98,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 	ngOnInit(): void {
 		// console.log("[ssvCommand::init]", this.config);
+		this.isDisabled = true;
 		if (!this.commandOrCreator) {
 			throw new Error("ssvCommand: [ssvCommand] should be defined!");
 		} else if (isCommand(this.commandOrCreator)) {
