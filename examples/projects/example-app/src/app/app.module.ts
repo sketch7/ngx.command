@@ -28,7 +28,9 @@ const materialModules = [
 		AppRoutingModule,
 		BrowserAnimationsModule,
 
-		CommandModule,
+		CommandModule.forRoot({
+			executingCssClass: "is-busy"
+		}),
 		materialModules,
 	],
 	providers: [],

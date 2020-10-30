@@ -14,7 +14,7 @@ import {
 import { Subject } from "rxjs";
 import { tap, delay, takeUntil } from "rxjs/operators";
 
-import { CommandOptions, COMMAND_CONFIG, COMMAND_DEFAULT_CONFIG } from "./config";
+import { CommandOptions, COMMAND_CONFIG } from "./config";
 import { Command } from "./command";
 import { isCommand, isCommandCreator } from "./command.util";
 import { CommandCreator, ICommand } from "./command.model";
@@ -22,6 +22,7 @@ import { CommandCreator, ICommand } from "./command.model";
 /**
  * Controls the state of a component in sync with `Command`.
  *
+ * @example
  * ### Most common usage
  * ```html
  * <button [ssvCommand]="saveCmd">Save</button>
@@ -81,7 +82,6 @@ export class CommandDirective implements OnInit, OnDestroy {
 			return;
 		}
 		this._commandOptions = {
-			...COMMAND_DEFAULT_CONFIG, // todo: merge config in module
 			...this.config,
 			...value,
 		};
@@ -105,10 +105,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 	get command(): ICommand { return this._command; }
 	private _command!: ICommand;
-	private _commandOptions: CommandOptions = {
-		...COMMAND_DEFAULT_CONFIG,
-		...this.config,
-	};
+	private _commandOptions: CommandOptions = this.config;
 	private _destroy$ = new Subject<void>();
 
 	constructor(
@@ -120,7 +117,8 @@ export class CommandDirective implements OnInit, OnDestroy {
 	) { }
 
 	ngOnInit(): void {
-		// console.log("[ssvCommand::init]");
+		// console.log("[ssvCommand::init]", this.config);
+		this.isDisabled = true;
 		if (!this.commandOrCreator) {
 			throw new Error("ssvCommand: [ssvCommand] should be defined!");
 		} else if (isCommand(this.commandOrCreator)) {
@@ -160,7 +158,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 		if (this._command.isExecuting$) {
 			this._command.isExecuting$.pipe(
 				tap(x => {
-					// console.log("[ssvCommand::isExecuting$]", x);
+					// console.log("[ssvCommand::isExecuting$]", x, this.commandOptions);
 					if (x) {
 						this.renderer.addClass(
 							this.element.nativeElement,

@@ -32,5 +32,11 @@ export class CommandModule { // todo: rename to SsvCommandModule
 
 /** @internal */
 export function moduleConfigFactory(config: CommandOptions | (() => CommandOptions)): CommandOptions {
-	return typeof config === "function" ? config() : config;
+	const cfg = typeof config === "function" ? config() : config;
+	return cfg
+		? {
+			...COMMAND_DEFAULT_CONFIG,
+			...cfg,
+		}
+		: COMMAND_DEFAULT_CONFIG;
 }
