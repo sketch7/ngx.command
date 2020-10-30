@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { Directive, OnInit, OnDestroy, Input } from "@angular/core";
+import { Directive, OnInit, OnDestroy, Input, ViewContainerRef } from "@angular/core";
 
 import { ICommand, CommandCreator } from "./command.model";
 import { isCommandCreator } from "./command.util";

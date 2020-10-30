@@ -16,7 +16,7 @@
 
 ### Bug Fixes
 
-- **command:** initial delay to disable on load (now inverted so its smoother)
+- **command:** remove initial delay to disable on load
 
 ## [1.5.1](https://github.com/sketch7/ngx.ux/compare/1.5.0...1.5.1) (2020-10-28)
 

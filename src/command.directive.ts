@@ -9,6 +9,7 @@ import {
 	Inject,
 	Renderer2,
 	ChangeDetectorRef,
+	ViewContainerRef,
 } from "@angular/core";
 import { Subject } from "rxjs";
 import { tap, delay, takeUntil } from "rxjs/operators";
