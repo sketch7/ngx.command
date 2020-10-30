@@ -39,15 +39,15 @@ $var-code-font: "consolas";
 
 // default
 .executing {
-	background: #ffc107;
+	background: #ffc107!important;
 }
 
 // custom default
 .is-busy {
-	background: #170a29;
+	background: #946bce!important;
 }
 
 // set at [commandOptions]
 .is-loading {
-	background: #e83e8c;
+	background: #e83e8c!important;
 }

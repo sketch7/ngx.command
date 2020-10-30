@@ -1,9 +1,29 @@
+## [vNext](https://github.com/sketch7/ngx.ux/compare/1.5.2...2.0.0) (2020-x-x)
+
+### Features
+
+- **deps:** update dependencies to support Angular v10
+- **deps:** add dependency on `tslib: ^2.0.0`
+
+### BREAKING CHANGES
+
+- **command:** remove deprecated code
+- **command:** change `ssvCommand` and `ssvCommandRef` when using `CommandCreator` e.g. this syntax only `[ssvCommandRef]="{host: this, execute: removeHero$}` to require `host: this`. 
+    This was added due to a limitation (which previously was handled via hack and is not supported anymore). [See this issue](https://github.com/angular/angular/issues/8277).
+- **module:** rename module to `SsvCommandModule` from `CommandModule`
+
+## [1.5.2](https://github.com/sketch7/ngx.ux/compare/1.5.1...1.5.2) (2020-10-30)
+
+### Bug Fixes
+
+- **command:** initial delay to disable on load (now inverted so its smoother)
+
 ## [1.5.1](https://github.com/sketch7/ngx.ux/compare/1.5.0...1.5.1) (2020-10-28)
 
 ### Bug Fixes
 
 - **build:** down version several dev dependencies packages in order to support angular 8 (and possibly less)
-- **deps:** revert dependency on tslib `^1.10.0`
+- **deps:** revert dependency on `tslib: ^1.10.0`
 
 ## [1.5.0](https://github.com/sketch7/ngx.command/compare/1.4.1...1.5.0) (2020-10-25)
 
@@ -12,7 +32,7 @@
 _This version is focused for maintenance rather than features_
 
 - **export:** export `CommandCreator` `ICommand`
-- **deps:** now depends on tslib `^1.10.0`
+- **deps:** now depends on `tslib: ^1.10.0`
 
 ### Refactor
 

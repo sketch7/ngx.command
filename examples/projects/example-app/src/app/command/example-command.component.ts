@@ -33,10 +33,11 @@ interface HeroPausedState {
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExampleCommandComponent {
+
 	isValid = true;
 	isExecuting = false;
 
-	isValid$ = new BehaviorSubject(true);
+	isValid$ = new BehaviorSubject(false);
 	isValidRedux$ = new BehaviorSubject(true);
 	isValidHeroRemove$ = new BehaviorSubject(true);
 
@@ -180,4 +181,5 @@ export class ExampleCommandComponent {
 				tap(() => this._state.next({ isLoading: false })),
 			).subscribe();
 	}
+
 }

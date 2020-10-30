@@ -14,7 +14,7 @@ export function isCommand(arg: unknown): arg is ICommand {
 export function isCommandCreator(arg: unknown): arg is CommandCreator {
 	if (arg instanceof Command) {
 		return false;
-	} else if (isUnknownObject(arg) && arg.execute) {
+	} else if (isAssumedType<CommandCreator>(arg) && arg.execute) {
 		return true;
 	}
 	return false;
@@ -44,6 +44,6 @@ export function canExecuteFromNgForm(
 		: of(true);
 }
 
-function isUnknownObject(x: unknown): x is { [key in PropertyKey]: unknown } {
+function isAssumedType<T = Record<string, unknown>>(x: unknown): x is Partial<T> {
 	return x !== null && typeof x === "object";
 }

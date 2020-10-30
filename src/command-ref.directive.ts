@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { Directive, OnInit, OnDestroy, Input, ViewContainerRef } from "@angular/core";
+import { Directive, OnInit, OnDestroy, Input } from "@angular/core";
 
 import { ICommand, CommandCreator } from "./command.model";
 import { isCommandCreator } from "./command.util";
@@ -8,7 +8,7 @@ import { Command } from "./command";
 /**
  * Command creator ref, directive which allows creating Command in the template
  * and associate it to a command (in order to share executions).
- *
+ * @example
  * ### Most common usage
  * ```html
  * <div class="action button-group" #actionCmd="ssvCommandRef" [ssvCommandRef]="{execute: removeHero$, canExecute: isValid$}">
