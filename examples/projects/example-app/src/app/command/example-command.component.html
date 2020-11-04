@@ -104,6 +104,13 @@
         </mat-icon>
         Save
         <small>with [options]</small>
+      <button mat-raised-button
+        color="primary"
+        [disabled]="!saveCmd.canExecute"
+        [ssvCommand]="saveCmd"
+        [ssvCommandOptions]="{handleDisabled: false}">
+        Save
+        <small>with [handleDisabled]</small>
       </button>
     </mat-card-actions>
   </mat-card>
