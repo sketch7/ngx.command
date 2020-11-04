@@ -112,10 +112,19 @@
         Save
         <small>with [handleDisabled]</small>
       </button>
+
+      <button mat-raised-button
+        color="primary"
+        [disabled]="!saveCmd.canExecute"
+        [ssvCommand]="saveCmd"
+        [ssvCommandOptions]="{handleDisabled: false}">
+        Save
+        <small>with [handleDisabled]</small>
+      </button>
     </mat-card-actions>
   </mat-card>
 
-  <mat-card>
+  <mat-card *ngIf="true">
     <mat-card-title>Using Command Redux</mat-card-title>
     <mat-card-content>
       <div class="btn-group"
