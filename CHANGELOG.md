@@ -1,4 +1,4 @@
-## [vNext](https://github.com/sketch7/ngx.ux/compare/1.5.2...2.0.0) (2020-x-x)
+## [vNext](https://github.com/sketch7/ngx.ux/compare/1.6.0...2.0.0) (2020-x-x)
 
 ### Features
 
@@ -11,6 +11,12 @@
 - **command:** change `ssvCommand` and `ssvCommandRef` when using `CommandCreator` e.g. this syntax only `[ssvCommandRef]="{host: this, execute: removeHero$}` to require `host: this`. 
     This was added due to a limitation (which previously was handled via hack and is not supported anymore). [See this issue](https://github.com/angular/angular/issues/8277).
 - **module:** rename module to `SsvCommandModule` from `CommandModule`
+
+## [1.6.0](https://github.com/sketch7/ngx.ux/compare/1.5.2...1.6.0) (2020-11-04)
+
+### Features
+
+- **command:** add option `handleDisabled` which won't update `disabled` attribute and manually have to manage it (as sometimes it doesn't play well with components/directives or pipes)
 
 ## [1.5.2](https://github.com/sketch7/ngx.ux/compare/1.5.1...1.5.2) (2020-10-30)
 

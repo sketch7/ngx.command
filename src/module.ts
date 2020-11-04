@@ -14,7 +14,7 @@ export const _MODULE_CONFIG = new InjectionToken<CommandOptions>("_command-confi
 })
 export class CommandModule { // todo: rename to SsvCommandModule
 
-	static forRoot(config?: CommandOptions | (() => CommandOptions)): ModuleWithProviders<CommandModule> {
+	static forRoot(config?: Partial<CommandOptions> | (() => Partial<CommandOptions>)): ModuleWithProviders<SsvCommandModule> {
 		return {
 			ngModule: CommandModule,
 			providers: [
