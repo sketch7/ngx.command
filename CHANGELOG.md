@@ -12,6 +12,12 @@
     This was added due to a limitation (which previously was handled via hack and is not supported anymore). [See this issue](https://github.com/angular/angular/issues/8277).
 - **module:** rename module to `SsvCommandModule` from `CommandModule`
 
+## [1.6.1](https://github.com/sketch7/ngx.ux/compare/1.6.0...1.6.1) (2020-11-07)
+
+### Refactor
+
+- **config:** refactor module config registration
+
 ## [1.6.0](https://github.com/sketch7/ngx.ux/compare/1.5.2...1.6.0) (2020-11-04)
 
 ### Features
