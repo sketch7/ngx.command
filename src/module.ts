@@ -1,29 +1,31 @@
-import { NgModule, ModuleWithProviders, InjectionToken } from "@angular/core";
+import { NgModule, ModuleWithProviders, InjectionToken, Optional } from "@angular/core";
 
 import { CommandDirective } from "./command.directive";
 import { CommandRefDirective } from "./command-ref.directive";
 import { CommandOptions, COMMAND_DEFAULT_CONFIG, COMMAND_CONFIG } from "./config";
 
 /** @internal */
-export const _MODULE_CONFIG = new InjectionToken<CommandOptions>("_command-config");
+export const MODULE_CONFIG_DATA = new InjectionToken<CommandOptions>("@ssv/ngx.command/configData");
+
+const components = [
+	CommandDirective,
+	CommandRefDirective
+];
 
 @NgModule({
-	declarations: [CommandDirective, CommandRefDirective],
-	providers: [{ provide: COMMAND_CONFIG, useValue: COMMAND_DEFAULT_CONFIG }],
-	exports: [CommandDirective, CommandRefDirective],
+	declarations: components,
+	providers: [
+		{ provide: COMMAND_CONFIG, useFactory: _moduleConfigFactory, deps: [[MODULE_CONFIG_DATA, new Optional()]] },
+	],
+	exports: [...components],
 })
-export class CommandModule { // todo: rename to SsvCommandModule
+export class SsvCommandModule {
 
-	static forRoot(config?: Partial<CommandOptions> | (() => Partial<CommandOptions>)): ModuleWithProviders<CommandModule> {
+	static forRoot(config?: Partial<CommandOptions> | (() => Partial<CommandOptions>)): ModuleWithProviders<SsvCommandModule> {
 		return {
-			ngModule: CommandModule,
+			ngModule: SsvCommandModule,
 			providers: [
-				{
-					provide: COMMAND_CONFIG,
-					useFactory: moduleConfigFactory,
-					deps: [_MODULE_CONFIG],
-				},
-				{ provide: _MODULE_CONFIG, useValue: config },
+				{ provide: MODULE_CONFIG_DATA, useValue: config },
 			],
 		};
 	}
@@ -31,7 +33,7 @@ export class CommandModule { // todo: rename to SsvCommandModule
 }
 
 /** @internal */
-export function moduleConfigFactory(config: CommandOptions | (() => CommandOptions)): CommandOptions {
+export function _moduleConfigFactory(config: CommandOptions | (() => CommandOptions)): CommandOptions {
 	const cfg = typeof config === "function" ? config() : config;
 	return cfg
 		? {
