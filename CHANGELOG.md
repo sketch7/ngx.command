@@ -1,4 +1,4 @@
-## [vNext](https://github.com/sketch7/ngx.ux/compare/1.6.0...2.0.0) (2020-x-x)
+## [vNext](https://github.com/sketch7/ngx.command/compare/1.6.0...2.0.0) (2020-x-x)
 
 ### Features
 
@@ -12,25 +12,25 @@
     This was added due to a limitation (which previously was handled via hack and is not supported anymore). [See this issue](https://github.com/angular/angular/issues/8277).
 - **module:** rename module to `SsvCommandModule` from `CommandModule`
 
-## [1.6.1](https://github.com/sketch7/ngx.ux/compare/1.6.0...1.6.1) (2020-11-07)
+## [1.6.1](https://github.com/sketch7/ngx.command/compare/1.6.0...1.6.1) (2020-11-07)
 
 ### Refactor
 
 - **config:** refactor module config registration
 
-## [1.6.0](https://github.com/sketch7/ngx.ux/compare/1.5.2...1.6.0) (2020-11-04)
+## [1.6.0](https://github.com/sketch7/ngx.command/compare/1.5.2...1.6.0) (2020-11-04)
 
 ### Features
 
 - **command:** add option `handleDisabled` which won't update `disabled` attribute and manually have to manage it (as sometimes it doesn't play well with components/directives or pipes)
 
-## [1.5.2](https://github.com/sketch7/ngx.ux/compare/1.5.1...1.5.2) (2020-10-30)
+## [1.5.2](https://github.com/sketch7/ngx.command/compare/1.5.1...1.5.2) (2020-10-30)
 
 ### Bug Fixes
 
 - **command:** remove initial delay to disable on load
 
-## [1.5.1](https://github.com/sketch7/ngx.ux/compare/1.5.0...1.5.1) (2020-10-28)
+## [1.5.1](https://github.com/sketch7/ngx.command/compare/1.5.0...1.5.1) (2020-10-28)
 
 ### Bug Fixes
 
