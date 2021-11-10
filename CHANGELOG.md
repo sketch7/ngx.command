@@ -1,5 +1,11 @@
 <!-- ## [vNext](https://github.com/sktch7/ngx.command/compare/2.0.0...3.0.0) (2020-x-x) -->
 
+## [2.0.1](https://github.com/sketch7/ngx.command/compare/2.0.0...2.0.1) (2021-11-11)
+
+### Bug Fixes
+
+- **command:** immediately handle disable state to eliminate transition on init
+
 ## [2.0.0](https://github.com/sketch7/ngx.command/compare/1.6.0...2.0.0) (2021-08-25)
 
 ### Features

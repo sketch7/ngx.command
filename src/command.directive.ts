@@ -7,10 +7,11 @@ import {
 	ElementRef,
 	Inject,
 	Renderer2,
+	HostBinding,
 	ChangeDetectorRef,
 } from "@angular/core";
 import { Subject } from "rxjs";
-import { tap, delay, takeUntil } from "rxjs/operators";
+import { tap, takeUntil } from "rxjs/operators";
 
 import { CommandOptions, COMMAND_CONFIG } from "./config";
 import { Command } from "./command";
@@ -84,7 +85,23 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 	@Input(`${SELECTOR}Params`) commandParams: unknown | unknown[];
 
+	@Input("disabled")
+	set disabledInput(value: boolean) {
+		this.disabled = value;
+	}
+
+	@HostBinding("attr.disabled")
+	get disabled(): boolean | undefined { return this._disabled; }
+	set disabled(value: boolean | undefined) {
+		const disabled = value ? value : undefined;
+		if (value === this._disabled) {
+			return;
+		}
+		this._disabled = disabled;
+	}
+
 	get command(): ICommand { return this._command; }
+	private _disabled: boolean | undefined;
 	private _command!: ICommand;
 	private _commandOptions: CommandOptions = this.config;
 	private _destroy$ = new Subject<void>();
@@ -97,8 +114,8 @@ export class CommandDirective implements OnInit, OnDestroy {
 	) { }
 
 	ngOnInit(): void {
+		this.setDisabled(true);
 		// console.log("[ssvCommand::init]", this.config);
-		this.trySetDisabled(true);
 		if (!this.commandOrCreator) {
 			throw new Error("ssvCommand: [ssvCommand] should be defined!");
 		} else if (isCommand(this.commandOrCreator)) {
@@ -127,12 +144,8 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 		this._command.subscribe();
 		this._command.canExecute$.pipe(
-			delay(1),
-			tap(x => {
-				this.trySetDisabled(!x);
-				// console.log("[ssvCommand::canExecute$]", { canExecute: x });
-				this.cdr.markForCheck();
-			}),
+			tap(canExecute => this.setDisabled(!canExecute)),
+			tap(() => this.cdr.markForCheck()),
 			takeUntil(this._destroy$),
 		).subscribe();
 
@@ -176,10 +189,11 @@ export class CommandDirective implements OnInit, OnDestroy {
 		}
 	}
 
-	private trySetDisabled(disabled: boolean) {
+	private setDisabled(disabled: boolean) {
 		if (this.commandOptions.handleDisabled) {
-			this.renderer.setProperty(this.element.nativeElement, "disabled", disabled);
+			this.disabled = disabled;
 		}
+
 	}
 
 }
