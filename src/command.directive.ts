@@ -87,21 +87,20 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 	@Input("disabled")
 	set disabledInput(value: boolean) {
-		this.disabled = value;
+		this.setDisabled(value);
 	}
 
 	@HostBinding("attr.disabled")
-	get disabled(): boolean | undefined { return this._disabled; }
-	set disabled(value: boolean | undefined) {
-		const disabled = value ? value : undefined;
+	get disabled(): "" | undefined { return this._disabled; }
+	set disabled(value: "" | undefined) {
 		if (value === this._disabled) {
 			return;
 		}
-		this._disabled = disabled;
+		this._disabled = value;
 	}
 
 	get command(): ICommand { return this._command; }
-	private _disabled: boolean | undefined;
+	private _disabled: "" | undefined;
 	private _command!: ICommand;
 	private _commandOptions: CommandOptions = this.config;
 	private _destroy$ = new Subject<void>();
@@ -114,7 +113,9 @@ export class CommandDirective implements OnInit, OnDestroy {
 	) { }
 
 	ngOnInit(): void {
-		this.setDisabled(true);
+		if (this.commandOptions.handleDisabled) {
+			this.setDisabled(true);
+		}
 		// console.log("[ssvCommand::init]", this.config);
 		if (!this.commandOrCreator) {
 			throw new Error("ssvCommand: [ssvCommand] should be defined!");
@@ -144,7 +145,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 		this._command.subscribe();
 		this._command.canExecute$.pipe(
-			tap(canExecute => this.setDisabled(!canExecute)),
+			tap(canExecute => this.commandOptions.handleDisabled && this.setDisabled(!canExecute)),
 			tap(() => this.cdr.markForCheck()),
 			takeUntil(this._destroy$),
 		).subscribe();
@@ -190,10 +191,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 	}
 
 	private setDisabled(disabled: boolean) {
-		if (this.commandOptions.handleDisabled) {
-			this.disabled = disabled;
-		}
-
+		this.disabled = disabled ? "" : undefined;
 	}
 
 }
