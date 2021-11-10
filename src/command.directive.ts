@@ -7,7 +7,6 @@ import {
 	ElementRef,
 	Inject,
 	Renderer2,
-	HostBinding,
 	ChangeDetectorRef,
 } from "@angular/core";
 import { Subject } from "rxjs";
@@ -65,7 +64,10 @@ const SELECTOR = "ssvCommand";
 
 @Directive({
 	selector: `[${SELECTOR}]`,
-	exportAs: "ssvCommand"
+	exportAs: "ssvCommand",
+	host: {
+		"[attr.disabled]": "attrDisabled"
+	}
 })
 export class CommandDirective implements OnInit, OnDestroy {
 
@@ -85,22 +87,16 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 	@Input(`${SELECTOR}Params`) commandParams: unknown | unknown[];
 
-	@Input("disabled")
-	set disabledInput(value: boolean) {
-		this.setDisabled(value);
-	}
-
-	@HostBinding("attr.disabled")
-	get disabled(): "" | undefined { return this._disabled; }
-	set disabled(value: "" | undefined) {
-		if (value === this._disabled) {
-			return;
-		}
+	@Input()
+	get disabled(): boolean | undefined { return this._disabled; }
+	set disabled(value: boolean | undefined) {
 		this._disabled = value;
 	}
 
+	get attrDisabled(): "" | undefined { return this.disabled ? "" : undefined; }
+
 	get command(): ICommand { return this._command; }
-	private _disabled: "" | undefined;
+	private _disabled: boolean | undefined;
 	private _command!: ICommand;
 	private _commandOptions: CommandOptions = this.config;
 	private _destroy$ = new Subject<void>();
@@ -113,9 +109,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 	) { }
 
 	ngOnInit(): void {
-		if (this.commandOptions.handleDisabled) {
-			this.setDisabled(true);
-		}
+		this.setDisabled(true);
 		// console.log("[ssvCommand::init]", this.config);
 		if (!this.commandOrCreator) {
 			throw new Error("ssvCommand: [ssvCommand] should be defined!");
@@ -145,7 +139,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 		this._command.subscribe();
 		this._command.canExecute$.pipe(
-			tap(canExecute => this.commandOptions.handleDisabled && this.setDisabled(!canExecute)),
+			tap(canExecute => this.setDisabled(!canExecute)),
 			tap(() => this.cdr.markForCheck()),
 			takeUntil(this._destroy$),
 		).subscribe();
@@ -191,7 +185,9 @@ export class CommandDirective implements OnInit, OnDestroy {
 	}
 
 	private setDisabled(disabled: boolean) {
-		this.disabled = disabled ? "" : undefined;
+		if (this.commandOptions.handleDisabled) {
+			this.disabled = disabled;
+		}
 	}
 
 }
