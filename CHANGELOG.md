@@ -2,9 +2,9 @@
 
 ## [2.1.0](https://github.com/sketch7/ngx.command/compare/2.0.0...2.1.0) (2022-07-12)
 
-### Features
+### Bug Fixes
 
-- **util:** `canExecuteFromNgForm` now have delay(0) which is fixing issue when observable `form.statusChanges` wasn't triggered after reset or make pristine form from the code.
+- **util:** `canExecuteFromNgForm` is `delay(0)` which fix issue when observable `form.statusChanges` wasn't triggered after reset or make pristine form from the code
 
 ## [2.0.0](https://github.com/sketch7/ngx.command/compare/1.6.0...2.0.0) (2021-08-25)
 
