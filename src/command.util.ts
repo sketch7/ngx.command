@@ -1,6 +1,6 @@
 import { AbstractControl, AbstractControlDirective } from "@angular/forms";
 import { Observable, of } from "rxjs";
-import { map, distinctUntilChanged, startWith } from "rxjs/operators";
+import { map, distinctUntilChanged, startWith, delay } from "rxjs/operators";
 
 import { CommandCreator, ICommand } from "./command.model";
 import { Command } from "./command";
@@ -37,6 +37,7 @@ export function canExecuteFromNgForm(
 
 	return form.statusChanges
 		? form.statusChanges.pipe(
+			delay(0),
 			startWith(form.valid),
 			map(() => !!(!opts.validity || form.valid) && !!(!opts.dirty || form.dirty)),
 			distinctUntilChanged(),
