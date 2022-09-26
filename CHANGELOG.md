@@ -1,5 +1,11 @@
 <!-- ## [vNext](https://github.com/sktch7/ngx.command/compare/2.0.0...3.0.0) (2020-x-x) -->
 
+## [2.1.1](https://github.com/sketch7/ngx.command/compare/2.1.0...2.1.1) (2022-09-26)
+
+### Bug Fixes
+
+- **command:** execute throwing error due to `first` (empty sequence)
+
 ## [2.1.0](https://github.com/sketch7/ngx.command/compare/2.0.0...2.1.0) (2022-07-12)
 
 ### Bug Fixes
