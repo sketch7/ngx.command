@@ -1,5 +1,11 @@
 <!-- ## [vNext](https://github.com/sktch7/ngx.command/compare/2.0.0...3.0.0) (2020-x-x) -->
 
+## [2.2.0](https://github.com/sketch7/ngx.command/compare/2.1.0...2.1.1) (2022-11-02)
+
+### Bug Fixes
+
+- **command:** avoid set disabled initially + remove delay when setting in order to avoid flickers - by default, can be optionally changed via `hasDisabledDelay` when needed for example with material
+
 ## [2.1.1](https://github.com/sketch7/ngx.command/compare/2.1.0...2.1.1) (2022-09-26)
 
 ### Bug Fixes

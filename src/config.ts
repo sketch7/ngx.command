@@ -11,11 +11,17 @@ export interface CommandOptions {
 	 * This disables the handling manually and need to pass explicitly `[disabled]="!saveCmd.canExecute"`.
 	 */
 	handleDisabled: boolean;
+
+	/** Determine whether to set a `delay(1)` when setting the disabled. Which might be needed when working with external
+	 * components/directives (such as material button)
+	 */
+	hasDisabledDelay: boolean;
 }
 
-export const COMMAND_DEFAULT_CONFIG: Readonly<CommandOptions> = Object.freeze({
+export const COMMAND_DEFAULT_CONFIG = Object.freeze({
 	executingCssClass: "executing",
 	handleDisabled: true,
-});
+	hasDisabledDelay: false,
+} as CommandOptions);
 
 export const COMMAND_CONFIG = new InjectionToken<CommandOptions>("command-config");
