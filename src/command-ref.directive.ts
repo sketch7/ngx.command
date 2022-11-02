@@ -5,6 +5,8 @@ import { ICommand, CommandCreator } from "./command.model";
 import { isCommandCreator } from "./command.util";
 import { Command } from "./command";
 
+const NAME_CAMEL = "ssvCommandRef";
+
 /**
  * Command creator ref, directive which allows creating Command in the template
  * and associate it to a command (in order to share executions).
@@ -23,12 +25,12 @@ import { Command } from "./command";
  *
  */
 @Directive({
-	selector: "[ssvCommandRef]",
-	exportAs: "ssvCommandRef"
+	selector: `[${NAME_CAMEL}]`,
+	exportAs: NAME_CAMEL
 })
 export class CommandRefDirective implements OnInit, OnDestroy {
 
-	@Input("ssvCommandRef") commandCreator: CommandCreator | undefined;
+	@Input(NAME_CAMEL) commandCreator: CommandCreator | undefined;
 
 	get command(): ICommand { return this._command; }
 	private _command!: ICommand;
@@ -40,7 +42,7 @@ export class CommandRefDirective implements OnInit, OnDestroy {
 			const execFn = this.commandCreator.execute.bind(this.commandCreator.host);
 			this._command = new Command(execFn, this.commandCreator.canExecute as Observable<boolean> | undefined, isAsync);
 		} else {
-			throw new Error("ssvCommandRef: [ssvCommandRef] is not defined properly!");
+			throw new Error(`${NAME_CAMEL}: [${NAME_CAMEL}] is not defined properly!`);
 		}
 	}
 

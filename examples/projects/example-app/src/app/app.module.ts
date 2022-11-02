@@ -29,7 +29,8 @@ const materialModules = [
 		BrowserAnimationsModule,
 
 		SsvCommandModule.forRoot({
-			executingCssClass: "is-busy"
+			executingCssClass: "is-busy",
+			hasDisabledDelay: false
 		}),
 		materialModules,
 	],

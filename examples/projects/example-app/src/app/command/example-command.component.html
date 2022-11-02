@@ -86,11 +86,39 @@
 
       <button mat-raised-button
         color="primary"
+        disabled
         [ssvCommand]="saveCmd">
         <i *ngIf="saveCmd.isExecuting"
           class="ai-circled ai-indicator ai-dark-spin small"></i>
         Save
         <small>with [ssvCommand]</small>
+      </button>
+
+      <button color="primary"
+        [ssvCommand]="saveCmd">
+        <i *ngIf="saveCmd.isExecuting"
+          class="ai-circled ai-indicator ai-dark-spin small"></i>
+        Save
+        <small>with [ssvCommand]</small>
+      </button>
+
+      <button color="primary"
+        [ssvCommand]="saveCmdNoValidation">
+        <i *ngIf="saveCmdNoValidation.isExecuting"
+          class="ai-circled ai-indicator ai-dark-spin small"></i>
+        Save
+        <small>with [ssvCommand] - no canExecute</small>
+      </button>
+
+      <button mat-raised-button
+        color="primary"
+				disabled
+        [ssvCommand]="saveCmdNoValidation"
+				[ssvCommandOptions]="{hasDisabledDelay: true}">
+        <i *ngIf="saveCmdNoValidation.isExecuting"
+          class="ai-circled ai-indicator ai-dark-spin small"></i>
+        Save
+        <small>with [ssvCommand] - no canExecute</small>
       </button>
 
       <button mat-raised-button

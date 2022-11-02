@@ -60,17 +60,21 @@ import { CommandCreator, ICommand } from "./command.model";
  *
  */
 
-const SELECTOR = "ssvCommand";
+const NAME_CAMEL = "ssvCommand";
+
+// let nextUniqueId = 0;
 
 @Directive({
-	selector: `[${SELECTOR}]`,
-	exportAs: "ssvCommand"
+	selector: `[${NAME_CAMEL}]`,
+	exportAs: NAME_CAMEL
 })
 export class CommandDirective implements OnInit, OnDestroy {
 
-	@Input(SELECTOR) commandOrCreator: ICommand | CommandCreator | undefined;
+	// readonly id = `${NAME_CAMEL}-${nextUniqueId++}`;
 
-	@Input(`${SELECTOR}Options`)
+	@Input(NAME_CAMEL) commandOrCreator: ICommand | CommandCreator | undefined;
+
+	@Input(`${NAME_CAMEL}Options`)
 	get commandOptions(): CommandOptions { return this._commandOptions; }
 	set commandOptions(value: CommandOptions) {
 		if (value === this._commandOptions) {
@@ -82,7 +86,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 		};
 	}
 
-	@Input(`${SELECTOR}Params`) commandParams: unknown | unknown[];
+	@Input(`${NAME_CAMEL}Params`) commandParams: unknown | unknown[];
 
 	get command(): ICommand { return this._command; }
 	private _command!: ICommand;
@@ -98,9 +102,8 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 	ngOnInit(): void {
 		// console.log("[ssvCommand::init]", this.config);
-		this.trySetDisabled(true);
 		if (!this.commandOrCreator) {
-			throw new Error("ssvCommand: [ssvCommand] should be defined!");
+			throw new Error(`${NAME_CAMEL}: [${NAME_CAMEL}] should be defined!`);
 		} else if (isCommand(this.commandOrCreator)) {
 			this._command = this.commandOrCreator;
 		} else if (isCommandCreator(this.commandOrCreator)) {
@@ -122,12 +125,14 @@ export class CommandDirective implements OnInit, OnDestroy {
 			// });
 			this._command = new Command(execFn, canExec, isAsync);
 		} else {
-			throw new Error("ssvCommand: [ssvCommand] is not defined properly!");
+			throw new Error(`${NAME_CAMEL}: [${NAME_CAMEL}] is not defined properly!`);
 		}
 
 		this._command.subscribe();
 		this._command.canExecute$.pipe(
-			delay(1),
+			this.commandOptions.hasDisabledDelay
+				? delay(1)
+				: tap(() => { /* stub */ }),
 			tap(x => {
 				this.trySetDisabled(!x);
 				// console.log("[ssvCommand::canExecute$]", { canExecute: x });
@@ -178,6 +183,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 	private trySetDisabled(disabled: boolean) {
 		if (this.commandOptions.handleDisabled) {
+			// console.warn(">>>> disabled", { id: this.id, disabled });
 			this.renderer.setProperty(this.element.nativeElement, "disabled", disabled);
 		}
 	}
