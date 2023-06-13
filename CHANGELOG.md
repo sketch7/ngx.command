@@ -1,5 +1,10 @@
 <!-- ## [vNext](https://github.com/sktch7/ngx.command/compare/2.0.0...3.0.0) (2020-x-x) -->
 
+## [2.3.0](https://github.com/sketch7/ngx.command/compare/2.2.0...2.3.0) (2023-06-14)
+
+### Features
+No new features, republished using ng15 tooling only
+
 ## [2.2.0](https://github.com/sketch7/ngx.command/compare/2.1.0...2.1.1) (2022-11-02)
 
 ### Bug Fixes
