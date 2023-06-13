@@ -6,7 +6,7 @@
 [commandpatternwiki]: https://en.wikipedia.org/wiki/Command_pattern
 
 # @ssv/ngx.command
-[![CircleCI](https://circleci.com/gh/sketch7/ngx.command.svg?style=shield)](https://circleci.com/gh/sketch7/ngx.command)
+[![CI](https://github.com/sketch7/ngx.command/actions/workflows/ci.yml/badge.svg)](https://github.com/sketch7/ngx.command/actions/workflows/ci.yml)
 [![npm version](https://badge.fury.io/js/%40ssv%2Fngx.command.svg)](https://badge.fury.io/js/%40ssv%2Fngx.command)
 
 [Command pattern][commandpatternwiki] implementation for angular. Command's are used to encapsulate information which is needed to perform an action.
@@ -27,10 +27,10 @@ npm install @ssv/ngx.command
 
 Choose the version corresponding to your Angular version:
 
- | Angular          | library |
- | ---------------- | ------- |
- | 10               | 2.x+    |
- | 4 to 9 (non ivy) | 1.x+    |
+ | Angular | library |
+ | ------- | ------- |
+ | 10+     | 2.x+    |
+ | 4 to 9  | 1.x+    |
 
 
 # Usage
@@ -186,9 +186,9 @@ import { SsvCommandModule } from "@ssv/ngx.command";
 ### Setup Machine for Development
 Install/setup the following:
 
-- NodeJS v10+
+- NodeJS v18.16.0+
 - Visual Studio Code or similar code editor
-- TypeScript 3.1+
+- TypeScript 5.0+
 - Git + SourceTree, SmartGit or similar (optional)
 - Ensure to install **global NPM modules** using the following:
 

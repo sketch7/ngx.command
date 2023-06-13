@@ -1,4 +1,4 @@
-import { AbstractControl, AbstractControlDirective } from "@angular/forms";
+import { AbstractControl, AbstractControlDirective, FormControlStatus } from "@angular/forms";
 import { Observable, of } from "rxjs";
 import { map, distinctUntilChanged, startWith, delay } from "rxjs/operators";
 
@@ -36,7 +36,7 @@ export function canExecuteFromNgForm(
 	const opts: CanExecuteFormOptions = { validity: true, dirty: true, ...options };
 
 	return form.statusChanges
-		? form.statusChanges.pipe(
+		? (form.statusChanges as Observable<FormControlStatus>).pipe( // todo: remove cast when working correctly
 			delay(0),
 			startWith(form.valid),
 			map(() => !!(!opts.validity || form.valid) && !!(!opts.dirty || form.dirty)),

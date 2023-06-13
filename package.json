@@ -6,10 +6,8 @@
   "keywords": [
     "sketch7",
     "ngx",
+    "angular15",
     "angular",
-    "angular10",
-    "ng",
-    "ng10",
     "ssv",
     "command",
     "pattern",
@@ -25,7 +23,10 @@
     "tdd": "jest --watch",
     "test-debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --env jest-environment-node-debug",
     "test-devt": "devtool ./node_modules/jest/bin/jest.js --runInBand --env jest-environment-node-debug",
-    "publish:rel": "npm publish dist --access=public"
+    "__CI__": "",
+    "pre-release-build": "echo TODO: version placeholder as gitaction or script",
+    "_pre-release-build": "gulp prebuild:rel",
+    "release": "npm publish ./dist --access=public"
   },
   "author": "Stephen Lautier <stephen.lautier@outlook.com>",
   "license": "MIT",
@@ -40,33 +41,32 @@
   "peerDependencies": {
     "@angular/core": ">=10.0.0",
     "@angular/forms": ">=10.0.0",
-    "rxjs": "^6.0.0"
+    "rxjs": ">=6.0.0"
   },
   "devDependencies": {
-    "@angular/common": "^10.2.0",
-    "@angular/compiler": "^10.2.0",
-    "@angular/compiler-cli": "^10.2.0",
-    "@angular/core": "^10.2.0",
-    "@angular/forms": "^10.2.0",
-    "@angular/platform-browser": "^10.2.0",
-    "@angular/platform-browser-dynamic": "^10.2.0",
-    "@ssv/tools": "~0.9.1",
-    "@types/jest": "^26.0.15",
+    "@angular/common": "^15.0.0",
+    "@angular/compiler": "^15.0.0",
+    "@angular/compiler-cli": "^15.0.0",
+    "@angular/core": "^15.0.0",
+    "@angular/forms": "^15.0.0",
+    "@angular/platform-browser": "^15.0.0",
+    "@angular/platform-browser-dynamic": "^15.0.0",
+    "@ssv/tools": "~0.10.2",
+    "@types/jest": "^29.5.0",
     "gulp": "^4.0.2",
     "gulp-bump": "^3.2.0",
     "gulp-conventional-changelog": "^2.0.32",
-    "jest": "^26.6.1",
+    "jest": "^29.5.0",
     "jest-environment-node-debug": "^2.0.0",
-    "ng-packagr": "^10.1.2",
-    "reflect-metadata": "^0.1.13",
+    "lodash": "^4.17.11",
+    "ng-packagr": "^15.0.0",
     "require-dir": "^1.2.0",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
-    "ts-jest": "^26.4.3",
-    "tsickle": "^0.39.1",
-    "typescript": "~4.0.5",
+    "ts-jest": "^29.1.0",
+    "typescript": "~4.8.2",
     "yargs": "^16.1.0",
-    "zone.js": "^0.11.2"
+    "zone.js": "~0.11.4"
   },
   "resolutions": {
     "natives": "1.1.3"
