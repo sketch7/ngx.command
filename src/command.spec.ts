@@ -1,18 +1,21 @@
 import { BehaviorSubject, EMPTY } from "rxjs";
 
-import { Command } from "./index";
+import { Command } from "./command";
 
 describe("CommandSpecs", () => {
 	let SUT: Command;
-	let executeSpyFn: jasmine.Spy;
+	let executeFn: jest.Mock<void, unknown[], unknown> ;
+	// let executeSpyFn: jest.SpyInstance<void, unknown[], unknown>;
 
 	beforeEach(() => {
-		executeSpyFn = jasmine.createSpy("execute").and.callThrough();
+		executeFn = jest.fn();
+		// executeSpyFn = executeFn;
 	});
 
 	describe("given a command without canExecute$ param", () => {
 		beforeEach(() => {
-			SUT = new Command(executeSpyFn);
+			SUT = new Command(executeFn);
+			// executeSpyFn = jest.spyOn(SUT, "execute");
 		});
 
 		describe("when command is initialized", () => {
@@ -42,7 +45,7 @@ describe("CommandSpecs", () => {
 			});
 
 			it("should invoke execute function", () => {
-				expect(executeSpyFn).toHaveBeenCalledTimes(1);
+				expect(executeFn).toHaveBeenCalledTimes(1);
 			});
 		});
 	});
@@ -51,27 +54,27 @@ describe("CommandSpecs", () => {
 		describe("when canExecute is true", () => {
 			beforeEach(() => {
 				const isInitialValid = true;
-				SUT = new Command(executeSpyFn, new BehaviorSubject<boolean>(isInitialValid));
+				SUT = new Command(executeFn, new BehaviorSubject<boolean>(isInitialValid));
 			});
 
 			it("should invoke execute function passed", () => {
 				SUT.execute();
-				expect(executeSpyFn).toHaveBeenCalledTimes(1);
+				expect(executeFn).toHaveBeenCalledTimes(1);
 			});
 		});
 
 		describe("when observable completes", () => {
 			beforeEach(() => {
 				const isInitialValid = true;
-				executeSpyFn = jasmine.createSpy("execute").and.returnValue(EMPTY);
-				SUT = new Command(executeSpyFn, new BehaviorSubject<boolean>(isInitialValid));
+				executeFn = jest.fn().mockImplementation(() => EMPTY);
+				SUT = new Command(executeFn, new BehaviorSubject<boolean>(isInitialValid));
 			});
 
 			it("should invoke multiple times", () => {
 				SUT.execute();
 				SUT.execute();
 				expect(SUT.isExecuting).toBeFalsy();
-				expect(executeSpyFn).toHaveBeenCalledTimes(2);
+				expect(executeFn).toHaveBeenCalledTimes(2);
 			});
 		});
 
@@ -83,15 +86,17 @@ describe("CommandSpecs", () => {
 
 			beforeEach(() => {
 				const isInitialValid = true;
-				executeSpyFn = jasmine.createSpy("execute").and.throwError("Execution failed!");
-				SUT = new Command(executeSpyFn, new BehaviorSubject<boolean>(isInitialValid));
+				executeFn = jest.fn().mockImplementation(() => {
+					throw new Error("Execution failed!");
+				});
+				SUT = new Command(executeFn, new BehaviorSubject<boolean>(isInitialValid));
 			});
 
 			it("should invoke multiple times", () => {
 				SUT.execute();
 				SUT.execute();
 				expect(SUT.isExecuting).toBeFalsy();
-				expect(executeSpyFn).toHaveBeenCalledTimes(2);
+				expect(executeFn).toHaveBeenCalledTimes(2);
 			});
 
 			afterAll(() => {
@@ -102,41 +107,41 @@ describe("CommandSpecs", () => {
 		describe("when args are passed", () => {
 			beforeEach(() => {
 				const isInitialValid = true;
-				SUT = new Command(executeSpyFn, new BehaviorSubject<boolean>(isInitialValid));
+				SUT = new Command(executeFn, new BehaviorSubject<boolean>(isInitialValid));
 			});
 
 			it("and has 1 param should receive 1 arg", () => {
 				const args = { name: "rexxar" };
 				SUT.execute(args);
-				expect(executeSpyFn).toHaveBeenCalledTimes(1);
-				expect(executeSpyFn).toHaveBeenCalledWith(args);
+				expect(executeFn).toHaveBeenCalledTimes(1);
+				expect(executeFn).toHaveBeenCalledWith(args);
 			});
 
 			it("and is array param should not spread", () => {
 				const hero = { name: "rexxar" };
 				const args = [hero, "yello"];
 				SUT.execute(args);
-				expect(executeSpyFn).toHaveBeenCalledTimes(1);
-				expect(executeSpyFn).toHaveBeenCalledWith([hero, "yello"]);
+				expect(executeFn).toHaveBeenCalledTimes(1);
+				expect(executeFn).toHaveBeenCalledWith([hero, "yello"]);
 			});
 
 			it("and multi args are pass should receive all", () => {
 				const hero = { name: "rexxar" };
 				SUT.execute(hero, "yello");
-				expect(executeSpyFn).toHaveBeenCalledTimes(1);
-				expect(executeSpyFn).toHaveBeenCalledWith(hero, "yello");
+				expect(executeFn).toHaveBeenCalledTimes(1);
+				expect(executeFn).toHaveBeenCalledWith(hero, "yello");
 			});
 		});
 
 		describe("when canExecute is false", () => {
 			beforeEach(() => {
 				const isInitialValid = false;
-				SUT = new Command(executeSpyFn, new BehaviorSubject<boolean>(isInitialValid));
+				SUT = new Command(executeFn, new BehaviorSubject<boolean>(isInitialValid));
 			});
 
 			it("should not execute the provided execute function", () => {
 				SUT.execute();
-				expect(executeSpyFn).not.toHaveBeenCalled();
+				expect(executeFn).not.toHaveBeenCalled();
 			});
 		});
 	});
@@ -147,7 +152,7 @@ describe("CommandSpecs", () => {
 		beforeEach(() => {
 			const isInitialValid = true;
 			canExecute$ = new BehaviorSubject<boolean>(isInitialValid);
-			SUT = new Command(executeSpyFn, canExecute$);
+			SUT = new Command(executeFn, canExecute$);
 		});
 
 		it("should have canExecute set to true", () => {
@@ -182,7 +187,7 @@ describe("CommandSpecs", () => {
 	describe("given canExecute with an initial value of false", () => {
 		beforeEach(() => {
 			const isInitialValid = false;
-			SUT = new Command(executeSpyFn, new BehaviorSubject<boolean>(isInitialValid));
+			SUT = new Command(executeFn, new BehaviorSubject<boolean>(isInitialValid));
 		});
 
 		it("should have canExecute set to false", () => {
@@ -200,7 +205,7 @@ describe("CommandSpecs", () => {
 	describe("given destroy is invoked", () => {
 		beforeEach(() => {
 			const isInitialValid = false;
-			SUT = new Command(executeSpyFn, new BehaviorSubject<boolean>(isInitialValid));
+			SUT = new Command(executeFn, new BehaviorSubject<boolean>(isInitialValid));
 		});
 
 		it("should destroy successfully", () => {
