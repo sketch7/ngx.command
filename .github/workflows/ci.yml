@@ -30,6 +30,6 @@ jobs:
     uses: sketch7/.github/.github/workflows/node-lib.yml@master
     with:
       node-version: '18'
-      publishable: ${{ contains(fromJSON('["develop", "master", "workflow"]'), github.ref_name) || endsWith(github.ref_name, '.x') || github.event.inputs.publish  }}
+      publishable: ${{ contains(fromJSON('["develop", "master", "workflow"]'), github.ref_name) || endsWith(github.ref_name, '.x') || github.event.inputs.publish == 'true' }}
     secrets:
       npm-auth-token: ${{ secrets.NPM_KEY }}
