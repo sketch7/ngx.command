@@ -21,8 +21,13 @@ on:
       publish:
         description: 'Publish 🚀'
         required: false
-        type: string
-        default: 'false'
+        type: boolean
+        default: false
+      force-prerelease:
+        description: 'Force Pre-release'
+        required: false
+        type: boolean
+        default: true
 
 jobs:
   package:
@@ -31,5 +36,6 @@ jobs:
     with:
       node-version: '18'
       publishable: ${{ contains(fromJSON('["develop", "master", "workflow"]'), github.ref_name) || endsWith(github.ref_name, '.x') || github.event.inputs.publish == 'true' }}
+      force-preid: ${{ github.event.inputs.force-prerelease == 'true' }}
     secrets:
       npm-auth-token: ${{ secrets.NPM_KEY }}
