@@ -19,7 +19,7 @@ on:
   workflow_dispatch:
     inputs:
       publish:
-        description: 'Determines whether should trigger as publish'
+        description: 'Publish 🚀'
         required: false
         type: boolean
         default: false
