@@ -76,7 +76,7 @@ export class CommandDirective implements OnInit, OnDestroy {
 
 	@Input(`${NAME_CAMEL}Options`)
 	get commandOptions(): CommandOptions { return this._commandOptions; }
-	set commandOptions(value: CommandOptions) {
+	set commandOptions(value: Partial<CommandOptions>) {
 		if (value === this._commandOptions) {
 			return;
 		}
