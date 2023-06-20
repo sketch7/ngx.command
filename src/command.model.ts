@@ -27,10 +27,10 @@ export interface ICommand {
 }
 
 export interface CommandCreator {
-	execute: (...args: unknown[]) => Observable<unknown> | Promise<unknown> | void;
+	execute: (...args: any[]) => Observable<unknown> | Promise<unknown> | void;
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	canExecute?: Observable<boolean> | Function;
-	params: unknown | unknown[];
+	params?: unknown | unknown[];
 	isAsync?: boolean;
 	host: unknown;
 }

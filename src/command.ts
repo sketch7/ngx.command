@@ -161,7 +161,7 @@ export class Command implements ICommand {
 export class CommandAsync extends Command {
 
 	constructor(
-		execute: (...args: unknown[]) => Observable<unknown> | Promise<unknown>,
+		execute: (...args: any[]) => Observable<unknown> | Promise<unknown>,
 		canExecute$?: Observable<boolean>,
 	) {
 		super(execute, canExecute$, true);

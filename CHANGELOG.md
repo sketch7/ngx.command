@@ -1,5 +1,11 @@
 <!-- ## [vNext](https://github.com/sktch7/ngx.command/compare/2.0.0...3.0.0) (2020-x-x) -->
 
+## [2.3.2](https://github.com/sketch7/ngx.command/compare/2.3.1...2.3.2) (2023-06-20)
+
+### Bug Fixes
+
+- **directive:** fix typings for `strictTemplates` in markup
+
 ## [2.3.1](https://github.com/sketch7/ngx.command/compare/2.3.0...2.3.1) (2023-06-15)
 
 ### Bug Fixes
