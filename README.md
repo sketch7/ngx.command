@@ -9,6 +9,8 @@
 [![CI](https://github.com/sketch7/ngx.command/actions/workflows/ci.yml/badge.svg)](https://github.com/sketch7/ngx.command/actions/workflows/ci.yml)
 [![npm version](https://badge.fury.io/js/%40ssv%2Fngx.command.svg)](https://badge.fury.io/js/%40ssv%2Fngx.command)
 
+> ## repo moved to https://github.com/sketch7/ssv.ngx
+
 [Command pattern][commandpatternwiki] implementation for angular. Command's are used to encapsulate information which is needed to perform an action.
 
 Primary usage is to disable a button when an action is executing, or not in a valid state (e.g. busy, invalid), and also to show an activity progress while executing.
